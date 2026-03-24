@@ -1,0 +1,348 @@
+/* DoctorDashboard.css */
+
+.doctor-dashboard-page {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Tabs */
+.doctor-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 0;
+}
+
+.doctor-tab-btn {
+  padding: 12px 24px;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-radius: 8px 8px 0 0;
+}
+
+.doctor-tab-btn:hover {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.doctor-tab-btn.active {
+  color: #1565c0;
+  border-bottom-color: #1565c0;
+  background: rgba(21, 101, 192, 0.05);
+}
+
+/* Header */
+.doctor-dashboard-header {
+  margin-bottom: 24px;
+}
+
+.doctor-dashboard-title {
+  color: #1e293b;
+  font-size: 24px;
+  font-weight: 800;
+  margin: 0 0 4px;
+}
+
+.doctor-dashboard-sub {
+  color: #64748b;
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Stats Grid */
+.doctor-dashboard-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.doctor-dashboard-stat-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 18px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Section */
+.doctor-dashboard-section {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.doctor-dashboard-section-title {
+  color: #1e293b;
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 16px;
+}
+
+/* Appointments Grid */
+.doctor-dashboard-apts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.doctor-dashboard-apt-card {
+  border: 1.5px solid #f0f4f8;
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.doctor-dashboard-apt-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.doctor-dashboard-pat-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.doctor-dashboard-apt-info {
+  flex: 1;
+}
+
+.doctor-dashboard-pat-name {
+  color: #1e293b;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.doctor-dashboard-apt-time {
+  color: #64748b;
+  font-size: 12px;
+}
+
+.doctor-dashboard-type-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.doctor-dashboard-status-badge {
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.doctor-dashboard-symptoms {
+  color: #64748b;
+  font-size: 12px;
+  margin: 0 0 10px;
+  line-height: 1.4;
+  background: #f8fafc;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+/* Actions */
+.doctor-dashboard-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.doctor-dashboard-confirm-btn {
+  padding: 6px 12px;
+  background: #dcfce7;
+  color: #15803d;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.doctor-dashboard-cancel-btn {
+  padding: 6px 12px;
+  background: #fee2e2;
+  color: #dc2626;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.doctor-dashboard-video-btn {
+  padding: 6px 12px;
+  background: #dbeafe;
+  color: #1d4ed8;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.doctor-dashboard-record-btn {
+  padding: 6px 12px;
+  background: #f3e8ff;
+  color: #7c3aed;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Table Header */
+.doctor-dashboard-table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.doctor-dashboard-filter-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.doctor-dashboard-filter-btn {
+  padding: 5px 12px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  background: #fff;
+  color: #64748b;
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.doctor-dashboard-filter-btn.active {
+  border: 1.5px solid #1565c0;
+  background: #e3f2fd;
+  color: #1565c0;
+  font-weight: 700;
+}
+
+/* Table */
+.doctor-dashboard-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.doctor-dashboard-th {
+  padding: 12px 14px;
+  text-align: left;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #f0f4f8;
+}
+
+.doctor-dashboard-tr {
+  border-bottom: 1px solid #f8fafc;
+}
+
+.doctor-dashboard-td {
+  padding: 12px 14px;
+  vertical-align: middle;
+}
+
+.doctor-dashboard-pat-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.doctor-dashboard-mini-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.doctor-dashboard-empty-row {
+  text-align: center;
+  padding: 30px;
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+.doctor-dashboard-sm-confirm {
+  padding: 4px 10px;
+  background: #dbeafe;
+  color: #1565c0;
+  border: none;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .doctor-dashboard-page {
+    padding: 16px;
+  }
+
+  .doctor-dashboard-title {
+    font-size: 20px;
+  }
+
+  .doctor-dashboard-stats-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+
+  .doctor-dashboard-apts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .doctor-dashboard-table {
+    overflow-x: auto;
+  }
+
+  .doctor-dashboard-table-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

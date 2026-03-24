@@ -1,0 +1,271 @@
+/* AdminAppointments.css */
+
+.admin-appointments-page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.admin-appointments-header {
+  margin-bottom: 24px;
+}
+
+.admin-appointments-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: #1e293b;
+  margin: 0 0 8px;
+}
+
+.admin-appointments-subtitle {
+  color: #64748b;
+  font-size: 14px;
+  margin: 0;
+}
+
+.admin-appointments-loading {
+  text-align: center;
+  padding: 40px;
+  color: #64748b;
+}
+
+/* Stats Grid */
+.admin-appointments-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.admin-appointments-stat-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  border: 1px solid #f0f4f8;
+  border-left: 4px solid #1565c0;
+}
+
+.admin-appointments-stat-card.pending {
+  border-left-color: #f59e0b;
+}
+
+.admin-appointments-stat-card.confirmed {
+  border-left-color: #1565c0;
+}
+
+.admin-appointments-stat-card.completed {
+  border-left-color: #10b981;
+}
+
+.admin-appointments-stat-card.cancelled {
+  border-left-color: #ef4444;
+}
+
+.admin-appointments-stat-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+.admin-appointments-stat-label {
+  font-size: 13px;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+/* Filter Buttons */
+.admin-appointments-filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.admin-appointments-filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: 1.5px solid #e2e8f0;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s;
+  background: #fff;
+  color: #64748b;
+}
+
+.admin-appointments-filter-btn:hover {
+  border-color: #1565c0;
+  color: #1565c0;
+}
+
+.admin-appointments-filter-btn.active {
+  background: #1565c0;
+  color: #fff;
+  border-color: #1565c0;
+}
+
+/* Table */
+.admin-appointments-table-container {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  overflow: hidden;
+  overflow-x: auto;
+}
+
+.admin-appointments-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-appointments-table th {
+  padding: 16px;
+  text-align: left;
+  background: #f8fafc;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.admin-appointments-table td {
+  padding: 16px;
+  vertical-align: middle;
+  border-bottom: 1px solid #f0f4f8;
+}
+
+.admin-appointments-table tr:hover {
+  background: #f8fafc;
+}
+
+/* Appointment ID */
+.admin-appointments-id {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1565c0;
+}
+
+/* User Cell */
+.admin-appointments-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-appointments-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.admin-appointments-avatar.doctor {
+  background: linear-gradient(135deg, #1565c0, #0277bd);
+}
+
+.admin-appointments-user-name {
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 14px;
+}
+
+/* Date Time */
+.admin-appointments-date {
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 14px;
+}
+
+.admin-appointments-time {
+  font-size: 13px;
+  color: #64748b;
+}
+
+/* Type Badge */
+.admin-appointments-type {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.admin-appointments-type.video {
+  background: #e0f2fe;
+  color: #0277bd;
+}
+
+.admin-appointments-type.in-person {
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+/* Status Badge */
+.admin-appointments-status {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.admin-appointments-status.pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.admin-appointments-status.confirmed {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.admin-appointments-status.completed {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.admin-appointments-status.cancelled {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* Fee */
+.admin-appointments-fee {
+  font-weight: 700;
+  color: #1565c0;
+  font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin-appointments-page {
+    padding: 16px;
+  }
+  
+  .admin-appointments-title {
+    font-size: 24px;
+  }
+  
+  .admin-appointments-table-container {
+    overflow-x: auto;
+  }
+  
+  .admin-appointments-table {
+    min-width: 800px;
+  }
+  
+  .admin-appointments-filters {
+    justify-content: center;
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "medicare-pro",
+  "version": "1.0.0",
+  "description": "MediCare Pro - Full Stack Hospital Management + Telemedicine (MERN)",
+  "scripts": {
+    "install-all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\"",
+    "start": "cd backend && npm start",
+    "build": "cd frontend && npm run build"
+  },
+  "devDependencies": { "concurrently": "^8.2.0" },
+  "author": "MCA Student",
+  "license": "MIT"
+}

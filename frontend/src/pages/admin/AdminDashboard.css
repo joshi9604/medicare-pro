@@ -1,0 +1,314 @@
+/* AdminDashboard.css */
+
+.admin-dashboard-page {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.admin-dashboard-title {
+  color: #1e293b;
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 24px;
+}
+
+/* Stats Grid */
+.admin-dashboard-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.admin-dashboard-stat-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.admin-dashboard-stat-icon {
+  font-size: 22px;
+}
+
+.admin-dashboard-stat-value {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+.admin-dashboard-stat-label {
+  font-size: 11px;
+  color: #64748b;
+}
+
+/* Tabs */
+.admin-dashboard-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  border-bottom: 2px solid #f0f4f8;
+  padding-bottom: 0;
+}
+
+.admin-dashboard-tab {
+  padding: 10px 20px;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.2s;
+}
+
+.admin-dashboard-tab:hover {
+  color: #1565c0;
+}
+
+.admin-dashboard-tab.active {
+  color: #1565c0;
+  border-bottom: 2px solid #1565c0;
+}
+
+/* Section */
+.admin-dashboard-section {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.admin-dashboard-section-title {
+  color: #1e293b;
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 16px;
+}
+
+.admin-dashboard-empty {
+  text-align: center;
+  color: #94a3b8;
+  padding: 30px;
+}
+
+/* Doctor Rows */
+.admin-dashboard-doc-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border: 1.5px solid #f0f4f8;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.admin-dashboard-doc-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1565c0, #0277bd);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.admin-dashboard-doc-info {
+  flex: 1;
+}
+
+.admin-dashboard-doc-name {
+  color: #1e293b;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.admin-dashboard-doc-meta {
+  color: #64748b;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.admin-dashboard-doc-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.admin-dashboard-approve-btn {
+  padding: 7px 14px;
+  background: #dcfce7;
+  color: #15803d;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-dashboard-approve-btn:hover {
+  background: #c6f6d5;
+}
+
+.admin-dashboard-reject-btn {
+  padding: 7px 14px;
+  background: #fee2e2;
+  color: #dc2626;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-dashboard-reject-btn:hover {
+  background: #fecaca;
+}
+
+/* Table */
+.admin-dashboard-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-dashboard-table-header {
+  padding: 12px 14px;
+  text-align: left;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #f0f4f8;
+}
+
+.admin-dashboard-table-row {
+  border-bottom: 1px solid #f8fafc;
+}
+
+.admin-dashboard-table-cell {
+  padding: 12px 14px;
+  vertical-align: middle;
+}
+
+.admin-dashboard-table-cell-name {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.admin-dashboard-table-cell-email {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.admin-dashboard-table-cell-date {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.admin-dashboard-role-badge {
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.admin-dashboard-role-badge.admin {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.admin-dashboard-role-badge.doctor {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.admin-dashboard-role-badge.patient {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.admin-dashboard-status {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.admin-dashboard-status.active {
+  color: #10b981;
+}
+
+.admin-dashboard-status.inactive {
+  color: #ef4444;
+}
+
+.admin-dashboard-toggle-btn {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-dashboard-toggle-btn.active {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.admin-dashboard-toggle-btn.inactive {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.admin-dashboard-overflow-auto {
+  overflow-x: auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin-dashboard-page {
+    padding: 16px;
+  }
+  
+  .admin-dashboard-title {
+    font-size: 20px;
+  }
+  
+  .admin-dashboard-stats-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+  }
+  
+  .admin-dashboard-tabs {
+    flex-wrap: wrap;
+  }
+  
+  .admin-dashboard-doc-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .admin-dashboard-doc-actions {
+    width: 100%;
+  }
+  
+  .admin-dashboard-doc-actions button {
+    flex: 1;
+  }
+}

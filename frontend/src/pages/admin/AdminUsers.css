@@ -1,0 +1,277 @@
+/* AdminUsers.css */
+
+.admin-users-page {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.admin-users-header {
+  margin-bottom: 24px;
+}
+
+.admin-users-title {
+  color: #1e293b;
+  font-size: 28px;
+  font-weight: 800;
+  margin: 0 0 8px;
+}
+
+.admin-users-subtitle {
+  color: #64748b;
+  font-size: 14px;
+  margin: 0;
+}
+
+.admin-users-loading {
+  text-align: center;
+  padding: 40px;
+  color: #64748b;
+}
+
+/* Stats Grid */
+.admin-users-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.admin-users-stat-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  border: 1px solid #f0f4f8;
+  border-left: 4px solid #1565c0;
+}
+
+.admin-users-stat-card.patients {
+  border-left-color: #10b981;
+}
+
+.admin-users-stat-card.doctors {
+  border-left-color: #1565c0;
+}
+
+.admin-users-stat-card.admins {
+  border-left-color: #8b5cf6;
+}
+
+.admin-users-stat-card.active {
+  border-left-color: #f59e0b;
+}
+
+.admin-users-stat-card.inactive {
+  border-left-color: #ef4444;
+}
+
+.admin-users-stat-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+.admin-users-stat-label {
+  font-size: 13px;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+/* Filter Container */
+.admin-users-filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.admin-users-filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: 1.5px solid #e2e8f0;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s;
+  background: #fff;
+  color: #64748b;
+}
+
+.admin-users-filter-btn:hover {
+  border-color: #1565c0;
+  color: #1565c0;
+}
+
+.admin-users-filter-btn.active {
+  background: #1565c0;
+  color: #fff;
+  border-color: #1565c0;
+}
+
+/* Table */
+.admin-users-table-container {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  overflow: hidden;
+}
+
+.admin-users-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-users-table th {
+  padding: 16px;
+  text-align: left;
+  background: #f8fafc;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.admin-users-table td {
+  padding: 16px;
+  vertical-align: middle;
+  border-bottom: 1px solid #f0f4f8;
+}
+
+.admin-users-table tr:hover {
+  background: #f8fafc;
+}
+
+/* User Cell */
+.admin-users-user-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-users-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1565c0, #0277bd);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.admin-users-name {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.admin-users-email {
+  font-size: 13px;
+  color: #64748b;
+}
+
+/* Role Badge */
+.admin-users-role-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.admin-users-role-badge.admin {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.admin-users-role-badge.doctor {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.admin-users-role-badge.patient {
+  background: #dcfce7;
+  color: #166534;
+}
+
+/* Status */
+.admin-users-status {
+  font-weight: 600;
+}
+
+.admin-users-status.active {
+  color: #10b981;
+}
+
+.admin-users-status.inactive {
+  color: #ef4444;
+}
+
+/* Date */
+.admin-users-date {
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+/* Action Button */
+.admin-users-action-btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-users-action-btn.deactivate {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.admin-users-action-btn.deactivate:hover {
+  background: #fecaca;
+}
+
+.admin-users-action-btn.activate {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.admin-users-action-btn.activate:hover {
+  background: #bbf7d0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin-users-page {
+    padding: 16px;
+  }
+
+  .admin-users-title {
+    font-size: 24px;
+  }
+
+  .admin-users-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .admin-users-filters {
+    justify-content: center;
+  }
+
+  .admin-users-table-container {
+    overflow-x: auto;
+  }
+
+  .admin-users-table {
+    min-width: 600px;
+  }
+}

@@ -1,0 +1,361 @@
+.appointments-page {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.appointments-header {
+  margin-bottom: 24px;
+}
+
+.appointments-title {
+  color: #1e293b;
+  font-size: 28px;
+  font-weight: 800;
+  margin: 0 0 8px;
+}
+
+.appointments-subtitle {
+  color: #64748b;
+  font-size: 14px;
+  margin: 0;
+}
+
+.appointments-loading {
+  text-align: center;
+  padding: 40px;
+  color: #64748b;
+}
+
+.appointments-filter-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.appointments-filter-btn {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1.5px solid #e2e8f0;
+  background: #fff;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.appointments-filter-btn.active {
+  border-width: 1.5px;
+}
+
+.appointments-badge {
+  background: #e2e8f0;
+  color: #475569;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.appointments-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: #64748b;
+}
+
+.appointments-empty-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.appointments-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+.appointments-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  border: 1px solid #f0f4f8;
+}
+
+.appointments-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f0f4f8;
+}
+
+.appointments-appointment-id {
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.appointments-status-badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.appointments-doctor-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.appointments-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1565c0, #0277bd);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.appointments-doctor-details {
+  flex: 1;
+}
+
+.appointments-doctor-name {
+  color: #1e293b;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.appointments-specialization {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.appointments-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.appointments-detail-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #475569;
+  font-size: 14px;
+}
+
+.appointments-detail-icon {
+  font-size: 16px;
+  width: 20px;
+}
+
+.appointments-fee {
+  color: #1565c0;
+  font-weight: 700;
+}
+
+.appointments-symptoms {
+  background: #f8fafc;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  color: #64748b;
+  margin-bottom: 16px;
+}
+
+.appointments-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.appointments-cancel-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid #ef4444;
+  background: #fef2f2;
+  color: #ef4444;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.appointments-join-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: #1565c0;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.appointments-rate-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid #f59e0b;
+  background: #fffbeb;
+  color: #f59e0b;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.appointments-rating {
+  color: #f59e0b;
+  font-size: 14px;
+}
+
+.appointments-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.appointments-modal {
+  background: #fff;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 450px;
+}
+
+.appointments-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #f0f4f8;
+}
+
+.appointments-close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #64748b;
+}
+
+.appointments-modal-content {
+  padding: 20px;
+}
+
+.appointments-modal-text {
+  text-align: center;
+  color: #64748b;
+  margin-bottom: 20px;
+}
+
+.appointments-stars-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.appointments-star-btn {
+  font-size: 32px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.appointments-review-input {
+  width: 100%;
+  padding: 12px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  margin-bottom: 20px;
+}
+
+.appointments-submit-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  background: #f59e0b;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Status color variants */
+.appointments-status-pending {
+  background: #f59e0b20;
+  color: #f59e0b;
+}
+
+.appointments-status-confirmed {
+  background: #1565c020;
+  color: #1565c0;
+}
+
+.appointments-status-in-progress {
+  background: #8b5cf620;
+  color: #8b5cf6;
+}
+
+.appointments-status-completed {
+  background: #10b98120;
+  color: #10b981;
+}
+
+.appointments-status-cancelled {
+  background: #ef444420;
+  color: #ef4444;
+}
+
+.appointments-status-no-show {
+  background: #94a3b820;
+  color: #94a3b8;
+}
+
+/* Filter button active states */
+.appointments-filter-btn.pending.active {
+  background: #f59e0b15;
+  color: #f59e0b;
+  border-color: #f59e0b;
+}
+
+.appointments-filter-btn.confirmed.active {
+  background: #1565c015;
+  color: #1565c0;
+  border-color: #1565c0;
+}
+
+.appointments-filter-btn.completed.active {
+  background: #10b98115;
+  color: #10b981;
+  border-color: #10b981;
+}
+
+.appointments-filter-btn.cancelled.active {
+  background: #ef444415;
+  color: #ef4444;
+  border-color: #ef4444;
+}
