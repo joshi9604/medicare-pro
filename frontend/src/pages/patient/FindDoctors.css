@@ -7,6 +7,11 @@
 
 .find-doctors-header {
   margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .find-doctors-title {
@@ -14,6 +19,9 @@
   font-size: 24px;
   font-weight: 800;
   margin: 0 0 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .find-doctors-sub {
@@ -195,7 +203,6 @@
 }
 
 .find-doctors-book-btn {
-  width: 100%;
   padding: 11px;
   background: linear-gradient(135deg, #1565c0, #0277bd);
   color: #fff;
@@ -204,6 +211,16 @@
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.find-doctors-card-actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
 }
 
 .find-doctors-overlay {
@@ -383,4 +400,72 @@
   padding: 10px;
   background: #f0f0f0;
   margin: 10px 0;
+}
+
+@media (max-width: 768px) {
+  .find-doctors-page {
+    padding: 16px;
+  }
+
+  .find-doctors-filters {
+    flex-direction: column;
+  }
+
+  .find-doctors-header {
+    align-items: flex-start;
+  }
+
+  .find-doctors-search,
+  .find-doctors-select {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .find-doctors-grid,
+  .find-doctors-type-row {
+    grid-template-columns: 1fr;
+  }
+
+  .find-doctors-modal {
+    padding: 20px;
+  }
+
+  .find-doctors-fee-row,
+  .find-doctors-modal-btns {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .find-doctors-cancel-btn,
+  .find-doctors-confirm-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 520px) {
+  .find-doctors-page {
+    padding: 14px;
+  }
+
+  .find-doctors-card,
+  .find-doctors-modal {
+    padding: 16px;
+  }
+
+  .find-doctors-card-top,
+  .find-doctors-modal-doc {
+    align-items: flex-start;
+  }
+
+  .find-doctors-fees {
+    flex-direction: column;
+  }
+
+  .find-doctors-card-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .find-doctors-slot-grid {
+    grid-template-columns: 1fr 1fr;
+  }
 }

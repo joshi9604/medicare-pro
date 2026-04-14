@@ -8,6 +8,7 @@ const Prescription = require('./Prescription');
 const Payment = require('./Payment');
 const Notification = require('./Notification');
 const MedicalRecord = require('./MedicalRecord');
+const Message = require('./Message');
 
 // Define associations
 User.hasOne(Doctor, { foreignKey: 'userId', as: 'doctorProfile' });
@@ -38,6 +39,13 @@ User.hasMany(MedicalRecord, { foreignKey: 'patientId', as: 'medicalRecords' });
 MedicalRecord.belongsTo(User, { foreignKey: 'patientId', as: 'patient' });
 MedicalRecord.belongsTo(User, { foreignKey: 'doctorId', as: 'doctor' });
 MedicalRecord.belongsTo(Appointment, { foreignKey: 'appointmentId', as: 'appointment' });
+
+// Message associations
+User.hasMany(Message, { foreignKey: 'senderId', as: 'sentMessages' });
+User.hasMany(Message, { foreignKey: 'receiverId', as: 'receivedMessages' });
+Message.belongsTo(User, { foreignKey: 'senderId', as: 'sender' });
+Message.belongsTo(User, { foreignKey: 'receiverId', as: 'receiver' });
+Message.belongsTo(Appointment, { foreignKey: 'appointmentId', as: 'appointment' });
 
 // Sync database
 const syncDatabase = async () => {
@@ -70,5 +78,6 @@ module.exports = {
   Payment,
   Notification,
   MedicalRecord,
+  Message,
   syncDatabase
 };

@@ -1,188 +1,363 @@
 .patient-dashboard-page {
-  padding: 24px;
-  max-width: 1200px;
+  max-width: 1240px;
   margin: 0 auto;
-  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.patient-dashboard-header,
+.patient-dashboard-section {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
 }
 
 .patient-dashboard-header {
+  border-radius: 24px;
+  padding: 24px;
   display: flex;
-  justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 28px;
+  justify-content: space-between;
+  gap: 18px;
+  background:
+    radial-gradient(340px 180px at 100% 0%, rgba(21, 101, 192, 0.12), transparent 60%),
+    var(--bg-secondary);
+}
+
+.patient-dashboard-intro {
+  max-width: 620px;
+}
+
+.patient-dashboard-kicker {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgba(21, 101, 192, 0.12);
+  color: #1565c0;
+  font-size: 12px;
+  font-weight: 800;
+  margin-bottom: 14px;
 }
 
 .patient-dashboard-greeting {
-  color: #1e293b;
-  font-size: 26px;
-  font-weight: 800;
-  margin: 0 0 4px;
+  color: var(--text-primary);
+  font-size: clamp(1.75rem, 3vw, 2.4rem);
+  line-height: 1.05;
+  font-weight: 900;
+  margin: 0 0 8px;
+  letter-spacing: -0.04em;
 }
 
 .patient-dashboard-sub {
-  color: #64748b;
+  color: var(--text-secondary);
   font-size: 14px;
-  margin: 0;
+  line-height: 1.7;
 }
 
 .patient-dashboard-date-box {
-  background: #fff;
-  color: #475569;
-  padding: 8px 14px;
-  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(148, 163, 184, 0.2);
   font-size: 13px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  font-weight: 700;
+  color: var(--text-secondary);
 }
 
-.patient-dashboard-stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 20px;
-  margin-bottom: 28px;
-}
-
-.patient-dashboard-charts-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  margin-bottom: 20px;
+body.dark-mode .patient-dashboard-date-box {
+  background: rgba(15, 23, 42, 0.55);
 }
 
 .patient-dashboard-section {
-  background: #fff;
-  border-radius: 16px;
-  padding: 20px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  border-radius: 22px;
+  padding: 22px;
+}
+
+.patient-dashboard-section-compact {
+  padding: 18px;
+}
+
+.patient-dashboard-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
 .patient-dashboard-section-title {
-  color: #1e293b;
+  color: var(--text-primary);
   font-size: 16px;
-  font-weight: 700;
-  margin: 0 0 16px;
-}
-
-.patient-dashboard-empty {
-  color: #94a3b8;
-  text-align: center;
-  padding: 24px 0;
-  line-height: 1.8;
-}
-
-.patient-dashboard-apt-card {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px;
-  background: #f8fafc;
-  border-radius: 12px;
-  margin-bottom: 10px;
-}
-
-.patient-dashboard-apt-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #1565c0, #0277bd);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-weight: 800;
-  flex-shrink: 0;
 }
 
-.patient-dashboard-apt-info {
-  flex: 1;
+.patient-dashboard-title-icon {
+  color: var(--text-secondary);
 }
 
-.patient-dashboard-apt-doctor {
-  color: #1e293b;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.patient-dashboard-apt-meta {
-  color: #64748b;
-  font-size: 12px;
-  margin-top: 2px;
-}
-
-.patient-dashboard-apt-type {
-  color: #94a3b8;
-  font-size: 11px;
-  margin-top: 2px;
-}
-
-.patient-dashboard-badge {
-  padding: 3px 8px;
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: capitalize;
-}
-
-.patient-dashboard-join-btn {
-  display: block;
-  margin-top: 6px;
-  padding: 4px 10px;
-  background: #1565c0;
-  color: #fff;
-  border-radius: 6px;
-  font-size: 11px;
-  text-decoration: none;
-  text-align: center;
-  font-weight: 600;
-}
-
-.patient-dashboard-tips-grid {
+.patient-dashboard-quick-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 12px;
-}
-
-.patient-dashboard-tip-card {
-  background: #f8fafc;
-  border-radius: 12px;
-  padding: 14px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
 }
 
 .patient-dashboard-quick-action {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  padding: 20px;
-  background: var(--bg-secondary);
-  border-radius: 16px;
-  border: 2px solid var(--border-color);
+  align-items: flex-start;
+  gap: 12px;
+  padding: 18px;
+  background: var(--bg-primary);
+  border-radius: 18px;
+  border: 1px solid var(--border-color);
   cursor: pointer;
-  transition: all 0.3s ease;
-  min-width: 100px;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
 }
 
 .patient-dashboard-quick-action:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .patient-dashboard-icon-container {
-  width: 56px;
-  height: 56px;
+  width: 52px;
+  height: 52px;
   border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28px;
-  border: 2px solid;
+  border: 1px solid;
+  display: grid;
+  place-items: center;
 }
 
 .patient-dashboard-label {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.patient-dashboard-stats-grid,
+.patient-dashboard-charts-row,
+.patient-dashboard-tips-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.patient-dashboard-stats-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.patient-dashboard-charts-row {
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+}
+
+.patient-dashboard-empty {
+  min-height: 220px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.patient-dashboard-empty span {
+  display: block;
+  color: #1565c0;
+  font-weight: 700;
+}
+
+.patient-dashboard-apt-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding: 14px;
+  background: var(--bg-primary);
+  border-radius: 18px;
+  border: 1px solid var(--border-color);
+}
+
+.patient-dashboard-apt-card + .patient-dashboard-apt-card {
+  margin-top: 12px;
+}
+
+.patient-dashboard-apt-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #1565c0, #0f9f6e);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+}
+
+.patient-dashboard-apt-info {
+  min-width: 0;
+}
+
+.patient-dashboard-apt-doctor {
+  color: var(--text-primary);
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.patient-dashboard-apt-meta,
+.patient-dashboard-apt-type {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+  color: var(--text-secondary);
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+.patient-dashboard-meta-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.patient-dashboard-apt-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.patient-dashboard-badge {
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: capitalize;
+}
+
+.patient-dashboard-join-btn {
+  padding: 9px 12px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #1565c0, #1d4ed8);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.patient-dashboard-legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.patient-dashboard-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.patient-dashboard-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+}
+
+.patient-dashboard-tips-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.patient-dashboard-tip-card {
+  background: var(--bg-primary);
+  border-radius: 18px;
+  border: 1px solid var(--border-color);
+  padding: 18px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.patient-dashboard-tip-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.patient-dashboard-tip-card span:last-child {
+  color: var(--text-secondary);
   font-size: 13px;
   font-weight: 700;
-  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+@media (max-width: 1080px) {
+  .patient-dashboard-quick-grid,
+  .patient-dashboard-stats-grid,
+  .patient-dashboard-tips-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .patient-dashboard-charts-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .patient-dashboard-header {
+    padding: 18px;
+    flex-direction: column;
+  }
+
+  .patient-dashboard-date-box {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .patient-dashboard-section {
+    padding: 18px;
+  }
+
+  .patient-dashboard-apt-card {
+    grid-template-columns: 1fr;
+  }
+
+  .patient-dashboard-apt-actions {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 520px) {
+  .patient-dashboard-quick-grid,
+  .patient-dashboard-stats-grid,
+  .patient-dashboard-tips-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .patient-dashboard-page {
+    gap: 16px;
+  }
+
+  .patient-dashboard-section {
+    padding: 16px;
+  }
+
+  .patient-dashboard-quick-action {
+    align-items: center;
+    text-align: center;
+  }
+
+  .patient-dashboard-tip-card {
+    align-items: center;
+    text-align: center;
+  }
 }

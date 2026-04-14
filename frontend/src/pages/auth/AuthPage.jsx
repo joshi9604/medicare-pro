@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
 import './AuthPage.css';
+import { Building2, CheckCircle2, Stethoscope, User, Shield } from 'lucide-react';
 
 const ROLES = [
-  { id: 'patient', label: 'Patient', icon: '🧑‍💼', desc: 'Book appointments & consultations' },
-  { id: 'doctor', label: 'Doctor', icon: '👨‍⚕️', desc: 'Manage patients & appointments' },
-  { id: 'admin', label: 'Admin', icon: '🏥', desc: 'Manage the entire system' }
+  { id: 'patient', label: 'Patient', icon: User, desc: 'Book appointments & consultations' },
+  { id: 'doctor', label: 'Doctor', icon: Stethoscope, desc: 'Manage patients & appointments' },
+  { id: 'admin', label: 'Admin', icon: Shield, desc: 'Manage the entire system' }
 ];
 
 export default function AuthPage() {
@@ -17,6 +18,13 @@ export default function AuthPage() {
   const [form, setForm] = useState({ name: '', email: '', password: '', phone: '', gender: 'male', role: 'patient' });
   const { login, register } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    const mode = (searchParams.get('mode') || '').toLowerCase();
+    if (mode === 'register' || mode === 'signup') setIsLogin(false);
+    if (mode === 'login' || mode === 'signin') setIsLogin(true);
+  }, [searchParams]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,11 +32,11 @@ export default function AuthPage() {
     try {
       if (isLogin) {
         const data = await login(form.email, form.password);
-        toast.success(`Welcome back, ${data.user.name}! 🏥`);
+        toast.success(`Welcome back, ${data.user.name}!`);
         navigate(`/${data.user.role}/dashboard`);
       } else {
         const data = await register({ ...form, role: selectedRole });
-        toast.success('Account created successfully! 🎉');
+        toast.success('Account created successfully!');
         navigate(`/${data.user.role}/dashboard`);
       }
     } catch (err) {
@@ -42,12 +50,23 @@ export default function AuthPage() {
     <div className="auth-page">
       <div className="auth-left">
         <div className="auth-left-content">
-          <div className="auth-logo">🏥</div>
+          <div className="auth-logo" aria-hidden>
+            <Building2 size={28} color="#ffffff" />
+          </div>
           <h1 className="auth-brand">MediCare Pro</h1>
           <p className="auth-tagline">India's Most Trusted Hospital Management & Telemedicine Platform</p>
           <div className="auth-features">
-            {['📅 Easy Appointment Booking','🎥 HD Video Consultations','💊 Digital Prescriptions','💳 Secure Payments','📊 Health Analytics'].map(f => (
-              <div key={f} className="auth-feature">{f}</div>
+            {[
+              'Easy appointment booking',
+              'HD video consultations',
+              'Digital prescriptions',
+              'Secure payments',
+              'Health analytics',
+            ].map((f) => (
+              <div key={f} className="auth-feature">
+                <span className="auth-feature-icon" aria-hidden><CheckCircle2 size={16} /></span>
+                <span>{f}</span>
+              </div>
             ))}
           </div>
           <div className="auth-stats">
@@ -71,8 +90,8 @@ export default function AuthPage() {
               </button>
             ))}
           </div>
-
-          {!isLogin && (
+           {/* Admin */}
+          {/* {!isLogin && (
             <div className="auth-role-grid">
               {ROLES.map(r => (
                 <div 
@@ -80,12 +99,35 @@ export default function AuthPage() {
                   className={`auth-role-card ${selectedRole === r.id ? 'active' : ''}`}
                   onClick={() => { setSelectedRole(r.id); setForm({...form, role: r.id}); }}
                 >
-                  <div className="auth-role-icon">{r.icon}</div>
+                  <div className="auth-role-icon" aria-hidden>
+                    {React.createElement(r.icon, { size: 22 })}
+                  </div>
                   <div className="auth-role-label">{r.label}</div>
                 </div>
               ))}
             </div>
-          )}
+          )} */}
+
+          {!isLogin && (
+  <div className="auth-role-grid">
+    {ROLES.filter(r => r.id !== 'admin').map(r => (
+      <div 
+        key={r.id}
+        className={`auth-role-card ${selectedRole === r.id ? 'active' : ''}`}
+        onClick={() => { 
+          setSelectedRole(r.id); 
+          setForm({...form, role: r.id}); 
+        }}
+      >
+        <div className="auth-role-icon">
+          {React.createElement(r.icon, { size: 22 })}
+        </div>
+        <div className="auth-role-label">{r.label}</div>
+      </div>
+    ))}
+  </div>
+)}
+          
 
           <form onSubmit={handleSubmit} className="auth-form">
             {!isLogin && (
@@ -133,14 +175,28 @@ export default function AuthPage() {
               </>
             )}
             <button className="auth-submit-btn" type="submit" disabled={loading}>
-              {loading ? '⏳ Please wait...' : (isLogin ? '→ Sign In' : '→ Create Account')}
+              {loading ? 'Please wait...' : (isLogin ? 'Sign In' : 'Create Account')}
             </button>
           </form>
-
-          {isLogin && (
+            {/* Admin */}
+          {/* {isLogin && (
             <div className="auth-demo-accounts">
               <p className="auth-demo-title">Demo Accounts:</p>
               {[['patient@demo.com','Patient'],['doctor@demo.com','Doctor'],['admin@demo.com','Admin']].map(([e,r]) => (
+                <button 
+                  key={e} 
+                  className="auth-demo-btn"
+                  onClick={() => setForm({...form, email: e, password: 'demo123'})}
+                >
+                  {r}
+                </button>
+              ))}
+            </div>
+          )} */}
+           {isLogin && (
+            <div className="auth-demo-accounts">
+              <p className="auth-demo-title">Demo Accounts:</p>
+              {[['patient@demo.com','Patient'],['doctor@demo.com','Doctor']].map(([e,r]) => (
                 <button 
                   key={e} 
                   className="auth-demo-btn"

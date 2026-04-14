@@ -10,9 +10,14 @@ exports.protect = async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'medicare_secret_2024');
     req.user = await User.findByPk(decoded.id);
-    if (!req.user) return res.status(401).json({ success: false, message: 'User not found' });
+    if (!req.user) {
+      console.log('⚠️ User not found for ID:', decoded.id);
+      return res.status(401).json({ success: false, message: 'User not found' });
+    }
+    console.log('✅ Authenticated user:', req.user.id, req.user.name, req.user.role);
     next();
-  } catch {
+  } catch (err) {
+    console.error('❌ Token verification failed:', err.message);
     return res.status(401).json({ success: false, message: 'Token invalid' });
   }
 };

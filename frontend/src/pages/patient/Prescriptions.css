@@ -6,6 +6,11 @@
 
 .prescriptions-header {
   margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .prescriptions-title {
@@ -13,6 +18,9 @@
   font-size: 28px;
   font-weight: 800;
   margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .prescriptions-subtitle {
@@ -148,6 +156,9 @@
   color: #64748b;
   margin-bottom: 8px;
   text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .prescriptions-medicine-item {
@@ -286,4 +297,61 @@
   font-weight: 700;
   text-align: center;
   margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .prescriptions-page {
+    padding: 16px;
+  }
+
+  .prescriptions-title {
+    font-size: 22px;
+  }
+
+  .prescriptions-header {
+    align-items: flex-start;
+  }
+
+  .prescriptions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .prescriptions-card-header,
+  .prescriptions-doctor-info,
+  .prescriptions-card-actions {
+    align-items: flex-start;
+  }
+
+  .prescriptions-modal {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 520px) {
+  .prescriptions-page {
+    padding: 14px;
+  }
+
+  .prescriptions-card,
+  .prescriptions-modal-content,
+  .prescriptions-modal-header {
+    padding: 16px;
+  }
+
+  .prescriptions-card-header,
+  .prescriptions-card-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .prescriptions-view-btn,
+  .prescriptions-print-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .prescriptions-medicine-item {
+    flex-direction: column;
+    gap: 4px;
+  }
 }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { CalendarDays, Clock3, Star, Stethoscope, Video, Wallet } from 'lucide-react';
 import './Appointments.css';
 
 export default function Appointments() {
@@ -38,23 +39,21 @@ export default function Appointments() {
     }
   };
 
-  const filteredAppointments = filter === 'all' 
-    ? appointments 
-    : appointments.filter(a => a.status === filter);
+  const filteredAppointments = filter === 'all'
+    ? appointments
+    : appointments.filter((appointment) => appointment.status === filter);
 
-  const formatDate = (dateStr) => {
-    return new Date(dateStr).toLocaleDateString('en-IN', {
-      weekday: 'short',
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric'
-    });
-  };
+  const formatDate = (dateStr) => new Date(dateStr).toLocaleDateString('en-IN', {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric'
+  });
 
   if (loading) {
     return (
       <div className="appointments-page">
-        <h1 className="appointments-title">📅 My Appointments</h1>
+        <h1 className="appointments-title"><CalendarDays size={24} /> My Appointments</h1>
         <div className="appointments-loading">Loading appointments...</div>
       </div>
     );
@@ -63,11 +62,10 @@ export default function Appointments() {
   return (
     <div className="appointments-page">
       <div className="appointments-header">
-        <h1 className="appointments-title">📅 My Appointments</h1>
+        <h1 className="appointments-title"><CalendarDays size={24} /> My Appointments</h1>
         <p className="appointments-subtitle">Manage your upcoming and past appointments</p>
       </div>
 
-      {/* Filter Tabs */}
       <div className="appointments-filter-container">
         {['all', 'pending', 'confirmed', 'completed', 'cancelled'].map((status) => (
           <button
@@ -78,96 +76,84 @@ export default function Appointments() {
             {status.charAt(0).toUpperCase() + status.slice(1)}
             {status !== 'all' && (
               <span className="appointments-badge">
-                {appointments.filter(a => a.status === status).length}
+                {appointments.filter((appointment) => appointment.status === status).length}
               </span>
             )}
           </button>
         ))}
       </div>
 
-      {/* Appointments List */}
       {filteredAppointments.length === 0 ? (
         <div className="appointments-empty">
-          <div className="appointments-empty-icon">📋</div>
+          <div className="appointments-empty-icon"><CalendarDays size={42} /></div>
           <h3>No appointments found</h3>
           <p>You don't have any {filter !== 'all' ? filter : ''} appointments.</p>
         </div>
       ) : (
         <div className="appointments-grid">
-          {filteredAppointments.map((apt) => (
-            <div key={apt.id} className="appointments-card">
-              {/* Card Header */}
+          {filteredAppointments.map((appointment) => (
+            <div key={appointment.id} className="appointments-card">
               <div className="appointments-card-header">
-                <div className="appointments-appointment-id">{apt.appointmentId}</div>
-                <span className={`appointments-status-badge appointments-status-${apt.status}`}>
-                  {apt.status}
+                <div className="appointments-appointment-id">{appointment.appointmentId}</div>
+                <span className={`appointments-status-badge appointments-status-${appointment.status}`}>
+                  {appointment.status}
                 </span>
               </div>
 
-              {/* Doctor Info */}
               <div className="appointments-doctor-info">
-                <div className="appointments-avatar">{apt.doctor?.name?.[0] || 'D'}</div>
+                <div className="appointments-avatar">{appointment.doctor?.name?.[0] || 'D'}</div>
                 <div className="appointments-doctor-details">
-                  <div className="appointments-doctor-name">Dr. {apt.doctor?.name}</div>
-                  <div className="appointments-specialization">{apt.doctorProfile?.specialization}</div>
+                  <div className="appointments-doctor-name">Dr. {appointment.doctor?.name}</div>
+                  <div className="appointments-specialization">{appointment.doctorProfile?.specialization}</div>
                 </div>
               </div>
 
-              {/* Appointment Details */}
               <div className="appointments-details">
                 <div className="appointments-detail-row">
-                  <span className="appointments-detail-icon">📅</span>
-                  <span>{formatDate(apt.appointmentDate)}</span>
+                  <span className="appointments-detail-icon"><CalendarDays size={16} /></span>
+                  <span>{formatDate(appointment.appointmentDate)}</span>
                 </div>
                 <div className="appointments-detail-row">
-                  <span className="appointments-detail-icon">⏰</span>
-                  <span>{apt.timeSlot}</span>
+                  <span className="appointments-detail-icon"><Clock3 size={16} /></span>
+                  <span>{appointment.timeSlot}</span>
                 </div>
                 <div className="appointments-detail-row">
-                  <span className="appointments-detail-icon">{apt.type === 'telemedicine' ? '🎥' : '🏥'}</span>
-                  <span>{apt.type === 'telemedicine' ? 'Video Consultation' : 'In-Person Visit'}</span>
+                  <span className="appointments-detail-icon">
+                    {appointment.type === 'telemedicine' ? <Video size={16} /> : <Stethoscope size={16} />}
+                  </span>
+                  <span>{appointment.type === 'telemedicine' ? 'Video Consultation' : 'In-Person Visit'}</span>
                 </div>
                 <div className="appointments-detail-row">
-                  <span className="appointments-detail-icon">💰</span>
-                  <span className="appointments-fee">₹{apt.fee}</span>
+                  <span className="appointments-detail-icon"><Wallet size={16} /></span>
+                  <span className="appointments-fee">Rs {appointment.fee}</span>
                 </div>
               </div>
 
-              {/* Symptoms */}
-              {apt.symptoms && (
+              {appointment.symptoms && (
                 <div className="appointments-symptoms">
-                  <strong>Symptoms:</strong> {apt.symptoms}
+                  <strong>Symptoms:</strong> {appointment.symptoms}
                 </div>
               )}
 
-              {/* Actions */}
               <div className="appointments-actions">
-                {apt.status === 'pending' && (
-                  <button
-                    onClick={() => cancelAppointment(apt.id)}
-                    className="appointments-cancel-btn"
-                  >
+                {appointment.status === 'pending' && (
+                  <button onClick={() => cancelAppointment(appointment.id)} className="appointments-cancel-btn">
                     Cancel Appointment
                   </button>
                 )}
-                {apt.status === 'confirmed' && apt.type === 'telemedicine' && apt.videoCallLink && (
-                  <a
-                    href={apt.videoCallLink}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="appointments-join-btn"
-                  >
-                    🎥 Join Video Call
+                {appointment.status === 'confirmed' && appointment.type === 'telemedicine' && appointment.videoCallLink && (
+                  <a href={appointment.videoCallLink} target="_blank" rel="noreferrer" className="appointments-join-btn">
+                    <Video size={15} /> Join Video Call
                   </a>
                 )}
-                {apt.status === 'completed' && !apt.rating && (
-                  <button className="appointments-rate-btn" onClick={() => setRatingModal(apt)}>
-                    ⭐ Rate Doctor
+                {appointment.status === 'completed' && !appointment.rating && (
+                  <button className="appointments-rate-btn" onClick={() => setRatingModal(appointment)}>
+                    <Star size={15} /> Rate Doctor
                   </button>
                 )}
-                {apt.rating && (
+                {appointment.rating && (
                   <div className="appointments-rating">
-                    {'⭐'.repeat(apt.rating)}
+                    {'*'.repeat(appointment.rating)}
                   </div>
                 )}
               </div>
@@ -176,25 +162,25 @@ export default function Appointments() {
         </div>
       )}
 
-      {/* Rating Modal */}
       {ratingModal && (
-        <div className="appointments-overlay" onClick={(e) => e.target === e.currentTarget && setRatingModal(null)}>
+        <div className="appointments-overlay" onClick={(event) => event.target === event.currentTarget && setRatingModal(null)}>
           <div className="appointments-modal">
             <div className="appointments-modal-header">
-              <h3>⭐ Rate Your Experience</h3>
-              <button onClick={() => setRatingModal(null)} className="appointments-close-btn">✕</button>
+              <h3><Star size={18} /> Rate Your Experience</h3>
+              <button onClick={() => setRatingModal(null)} className="appointments-close-btn">x</button>
             </div>
             <div className="appointments-modal-content">
               <p className="appointments-modal-text">How was your consultation with Dr. {ratingModal.doctor?.name}?</p>
-              
+
               <div className="appointments-stars-container">
-                {[1, 2, 3, 4, 5].map((star) => (
+                {[1, 2, 3, 4, 5].map((starValue) => (
                   <button
-                    key={star}
-                    onClick={() => setRating(star)}
+                    key={starValue}
+                    onClick={() => setRating(starValue)}
                     className="appointments-star-btn"
+                    type="button"
                   >
-                    {star <= rating ? '⭐' : '☆'}
+                    {starValue <= rating ? '*' : 'o'}
                   </button>
                 ))}
               </div>
@@ -203,7 +189,7 @@ export default function Appointments() {
                 className="appointments-review-input"
                 placeholder="Share your experience (optional)..."
                 value={review}
-                onChange={(e) => setReview(e.target.value)}
+                onChange={(event) => setReview(event.target.value)}
                 rows={4}
               />
 
@@ -214,7 +200,7 @@ export default function Appointments() {
                   setSubmitting(true);
                   try {
                     await axios.post(`/api/appointments/${ratingModal.id}/rate`, { rating, review });
-                    toast.success('Thank you for your feedback! ⭐');
+                    toast.success('Thank you for your feedback!');
                     setRatingModal(null);
                     setRating(0);
                     setReview('');

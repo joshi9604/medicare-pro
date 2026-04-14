@@ -1,6 +1,20 @@
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import {
+  CalendarDays,
+  Camera,
+  Edit3,
+  HeartPulse,
+  Mail,
+  Map,
+  MapPin,
+  Navigation,
+  Phone,
+  Save,
+  ShieldCheck,
+  User,
+} from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import './Profile.css';
 
@@ -23,12 +37,12 @@ export default function Profile() {
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const fileInputRef = useRef(null);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-  const handleAvatarUpload = async (e) => {
-    const file = e.target.files[0];
+  const handleAvatarUpload = async (event) => {
+    const file = event.target.files[0];
     if (!file) return;
 
     if (file.size > 5 * 1024 * 1024) {
@@ -36,11 +50,11 @@ export default function Profile() {
     }
 
     setUploadingAvatar(true);
-    const formData = new FormData();
-    formData.append('avatar', file);
+    const avatarFormData = new FormData();
+    avatarFormData.append('avatar', file);
 
     try {
-      const { data } = await axios.post('/api/auth/upload-avatar', formData, {
+      const { data } = await axios.post('/api/auth/upload-avatar', avatarFormData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       toast.success('Avatar uploaded successfully!');
@@ -52,8 +66,8 @@ export default function Profile() {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     setSaving(true);
     try {
       const { data } = await axios.put('/api/auth/profile', {
@@ -69,11 +83,10 @@ export default function Profile() {
           pincode: formData.addressPincode
         }
       });
-      
+
       if (data.success) {
         toast.success('Profile updated successfully!');
         setIsEditing(false);
-        // Update local user data
         setUser({ ...user, ...formData });
       }
     } catch (err) {
@@ -105,13 +118,12 @@ export default function Profile() {
   return (
     <div className="profile-page">
       <div className="profile-header">
-        <h1 className="profile-title">👤 My Profile</h1>
+        <h1 className="profile-title"><User size={24} /> My Profile</h1>
         <p className="profile-subtitle">Manage your personal information</p>
       </div>
 
       {!isEditing ? (
         <div className="profile-content">
-          {/* Profile Card */}
           <div className="profile-profile-card">
             <div className="profile-avatar-section">
               <div className="profile-avatar-container" onClick={() => fileInputRef.current?.click()}>
@@ -121,7 +133,7 @@ export default function Profile() {
                   <div className="profile-avatar">{user?.name?.[0]?.toUpperCase()}</div>
                 )}
                 <div className="profile-avatar-overlay">
-                  <span className="profile-camera-icon">📷</span>
+                  <span className="profile-camera-icon"><Camera size={22} /></span>
                 </div>
                 <input
                   type="file"
@@ -133,34 +145,33 @@ export default function Profile() {
               </div>
               <div>
                 <h2 className="profile-name">{user?.name}</h2>
-                <span className="profile-role-badge">🧑‍💼 Patient</span>
+                <span className="profile-role-badge">Patient</span>
               </div>
             </div>
-            <button onClick={() => setIsEditing(true)} className="profile-edit-btn">
-              ✏️ Edit Profile
+            <button onClick={() => setIsEditing(true)} className="profile-edit-btn" type="button">
+              <Edit3 size={16} /> Edit Profile
             </button>
           </div>
 
-          {/* Info Grid */}
           <div className="profile-info-grid">
             <div className="profile-info-card">
-              <h3 className="profile-card-title">📋 Basic Information</h3>
-              <InfoRow label="Full Name" value={user?.name} icon="👤" />
-              <InfoRow label="Email" value={user?.email} icon="📧" />
-              <InfoRow label="Phone" value={user?.phone} icon="📱" />
-              <InfoRow label="Date of Birth" value={formatDate(user?.dateOfBirth)} icon="🎂" />
-              <InfoRow label="Gender" value={user?.gender?.charAt(0).toUpperCase() + user?.gender?.slice(1)} icon="⚧" />
-              <InfoRow label="Blood Group" value={user?.bloodGroup} icon="🩸" />
+              <h3 className="profile-card-title">Basic Information</h3>
+              <InfoRow label="Full Name" value={user?.name} icon={<User size={18} />} />
+              <InfoRow label="Email" value={user?.email} icon={<Mail size={18} />} />
+              <InfoRow label="Phone" value={user?.phone} icon={<Phone size={18} />} />
+              <InfoRow label="Date of Birth" value={formatDate(user?.dateOfBirth)} icon={<CalendarDays size={18} />} />
+              <InfoRow label="Gender" value={user?.gender?.charAt(0).toUpperCase() + user?.gender?.slice(1)} icon={<User size={18} />} />
+              <InfoRow label="Blood Group" value={user?.bloodGroup} icon={<HeartPulse size={18} />} />
             </div>
 
             <div className="profile-info-card">
-              <h3 className="profile-card-title">🏠 Address</h3>
+              <h3 className="profile-card-title">Address</h3>
               {user?.addressStreet || user?.addressCity ? (
                 <>
-                  <InfoRow label="Street" value={user?.addressStreet} icon="📍" />
-                  <InfoRow label="City" value={user?.addressCity} icon="🏙️" />
-                  <InfoRow label="State" value={user?.addressState} icon="🗺️" />
-                  <InfoRow label="Pincode" value={user?.addressPincode} icon="📮" />
+                  <InfoRow label="Street" value={user?.addressStreet} icon={<MapPin size={18} />} />
+                  <InfoRow label="City" value={user?.addressCity} icon={<Navigation size={18} />} />
+                  <InfoRow label="State" value={user?.addressState} icon={<Map size={18} />} />
+                  <InfoRow label="Pincode" value={user?.addressPincode} icon={<MapPin size={18} />} />
                 </>
               ) : (
                 <div className="profile-empty-field">No address provided</div>
@@ -168,9 +179,8 @@ export default function Profile() {
             </div>
           </div>
 
-          {/* Account Info */}
           <div className="profile-account-info">
-            <h3 className="profile-card-title">🔒 Account Information</h3>
+            <h3 className="profile-card-title">Account Information</h3>
             <div className="profile-account-grid">
               <div>
                 <div className="profile-info-label">Member Since</div>
@@ -178,24 +188,25 @@ export default function Profile() {
               </div>
               <div>
                 <div className="profile-info-label">Account Status</div>
-                <div className="profile-info-value" style={{ color: '#10b981' }}>✅ Active</div>
+                <div className="profile-info-value profile-inline-status" style={{ color: '#10b981' }}>
+                  <ShieldCheck size={16} /> Active
+                </div>
               </div>
               <div>
                 <div className="profile-info-label">Email Verified</div>
                 <div className="profile-info-value" style={{ color: user?.isVerified ? '#10b981' : '#f59e0b' }}>
-                  {user?.isVerified ? '✅ Verified' : '⏳ Pending'}
+                  {user?.isVerified ? 'Verified' : 'Pending'}
                 </div>
               </div>
             </div>
           </div>
         </div>
       ) : (
-        /* Edit Form */
         <form onSubmit={handleSubmit} className="profile-form">
           <div className="profile-form-grid">
             <div className="profile-form-section">
-              <h3 className="profile-card-title">📋 Basic Information</h3>
-              
+              <h3 className="profile-card-title">Basic Information</h3>
+
               <div className="profile-form-group">
                 <label className="profile-label">Full Name</label>
                 <input
@@ -269,16 +280,16 @@ export default function Profile() {
                   className="profile-input"
                 >
                   <option value="">Select</option>
-                  {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map(bg => (
-                    <option key={bg} value={bg}>{bg}</option>
+                  {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map((bloodGroup) => (
+                    <option key={bloodGroup} value={bloodGroup}>{bloodGroup}</option>
                   ))}
                 </select>
               </div>
             </div>
 
             <div className="profile-form-section">
-              <h3 className="profile-card-title">🏠 Address</h3>
-              
+              <h3 className="profile-card-title">Address</h3>
+
               <div className="profile-form-group">
                 <label className="profile-label">Street Address</label>
                 <input
@@ -332,19 +343,11 @@ export default function Profile() {
           </div>
 
           <div className="profile-form-actions">
-            <button
-              type="button"
-              onClick={() => setIsEditing(false)}
-              className="profile-cancel-btn"
-            >
+            <button type="button" onClick={() => setIsEditing(false)} className="profile-cancel-btn">
               Cancel
             </button>
-            <button
-              type="submit"
-              disabled={saving}
-              className="profile-save-btn"
-            >
-              {saving ? '💾 Saving...' : '💾 Save Changes'}
+            <button type="submit" disabled={saving} className="profile-save-btn">
+              {saving ? 'Saving...' : <><Save size={16} /> Save Changes</>}
             </button>
           </div>
         </form>

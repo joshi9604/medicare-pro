@@ -39,6 +39,8 @@ app.use('/api/payments',     require('./routes/payments'));
 app.use('/api/admin',        require('./routes/admin'));
 app.use('/api/notifications',require('./routes/notifications'));
 app.use('/api/medical-records',require('./routes/medicalRecords'));
+app.use('/api/chat',         require('./routes/chat'));
+app.use('/api/users', require('./routes/users'));
 
 // Health check
 app.get('/', (req, res) => res.json({ message: '🏥 MediCare Pro API Running', status: 'OK', database: 'PostgreSQL', features: ['Real-time Notifications', 'Dark Mode', 'PDF Print', 'Rating System', 'Avatar Upload'] }));

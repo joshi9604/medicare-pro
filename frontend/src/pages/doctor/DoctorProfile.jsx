@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { Building2, CalendarRange, CreditCard, FileText, IndianRupee, Languages, LayoutPanelTop, PencilLine, Save, ShieldCheck, Star, Stethoscope, Tv } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import AccountInformation from '../../components/doctor/AccountInformation';
 import './DoctorProfile.css';
@@ -10,7 +11,7 @@ export default function DoctorProfile() {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
-  const [activeSection, setActiveSection] = useState('profile'); // 'profile' or 'account'
+  const [activeSection, setActiveSection] = useState('profile');
   const [formData, setFormData] = useState({
     specialization: '',
     experience: '',
@@ -30,6 +31,7 @@ export default function DoctorProfile() {
 
   const fetchProfile = async () => {
     try {
+      setLoading(true);
       const { data } = await axios.get('/api/doctors/profile/me');
       setProfile(data.doctor);
       if (data.doctor) {
@@ -47,7 +49,12 @@ export default function DoctorProfile() {
         });
       }
     } catch (err) {
-      toast.error('Failed to load profile');
+      if (err.response?.status === 404) {
+        console.info('No doctor profile found yet. This is normal for new doctors.');
+      } else {
+        console.error('Error fetching profile:', err.message);
+        toast.error('Failed to load profile');
+      }
     } finally {
       setLoading(false);
     }
@@ -58,12 +65,12 @@ export default function DoctorProfile() {
     try {
       const submitData = {
         ...formData,
-        experience: parseInt(formData.experience) || 0,
-        consultationFee: parseInt(formData.consultationFee) || 500,
-        telemedicineFee: parseInt(formData.telemedicineFee) || 300,
-        languages: formData.languages.split(',').map(l => l.trim()).filter(Boolean)
+        experience: parseInt(formData.experience, 10) || 0,
+        consultationFee: parseInt(formData.consultationFee, 10) || 500,
+        telemedicineFee: parseInt(formData.telemedicineFee, 10) || 300,
+        languages: formData.languages.split(',').map((language) => language.trim()).filter(Boolean)
       };
-      
+
       await axios.put('/api/doctors/profile/me', submitData);
       toast.success('Profile updated successfully');
       setIsEditing(false);
@@ -76,7 +83,7 @@ export default function DoctorProfile() {
   if (loading) {
     return (
       <div className="doctor-profile-page">
-        <h1 className="doctor-profile-title">👨‍⚕️ Doctor Profile</h1>
+        <h1 className="doctor-profile-title"><Stethoscope size={24} /> Doctor Profile</h1>
         <div className="doctor-profile-loading">Loading profile...</div>
       </div>
     );
@@ -84,81 +91,81 @@ export default function DoctorProfile() {
 
   return (
     <div className="doctor-profile-page">
-      {/* Profile Header */}
       <div className="doctor-profile-header">
-        <h1 className="doctor-profile-title">👨‍⚕️ Doctor Profile</h1>
-        <p className="doctor-profile-subtitle">Manage your professional information and account details</p>
+        <h1 className="doctor-profile-title"><Stethoscope size={24} /> Doctor Profile</h1>
+        <p className="doctor-profile-subtitle">Manage your professional information and account details.</p>
       </div>
 
-      {/* Section Tabs */}
       <div className="doctor-profile-tabs">
         <button
           className={`doctor-profile-tab-btn ${activeSection === 'profile' ? 'active' : ''}`}
           onClick={() => setActiveSection('profile')}
+          type="button"
         >
-          📋 Professional Profile
+          <LayoutPanelTop size={16} />
+          <span>Professional Profile</span>
         </button>
         <button
           className={`doctor-profile-tab-btn ${activeSection === 'account' ? 'active' : ''}`}
           onClick={() => setActiveSection('account')}
+          type="button"
         >
-          💳 Account Information
+          <CreditCard size={16} />
+          <span>Account Information</span>
         </button>
       </div>
 
       {activeSection === 'profile' && !isEditing && (
         <div className="doctor-profile-content">
-          {/* Profile Card */}
           <div className="doctor-profile-card">
             <div className="doctor-profile-avatar-section">
               <div className="doctor-profile-avatar">{user?.name?.[0]?.toUpperCase()}</div>
               <div>
                 <h2 className="doctor-profile-name">Dr. {user?.name}</h2>
                 <div className="doctor-profile-specialization">{profile?.specialization || 'Not specified'}</div>
-                <span className="doctor-profile-role-badge">👨‍⚕️ Doctor</span>
+                <span className="doctor-profile-role-badge"><Stethoscope size={14} /> Doctor</span>
                 {profile?.isApproved ? (
-                  <span className="doctor-profile-approved-badge">✅ Verified</span>
+                  <span className="doctor-profile-approved-badge"><ShieldCheck size={14} /> Verified</span>
                 ) : (
-                  <span className="doctor-profile-pending-badge">⏳ Pending Approval</span>
+                  <span className="doctor-profile-pending-badge"><CalendarRange size={14} /> Pending Approval</span>
                 )}
               </div>
             </div>
-            <button onClick={() => setIsEditing(true)} className="doctor-profile-edit-btn">
-              ✏️ Edit Profile
+            <button onClick={() => setIsEditing(true)} className="doctor-profile-edit-btn" type="button">
+              <PencilLine size={16} />
+              <span>Edit Profile</span>
             </button>
           </div>
 
-          {/* Info Grid */}
           <div className="doctor-profile-info-grid">
             <div className="doctor-profile-info-card">
-              <h3 className="doctor-profile-card-title">📋 Professional Information</h3>
-              <InfoRow label="Specialization" value={profile?.specialization} icon="🩺" />
-              <InfoRow label="Experience" value={profile?.experience ? `${profile.experience} years` : null} icon="📅" />
-              <InfoRow label="License Number" value={profile?.licenseNumber} icon="📜" />
-              <InfoRow label="Hospital/Clinic" value={profile?.hospital} icon="🏥" />
-              <InfoRow label="Department" value={profile?.department} icon="🏬" />
+              <h3 className="doctor-profile-card-title"><FileText size={18} /> Professional Information</h3>
+              <InfoRow label="Specialization" value={profile?.specialization} icon={Stethoscope} />
+              <InfoRow label="Experience" value={profile?.experience ? `${profile.experience} years` : null} icon={CalendarRange} />
+              <InfoRow label="License Number" value={profile?.licenseNumber} icon={ShieldCheck} />
+              <InfoRow label="Hospital/Clinic" value={profile?.hospital} icon={Building2} />
+              <InfoRow label="Department" value={profile?.department} icon={Building2} />
             </div>
 
             <div className="doctor-profile-info-card">
-              <h3 className="doctor-profile-card-title">💰 Consultation Fees</h3>
-              <InfoRow label="In-Person Consultation" value={`₹${profile?.consultationFee || 500}`} icon="🏥" />
-              <InfoRow label="Video Consultation" value={`₹${profile?.telemedicineFee || 300}`} icon="🎥" />
-              <InfoRow label="Video Consultations" value={profile?.isAvailableOnline ? 'Available' : 'Not Available'} icon="📹" />
-              <InfoRow label="Languages" value={profile?.languages?.join(', ')} icon="🌐" />
-              <InfoRow label="Rating" value={profile?.rating ? `${profile.rating}/5 (${profile.totalReviews} reviews)` : 'No reviews yet'} icon="⭐" />
+              <h3 className="doctor-profile-card-title"><IndianRupee size={18} /> Consultation Fees</h3>
+              <InfoRow label="In-Person Consultation" value={`Rs ${profile?.consultationFee || 500}`} icon={IndianRupee} />
+              <InfoRow label="Video Consultation" value={`Rs ${profile?.telemedicineFee || 300}`} icon={Tv} />
+              <InfoRow label="Video Consultations" value={profile?.isAvailableOnline ? 'Available' : 'Not Available'} icon={Tv} />
+              <InfoRow label="Languages" value={profile?.languages?.join(', ')} icon={Languages} />
+              <InfoRow label="Rating" value={profile?.rating ? `${profile.rating}/5 (${profile.totalReviews} reviews)` : 'No reviews yet'} icon={Star} />
             </div>
           </div>
 
-          {/* About Section */}
           <div className="doctor-profile-about-card">
-            <h3 className="doctor-profile-card-title">📝 About</h3>
+            <h3 className="doctor-profile-card-title"><FileText size={18} /> About</h3>
             <p className="doctor-profile-about-text">{profile?.about || 'No description provided.'}</p>
           </div>
 
-          {/* Edit Button */}
           <div className="doctor-profile-actions">
-            <button onClick={() => setIsEditing(true)} className="doctor-profile-edit-btn">
-              ✏️ Edit Profile
+            <button onClick={() => setIsEditing(true)} className="doctor-profile-edit-btn" type="button">
+              <PencilLine size={16} />
+              <span>Edit Profile</span>
             </button>
           </div>
         </div>
@@ -168,8 +175,8 @@ export default function DoctorProfile() {
         <form onSubmit={handleSubmit} className="doctor-profile-form">
           <div className="doctor-profile-form-grid">
             <div className="doctor-profile-form-section">
-              <h3 className="doctor-profile-card-title">📋 Professional Information</h3>
-              
+              <h3 className="doctor-profile-card-title"><FileText size={18} /> Professional Information</h3>
+
               <div className="doctor-profile-form-group">
                 <label className="doctor-profile-label">Specialization *</label>
                 <input
@@ -226,11 +233,11 @@ export default function DoctorProfile() {
             </div>
 
             <div className="doctor-profile-form-section">
-              <h3 className="doctor-profile-card-title">💰 Fees & Availability</h3>
-              
+              <h3 className="doctor-profile-card-title"><IndianRupee size={18} /> Fees & Availability</h3>
+
               <div className="doctor-profile-form-row">
                 <div className="doctor-profile-form-group" style={{ flex: 1 }}>
-                  <label className="doctor-profile-label">In-Person Fee (₹)</label>
+                  <label className="doctor-profile-label">In-Person Fee (Rs)</label>
                   <input
                     type="number"
                     value={formData.consultationFee}
@@ -239,7 +246,7 @@ export default function DoctorProfile() {
                   />
                 </div>
                 <div className="doctor-profile-form-group" style={{ flex: 1 }}>
-                  <label className="doctor-profile-label">Video Fee (₹)</label>
+                  <label className="doctor-profile-label">Video Fee (Rs)</label>
                   <input
                     type="number"
                     value={formData.telemedicineFee}
@@ -276,7 +283,7 @@ export default function DoctorProfile() {
           </div>
 
           <div className="doctor-profile-form-section">
-            <h3 className="doctor-profile-card-title">📝 About</h3>
+            <h3 className="doctor-profile-card-title"><FileText size={18} /> About</h3>
             <textarea
               value={formData.about}
               onChange={(e) => setFormData({ ...formData, about: e.target.value })}
@@ -290,7 +297,8 @@ export default function DoctorProfile() {
               Cancel
             </button>
             <button type="submit" className="doctor-profile-save-btn">
-              💾 Save Changes
+              <Save size={16} />
+              <span>Save Changes</span>
             </button>
           </div>
         </form>
@@ -298,34 +306,15 @@ export default function DoctorProfile() {
 
       {activeSection === 'account' && (
         <>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-            <h2 style={{ fontSize: '20px', fontWeight: '700', color: '#1e293b' }}>💳 Account Information</h2>
-            <button 
+          <div className="doctor-profile-account-header">
+            <h2 className="doctor-profile-account-title"><CreditCard size={20} /> Account Information</h2>
+            <button
               onClick={() => window.open('/doctor/payments', '_blank')}
-              style={{
-                padding: '10px 20px',
-                background: '#f1f5f9',
-                border: '2px solid #e2e8f0',
-                borderRadius: '8px',
-                fontSize: '14px',
-                fontWeight: '600',
-                color: '#475569',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                transition: 'all 0.2s'
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.background = '#e2e8f0';
-                e.target.style.borderColor = '#cbd5e1';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.background = '#f1f5f9';
-                e.target.style.borderColor = '#e2e8f0';
-              }}
+              className="doctor-profile-account-link"
+              type="button"
             >
-              📊 View Payment History
+              <CreditCard size={16} />
+              <span>View Payment History</span>
             </button>
           </div>
           <AccountInformation doctor={profile} />
@@ -335,13 +324,12 @@ export default function DoctorProfile() {
   );
 }
 
-const InfoRow = ({ label, value, icon }) => (
+const InfoRow = ({ label, value, icon: Icon }) => (
   <div className="doctor-profile-info-row">
-    <span className="doctor-profile-info-icon">{icon}</span>
+    <span className="doctor-profile-info-icon"><Icon size={18} /></span>
     <div>
       <div className="doctor-profile-info-label">{label}</div>
       <div className="doctor-profile-info-value">{value || 'Not provided'}</div>
     </div>
   </div>
 );
-

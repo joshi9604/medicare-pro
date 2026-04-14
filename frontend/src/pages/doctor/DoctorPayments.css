@@ -2,10 +2,17 @@
   padding: 24px;
   max-width: 1400px;
   margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .doctor-payments-header {
   margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .doctor-payments-title {
@@ -13,6 +20,9 @@
   font-weight: 700;
   color: #1e293b;
   margin: 0 0 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .doctor-payments-subtitle {
@@ -27,6 +37,7 @@
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
   margin-bottom: 32px;
+  width: 100%;
 }
 
 .doctor-payments-stat-card {
@@ -38,6 +49,8 @@
   gap: 16px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .doctor-payments-stat-card:hover {
@@ -58,6 +71,7 @@
 
 .doctor-payments-stat-content {
   flex: 1;
+  min-width: 0;
 }
 
 .doctor-payments-stat-value {
@@ -65,6 +79,8 @@
   font-weight: 700;
   color: #1e293b;
   margin-bottom: 4px;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
 }
 
 .doctor-payments-stat-label {
@@ -79,6 +95,7 @@
   gap: 12px;
   margin-bottom: 24px;
   flex-wrap: wrap;
+  width: 100%;
 }
 
 .doctor-payments-filter-btn {
@@ -94,6 +111,7 @@
   color: #475569;
   cursor: pointer;
   transition: all 0.2s;
+  min-width: 0;
 }
 
 .doctor-payments-filter-btn:hover {
@@ -125,6 +143,7 @@
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  width: 100%;
 }
 
 .doctor-payments-table {
@@ -170,6 +189,7 @@
   font-size: 13px;
   color: #1565c0;
   font-weight: 600;
+  overflow-wrap: anywhere;
 }
 
 /* Patient Cell */
@@ -177,6 +197,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  min-width: 0;
 }
 
 .doctor-payments-avatar {
@@ -198,6 +219,7 @@
   color: #1e293b;
   font-size: 14px;
   margin-bottom: 2px;
+  overflow-wrap: anywhere;
 }
 
 .doctor-payments-appointment-id {
@@ -228,6 +250,7 @@
   font-size: 13px;
   font-weight: 600;
   color: #475569;
+  max-width: 100%;
 }
 
 /* Amount */
@@ -246,6 +269,7 @@
   border-radius: 8px;
   font-size: 13px;
   font-weight: 600;
+  max-width: 100%;
 }
 
 /* Payment Method */
@@ -253,6 +277,7 @@
   font-size: 12px;
   color: #64748b;
   font-weight: 500;
+  overflow-wrap: anywhere;
 }
 
 /* Empty State */
@@ -301,6 +326,8 @@
   padding: 24px;
   margin-top: 32px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .doctor-payments-summary-title {
@@ -340,19 +367,153 @@
     padding: 16px;
   }
 
+  .doctor-payments-header {
+    margin-bottom: 24px;
+  }
+
+  .doctor-payments-title {
+    font-size: 24px;
+    flex-wrap: wrap;
+  }
+
   .doctor-payments-stats-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
   }
 
-  .doctor-payments-table-container {
-    overflow-x: auto;
+  .doctor-payments-stat-card {
+    padding: 18px;
+    gap: 14px;
   }
 
-  .doctor-payments-table {
-    min-width: 800px;
+  .doctor-payments-filter-container {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .doctor-payments-filter-btn {
+    justify-content: center;
+    padding: 10px 14px;
   }
 
   .doctor-payments-summary-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .doctor-payments-page {
+    padding: 14px;
+  }
+
+  .doctor-payments-title {
+    font-size: 22px;
+  }
+
+  .doctor-payments-stat-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .doctor-payments-stat-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .doctor-payments-stat-value {
+    font-size: 22px;
+  }
+
+  .doctor-payments-stats-grid,
+  .doctor-payments-filter-container {
+    grid-template-columns: 1fr;
+  }
+
+  .doctor-payments-table-container {
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    overflow: visible;
+  }
+
+  .doctor-payments-table,
+  .doctor-payments-table thead,
+  .doctor-payments-table tbody,
+  .doctor-payments-tr,
+  .doctor-payments-th,
+  .doctor-payments-td {
+    display: block;
+    width: 100%;
+  }
+
+  .doctor-payments-table {
+    min-width: 0;
+    border-collapse: separate;
+  }
+
+  .doctor-payments-table thead {
+    display: none;
+  }
+
+  .doctor-payments-tr {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 8px 0;
+    margin-bottom: 14px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  }
+
+  .doctor-payments-tr:last-child {
+    margin-bottom: 0;
+  }
+
+  .doctor-payments-td {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 12px 16px;
+    border-bottom: 1px solid #f1f5f9;
+  }
+
+  .doctor-payments-td:last-child {
+    border-bottom: none;
+  }
+
+  .doctor-payments-td::before {
+    content: attr(data-label);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #94a3b8;
+  }
+
+  .doctor-payments-patient-cell {
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .doctor-payments-patient-cell > div:last-child {
+    min-width: 0;
+  }
+
+  .doctor-payments-datetime {
+    width: 100%;
+  }
+
+  .doctor-payments-type-badge,
+  .doctor-payments-status-badge,
+  .doctor-payments-method {
+    width: fit-content;
+  }
+
+  .doctor-payments-summary,
+  .doctor-payments-empty {
+    padding: 18px 16px;
   }
 }

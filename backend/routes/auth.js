@@ -106,7 +106,16 @@ router.post('/login', async (req, res) => {
 
 // Get current user
 router.get('/me', protect, async (req, res) => {
-  res.json({ success: true, user: req.user });
+  try {
+    console.log('👤 /api/auth/me - User:', req.user?.id, req.user?.name, req.user?.role);
+    if (!req.user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+    res.json({ success: true, user: req.user });
+  } catch (err) {
+    console.error('❌ Error in /me:', err.message);
+    res.status(500).json({ success: false, message: err.message });
+  }
 });
 
 // Update profile

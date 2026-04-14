@@ -1,25 +1,31 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useContext, useEffect, useMemo } from 'react';
+import { Moon, Sun } from 'lucide-react';
 
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  const [darkMode, setDarkMode] = useState(() => {
-    return localStorage.getItem('medicare_darkmode') === 'true';
-  });
+  const [darkMode, setDarkMode] = useState(() => localStorage.getItem('medicare_darkmode') === 'true');
 
   useEffect(() => {
     localStorage.setItem('medicare_darkmode', darkMode);
-    if (darkMode) {
-      document.body.classList.add('dark-mode');
-    } else {
-      document.body.classList.remove('dark-mode');
-    }
+    document.body.classList.toggle('dark-mode', darkMode);
   }, [darkMode]);
 
-  const toggleDarkMode = () => setDarkMode(!darkMode);
+  const toggleDarkMode = () => setDarkMode((prev) => !prev);
+
+  const themeMeta = useMemo(() => ({
+    label: darkMode ? 'Dark Mode' : 'Light Mode',
+    icon: darkMode ? Moon : Sun
+  }), [darkMode]);
+
+  const value = useMemo(() => ({
+    darkMode,
+    toggleDarkMode,
+    themeMeta
+  }), [darkMode, themeMeta]);
 
   return (
-    <ThemeContext.Provider value={{ darkMode, toggleDarkMode }}>
+    <ThemeContext.Provider value={value}>
       {children}
     </ThemeContext.Provider>
   );

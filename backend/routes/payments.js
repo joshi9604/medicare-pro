@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const crypto = require('crypto');
 const Razorpay = require('razorpay');
-const { Payment, Appointment, User } = require('../models');
+const { Payment, Appointment, User, Notification } = require('../models');
 const { protect, authorize } = require('../middleware/auth');
 const { sendEmail } = require('../utils/email');
 
@@ -203,17 +203,29 @@ router.get('/history', async (req, res) => {
       : { doctorId: req.user.id };
     
     const payments = await Payment.findAll({
-      where: { ...whereClause, status: 'paid' },
+      where: whereClause, // Get all payments (not just paid)
       include: [
-        { model: Appointment, as: 'appointment', attributes: ['appointmentDate', 'timeSlot', 'type'] },
+        { model: Appointment, as: 'appointment', attributes: ['appointmentDate', 'timeSlot', 'type', 'status'] },
         { model: User, as: 'patient', attributes: ['name'] },
         { model: User, as: 'doctor', attributes: ['name'] }
       ],
       order: [['createdAt', 'DESC']]
     });
 
-    const total = payments.reduce((sum, p) => sum + p.amount, 0);
-    res.json({ success: true, payments, totalAmount: total });
+    const totalAmount = payments.filter(p => p.status === 'paid').reduce((sum, p) => sum + p.amount, 0);
+    const totalCount = payments.filter(p => p.status === 'paid').length;
+    const pendingCount = payments.filter(p => p.status === 'pending' || p.appointment?.status === 'pending').length;
+
+    res.json({ 
+      success: true, 
+      payments, 
+      totalAmount,
+      stats: {
+        total: totalAmount,
+        count: totalCount,
+        pending: pendingCount
+      }
+    });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }

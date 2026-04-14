@@ -1,22 +1,17 @@
 import React from 'react';
+import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
 
 export function Card({ children, style = {}, className = '', hover = true }) {
   return (
-    <div 
+    <div
       style={{
         background: 'var(--bg-secondary)',
         borderRadius: '16px',
-        padding: '24px',
+        padding: 'clamp(16px, 2.5vw, 24px)',
         boxShadow: 'var(--shadow)',
         border: '1px solid var(--border-color)',
         transition: 'all 0.3s ease',
-        ...(hover && {
-          cursor: 'pointer',
-          ':hover': {
-            transform: 'translateY(-4px)',
-            boxShadow: '0 12px 40px rgba(0,0,0,0.12)'
-          }
-        }),
+        cursor: hover ? 'pointer' : 'default',
         ...style
       }}
       className={`animate-fadeIn ${className}`}
@@ -28,7 +23,7 @@ export function Card({ children, style = {}, className = '', hover = true }) {
 
 export function StatCard({ icon, label, value, trend, color = '#1565c0' }) {
   return (
-    <Card hover={true} style={{ position: 'relative', overflow: 'hidden' }}>
+    <Card hover style={{ position: 'relative', overflow: 'hidden' }}>
       <div style={{
         position: 'absolute',
         top: 0,
@@ -55,7 +50,7 @@ export function StatCard({ icon, label, value, trend, color = '#1565c0' }) {
           {icon}
         </div>
         <div style={{
-          fontSize: '32px',
+          fontSize: 'clamp(24px, 4vw, 32px)',
           fontWeight: '800',
           color: 'var(--text-primary)',
           marginBottom: '4px',
@@ -78,9 +73,11 @@ export function StatCard({ icon, label, value, trend, color = '#1565c0' }) {
             color: trend > 0 ? '#10b981' : '#ef4444',
             display: 'flex',
             alignItems: 'center',
-            gap: '4px'
+            gap: '4px',
+            flexWrap: 'wrap'
           }}>
-            {trend > 0 ? '↑' : '↓'} {Math.abs(trend)}% from last month
+            {trend > 0 ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
+            <span>{Math.abs(trend)}% from last month</span>
           </div>
         )}
       </div>
@@ -88,11 +85,11 @@ export function StatCard({ icon, label, value, trend, color = '#1565c0' }) {
   );
 }
 
-export function Button({ 
-  children, 
-  variant = 'primary', 
-  size = 'md', 
-  onClick, 
+export function Button({
+  children,
+  variant = 'primary',
+  size = 'md',
+  onClick,
   disabled = false,
   style = {},
   icon = null
@@ -144,16 +141,14 @@ export function Button({
         alignItems: 'center',
         justifyContent: 'center',
         gap: '8px',
-        ':hover': !disabled && {
-          transform: 'translateY(-2px)',
-          boxShadow: '0 6px 20px rgba(0,0,0,0.15)'
-        },
+        flexWrap: 'wrap',
+        maxWidth: '100%',
         ...variants[variant],
         ...sizes[size],
         ...style
       }}
     >
-      {icon && <span>{icon}</span>}
+      {icon && <span style={{ display: 'inline-flex' }}>{icon}</span>}
       {children}
     </button>
   );
@@ -170,8 +165,9 @@ export function Badge({ children, color = '#1565c0', style = {} }) {
       fontSize: '12px',
       fontWeight: '700',
       background: `${color}15`,
-      color: color,
+      color,
       border: `1.5px solid ${color}30`,
+      flexWrap: 'wrap',
       ...style
     }}>
       {children}
