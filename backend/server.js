@@ -28,6 +28,7 @@ app.set('io', io);
 app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:3000', credentials: true }));
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.get('/favicon.ico', (req, res) => res.status(204).end());
 
 // Routes
 app.use('/api/auth',         require('./routes/auth'));

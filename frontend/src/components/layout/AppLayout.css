@@ -231,6 +231,7 @@ body.dark-mode .sidebar {
   color: var(--text-primary);
   font-size: 14px;
   font-weight: 600;
+  text-decoration: none;
 }
 
 .user-menu-item:hover {
@@ -278,9 +279,7 @@ body.dark-mode .sidebar {
 .logout-btn:hover,
 .collapse-btn:hover,
 .mobile-close-btn:hover,
-.mobile-menu-btn:hover,
-.message-pill:hover,
-.theme-btn:hover {
+.mobile-menu-btn:hover {
   transform: translateY(-1px);
   box-shadow: var(--shadow-sm);
 }
@@ -311,8 +310,6 @@ body.dark-mode .top-bar {
 }
 
 .top-bar-left,
-.top-right,
-.presence-pill,
 .breadcrumb {
   display: flex;
   align-items: center;
@@ -330,52 +327,38 @@ body.dark-mode .top-bar {
 }
 
 .top-right {
-  gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
   flex-wrap: wrap;
   justify-content: flex-end;
 }
 
-.message-pill,
-.theme-btn {
-  border: 1px solid var(--border-color);
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  border-radius: 14px;
-  padding: 10px 14px;
+.presence-pill {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  cursor: pointer;
-  font-weight: 700;
-}
-
-.message-pill span {
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #0f172a;
   font-size: 13px;
-}
-
-.theme-btn {
-  padding: 10px;
-}
-
-.presence-pill {
-  gap: 10px;
-  padding: 10px 12px;
-  border-radius: 14px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
+  font-weight: 600;
 }
 
 .online-dot {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
+  flex-shrink: 0;
   box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
 }
 
 .online-text {
-  color: var(--text-secondary);
-  font-size: 13px;
-  font-weight: 700;
+  display: inline-block;
+  white-space: nowrap;
+  line-height: 1;
 }
 
 .content {
@@ -411,13 +394,11 @@ body.dark-mode .top-bar {
     padding: 18px;
   }
 
-  .message-pill span,
   .presence-pill {
-    display: none;
-  }
-
-  .presence-pill {
-    padding: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
   }
 }
 
@@ -437,6 +418,17 @@ body.dark-mode .top-bar {
   }
 }
 
+@media (max-width: 768px) {
+  .top-right {
+    gap: 8px;
+  }
+
+  .presence-pill {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+}
+
 @media (max-width: 640px) {
   .top-bar {
     padding: 12px 14px;
@@ -448,9 +440,5 @@ body.dark-mode .top-bar {
 
   .breadcrumb {
     font-size: 14px;
-  }
-
-  .message-pill {
-    padding: 10px 12px;
   }
 }

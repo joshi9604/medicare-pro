@@ -9,7 +9,11 @@ exports.protect = async (req, res, next) => {
   if (!token) return res.status(401).json({ success: false, message: 'Not authorized' });
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'medicare_secret_2024');
-    req.user = await User.findByPk(decoded.id);
+    req.user = await User.findByPk(decoded.id, {
+      attributes: {
+        exclude: ['password', 'resetPasswordToken', 'resetPasswordExpire']
+      }
+    });
     if (!req.user) {
       console.log('⚠️ User not found for ID:', decoded.id);
       return res.status(401).json({ success: false, message: 'User not found' });

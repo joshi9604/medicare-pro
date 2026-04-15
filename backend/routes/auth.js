@@ -7,6 +7,14 @@ const path = require('path');
 const { User, Doctor } = require('../models');
 const { protect } = require('../middleware/auth');
 
+const sanitizeUser = (user) => {
+  if (!user) return null;
+
+  const rawUser = typeof user.toJSON === 'function' ? user.toJSON() : user;
+  const { password, resetPasswordToken, resetPasswordExpire, ...safeUser } = rawUser;
+  return safeUser;
+};
+
 // Multer configuration for avatar upload
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, 'uploads/avatars/'),
@@ -111,7 +119,7 @@ router.get('/me', protect, async (req, res) => {
     if (!req.user) {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
-    res.json({ success: true, user: req.user });
+    res.json({ success: true, user: sanitizeUser(req.user) });
   } catch (err) {
     console.error('❌ Error in /me:', err.message);
     res.status(500).json({ success: false, message: err.message });
@@ -132,9 +140,13 @@ router.put('/profile', protect, async (req, res) => {
     }
     
     await User.update(updateData, { where: { id: req.user.id } });
-    const user = await User.findByPk(req.user.id);
+    const user = await User.findByPk(req.user.id, {
+      attributes: {
+        exclude: ['password', 'resetPasswordToken', 'resetPasswordExpire']
+      }
+    });
     
-    res.json({ success: true, user });
+    res.json({ success: true, user: sanitizeUser(user) });
   } catch (err) {
     res.status(400).json({ success: false, message: err.message });
   }
