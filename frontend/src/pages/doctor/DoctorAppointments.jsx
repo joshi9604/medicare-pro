@@ -11,6 +11,7 @@ import {
   Video,
   XCircle,
   Users,
+  Eraser,
 } from 'lucide-react';
 import './DoctorAppointments.css';
 
@@ -142,8 +143,12 @@ export default function DoctorAppointments() {
         <p className="doctor-appointments-subtitle">
           {isMyPatients ? `${filteredAppointments.length} completed patients` : 'All your appointments'}
           {filter !== 'all' && (
-            <button onClick={clearFilter} className="doctor-appointments-clear-filter-btn" type="button">
-              Clear
+            <button
+              onClick={clearFilter}
+              className="doctor-appointments-clear-filter-btn"
+              type="button"
+            >
+              <Eraser size={15} />
             </button>
           )}
         </p>
