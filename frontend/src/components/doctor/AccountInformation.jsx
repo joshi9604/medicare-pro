@@ -74,7 +74,17 @@ export default function AccountInformation({ doctor }) {
     <div className="account-info-page">
       <div className="account-info-header">
         <h1 className="account-info-title"><CreditCard size={24} /> Account Information</h1>
-        <p className="account-info-subtitle">Add your bank account details for payment processing.</p>
+        <div className="account-info-header-actions">
+          <p className="account-info-subtitle">Add your bank account details for payment processing.</p>
+          <button
+            type="button"
+            className="account-info-history-btn"
+            onClick={() => window.open('/doctor/payments', '_blank')}
+          >
+            <CreditCard size={16} />
+            <span>View Payment History</span>
+          </button>
+        </div>
       </div>
 
       {!hasAccountInfo ? (

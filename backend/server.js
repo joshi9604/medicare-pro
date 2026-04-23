@@ -56,7 +56,17 @@ const startServer = async () => {
   try {
     await testConnection();
     await syncDatabase();
-    
+
+    httpServer.once('error', (err) => {
+      if (err.code === 'EADDRINUSE') {
+        console.error(`Port ${PORT} is already in use. Stop the existing server process or run with a different PORT.`);
+        process.exit(1);
+      }
+
+      console.error('Server listen error:', err);
+      process.exit(1);
+    });
+
     httpServer.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
       console.log(`📡 Socket.io ready for real-time notifications`);

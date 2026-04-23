@@ -5,7 +5,18 @@
 }
 
 .account-info-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   margin-bottom: 28px;
+}
+
+.account-info-header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .account-info-title,
@@ -32,6 +43,28 @@
   font-size: 14px;
   margin: 0;
   font-weight: 500;
+}
+
+.account-info-history-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border: 1.5px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+
+.account-info-history-btn:hover {
+  border-color: #1565c0;
+  background: #eff6ff;
+  color: #1565c0;
 }
 
 .account-info-alert,
@@ -242,10 +275,16 @@
     gap: 16px;
   }
 
+  .account-info-header-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
   .account-info-actions {
     justify-content: stretch;
   }
 
+  .account-info-history-btn,
   .account-info-submit-btn {
     width: 100%;
   }

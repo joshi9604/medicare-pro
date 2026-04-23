@@ -444,7 +444,7 @@ router.get('/', async (req, res) => {
       include: [
         { model: User, as: 'patient', attributes: ['id', 'name', 'email', 'phone', 'avatar'] },
         { model: User, as: 'doctor', attributes: ['id', 'name', 'email', 'avatar'] },
-        { model: Doctor, as: 'doctorProfile', attributes: ['id', 'specialization', 'consultationFee'] }
+        { model: Doctor, as: 'doctorProfile', attributes: ['id', 'specialization', 'consultationFee', 'addressCity', 'addressState'] }
       ],
       order: [['appointmentDate', 'DESC']]
     });

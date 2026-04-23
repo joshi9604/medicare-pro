@@ -31,15 +31,15 @@
 }
 
 .find-doctors-filters {
-  display: flex;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr auto;
   gap: 12px;
   margin-bottom: 14px;
-  flex-wrap: wrap;
+  align-items: center;
 }
 
 .find-doctors-search {
-  flex: 2;
-  min-width: 200px;
+  min-width: 0;
   padding: 11px 16px;
   border: 1.5px solid #e2e8f0;
   border-radius: 12px;
@@ -49,14 +49,44 @@
 }
 
 .find-doctors-select {
-  flex: 1;
-  min-width: 170px;
+  min-width: 0;
   padding: 11px 16px;
   border: 1.5px solid #e2e8f0;
   border-radius: 12px;
   font-size: 14px;
   outline: none;
   background: #fff;
+}
+
+.find-doctors-clear-btn {
+  padding: 11px 16px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  background: #fff;
+  color: #475569;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.find-doctors-clear-btn:hover {
+  border-color: #1565c0;
+  color: #1565c0;
+}
+
+.find-doctors-location-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #eff6ff;
+  color: #1565c0;
+  border: 1px solid #bfdbfe;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 16px;
 }
 
 .find-doctors-chips {
@@ -154,6 +184,15 @@
   margin: 0 0 4px;
 }
 
+.find-doctors-doc-location {
+  color: #475569;
+  font-size: 12px;
+  margin: 0 0 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .find-doctors-stars {
   color: #f59e0b;
   font-size: 13px;
@@ -175,6 +214,7 @@
   display: flex;
   gap: 10px;
   margin-bottom: 10px;
+  flex-wrap: wrap;
 }
 
 .find-doctors-fee {
@@ -225,10 +265,7 @@
 
 .find-doctors-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
@@ -287,6 +324,15 @@
 .find-doctors-modal-doc-spec {
   color: #1565c0;
   font-size: 13px;
+}
+
+.find-doctors-modal-doc-location {
+  color: #475569;
+  font-size: 12px;
+  margin-top: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .find-doctors-m-form {
@@ -396,10 +442,10 @@
   font-weight: 700;
 }
 
-.find-doctors-debug {
-  padding: 10px;
-  background: #f0f0f0;
-  margin: 10px 0;
+@media (max-width: 1024px) {
+  .find-doctors-filters {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 @media (max-width: 768px) {
@@ -407,20 +453,11 @@
     padding: 16px;
   }
 
-  .find-doctors-filters {
-    flex-direction: column;
-  }
-
   .find-doctors-header {
     align-items: flex-start;
   }
 
-  .find-doctors-search,
-  .find-doctors-select {
-    width: 100%;
-    min-width: 100%;
-  }
-
+  .find-doctors-filters,
   .find-doctors-grid,
   .find-doctors-type-row {
     grid-template-columns: 1fr;
@@ -437,7 +474,8 @@
   }
 
   .find-doctors-cancel-btn,
-  .find-doctors-confirm-btn {
+  .find-doctors-confirm-btn,
+  .find-doctors-clear-btn {
     width: 100%;
   }
 }

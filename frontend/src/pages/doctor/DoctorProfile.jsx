@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { Building2, CalendarRange, CreditCard, FileText, IndianRupee, Languages, LayoutPanelTop, PencilLine, Save, ShieldCheck, Star, Stethoscope, Tv } from 'lucide-react';
+import { Building2, CalendarRange, CreditCard, FileText, IndianRupee, Languages, LayoutPanelTop, Map, MapPin, Navigation, PencilLine, Save, ShieldCheck, Star, Stethoscope, Tv } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import AccountInformation from '../../components/doctor/AccountInformation';
 import './DoctorProfile.css';
@@ -20,6 +20,11 @@ export default function DoctorProfile() {
     telemedicineFee: '',
     about: '',
     hospital: '',
+    addressStreet: '',
+    addressCity: '',
+    addressState: '',
+    addressLandmark: '',
+    addressPincode: '',
     department: '',
     languages: '',
     isAvailableOnline: true
@@ -43,6 +48,11 @@ export default function DoctorProfile() {
           telemedicineFee: data.doctor.telemedicineFee || '',
           about: data.doctor.about || '',
           hospital: data.doctor.hospital || '',
+          addressStreet: data.doctor.addressStreet || '',
+          addressCity: data.doctor.addressCity || '',
+          addressState: data.doctor.addressState || '',
+          addressLandmark: data.doctor.addressLandmark || '',
+          addressPincode: data.doctor.addressPincode || '',
           department: data.doctor.department || '',
           languages: data.doctor.languages?.join(', ') || '',
           isAvailableOnline: data.doctor.isAvailableOnline ?? true
@@ -76,7 +86,7 @@ export default function DoctorProfile() {
       setIsEditing(false);
       fetchProfile();
     } catch (err) {
-      toast.error('Failed to update profile');
+      toast.error(err.response?.data?.message || 'Failed to update profile');
     }
   };
 
@@ -113,6 +123,7 @@ export default function DoctorProfile() {
           <CreditCard size={16} />
           <span>Account Information</span>
         </button>
+        
       </div>
 
       {activeSection === 'profile' && !isEditing && (
@@ -154,6 +165,15 @@ export default function DoctorProfile() {
               <InfoRow label="Video Consultations" value={profile?.isAvailableOnline ? 'Available' : 'Not Available'} icon={Tv} />
               <InfoRow label="Languages" value={profile?.languages?.join(', ')} icon={Languages} />
               <InfoRow label="Rating" value={profile?.rating ? `${profile.rating}/5 (${profile.totalReviews} reviews)` : 'No reviews yet'} icon={Star} />
+            </div>
+
+            <div className="doctor-profile-info-card">
+              <h3 className="doctor-profile-card-title"><MapPin size={18} /> Address</h3>
+              <InfoRow label="Street" value={profile?.addressStreet} icon={MapPin} />
+              <InfoRow label="City" value={profile?.addressCity} icon={Navigation} />
+              <InfoRow label="State" value={profile?.addressState} icon={Map} />
+              <InfoRow label="Landmark" value={profile?.addressLandmark} icon={Building2} />
+              <InfoRow label="Pincode" value={profile?.addressPincode} icon={MapPin} />
             </div>
           </div>
 
@@ -230,6 +250,64 @@ export default function DoctorProfile() {
                   />
                 </div>
               </div>
+
+              <div className="doctor-profile-form-group">
+                <label className="doctor-profile-label">Street Address</label>
+                <input
+                  type="text"
+                  value={formData.addressStreet}
+                  onChange={(e) => setFormData({ ...formData, addressStreet: e.target.value })}
+                  className="doctor-profile-input"
+                  placeholder="123 Main Street"
+                />
+              </div>
+
+              <div className="doctor-profile-form-group">
+                <label className="doctor-profile-label">Landmark</label>
+                <input
+                  type="text"
+                  value={formData.addressLandmark}
+                  onChange={(e) => setFormData({ ...formData, addressLandmark: e.target.value })}
+                  className="doctor-profile-input"
+                  placeholder="Near City Hospital"
+                />
+              </div>
+
+              <div className="doctor-profile-form-row">
+                <div className="doctor-profile-form-group" style={{ flex: 1 }}>
+                  <label className="doctor-profile-label">City</label>
+                  <input
+                    type="text"
+                    value={formData.addressCity}
+                    onChange={(e) => setFormData({ ...formData, addressCity: e.target.value })}
+                    className="doctor-profile-input"
+                    placeholder="Mumbai"
+                  />
+                </div>
+
+                <div className="doctor-profile-form-group">
+                <label className="doctor-profile-label">Pincode</label>
+                <input
+                  type="text"
+                  value={formData.addressPincode}
+                  onChange={(e) => setFormData({ ...formData, addressPincode: e.target.value })}
+                  className="doctor-profile-input"
+                  placeholder="400001"
+                />
+              </div>
+
+                <div className="doctor-profile-form-group" style={{ flex: 1 }}>
+                  <label className="doctor-profile-label">State</label>
+                  <input
+                    type="text"
+                    value={formData.addressState}
+                    onChange={(e) => setFormData({ ...formData, addressState: e.target.value })}
+                    className="doctor-profile-input"
+                    placeholder="Maharashtra"
+                  />
+                </div>
+              </div>
+              
             </div>
 
             <div className="doctor-profile-form-section">
@@ -305,20 +383,7 @@ export default function DoctorProfile() {
       )}
 
       {activeSection === 'account' && (
-        <>
-          <div className="doctor-profile-account-header">
-            <h2 className="doctor-profile-account-title"><CreditCard size={20} /> Account Information</h2>
-            <button
-              onClick={() => window.open('/doctor/payments', '_blank')}
-              className="doctor-profile-account-link"
-              type="button"
-            >
-              <CreditCard size={16} />
-              <span>View Payment History</span>
-            </button>
-          </div>
-          <AccountInformation doctor={profile} />
-        </>
+        <AccountInformation doctor={profile} />
       )}
     </div>
   );

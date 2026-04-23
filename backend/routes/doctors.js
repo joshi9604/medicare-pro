@@ -4,6 +4,33 @@ const { Op } = require('sequelize');
 const { Doctor, User } = require('../models');
 const { protect, authorize } = require('../middleware/auth');
 
+const pickDoctorProfileFields = (payload = {}) => {
+  const allowedFields = [
+    'specialization',
+    'experience',
+    'licenseNumber',
+    'consultationFee',
+    'telemedicineFee',
+    'about',
+    'hospital',
+    'addressStreet',
+    'addressCity',
+    'addressState',
+    'addressLandmark',
+    'addressPincode',
+    'department',
+    'languages',
+    'isAvailableOnline'
+  ];
+
+  return allowedFields.reduce((result, field) => {
+    if (payload[field] !== undefined) {
+      result[field] = payload[field];
+    }
+    return result;
+  }, {});
+};
+
 // Get all approved doctors (public) with advanced search & filters
 router.get('/', async (req, res) => {
   try {
@@ -18,6 +45,8 @@ router.get('/', async (req, res) => {
       availableOnline,
       gender,
       hospital,
+      city,
+      state,
       sortBy = 'rating',
       sortOrder = 'DESC',
       page = 1,
@@ -57,6 +86,15 @@ router.get('/', async (req, res) => {
     // Hospital filter
     if (hospital) {
       whereClause.hospital = { [Op.iLike]: `%${hospital}%` };
+    }
+
+    // Location filters
+    if (city) {
+      whereClause.addressCity = { [Op.iLike]: city.trim() };
+    }
+
+    if (state) {
+      whereClause.addressState = { [Op.iLike]: state.trim() };
     }
     
     // Gender filter (on User model)
@@ -115,14 +153,55 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Get single doctor
-router.get('/:id', async (req, res) => {
+// Get available doctor locations
+router.get('/meta/locations', async (req, res) => {
   try {
-    const doctor = await Doctor.findByPk(req.params.id, {
-      include: [{ model: User, as: 'user', attributes: ['name', 'email', 'avatar', 'gender', 'phone'] }]
+    const doctors = await Doctor.findAll({
+      where: { isApproved: true },
+      attributes: ['addressCity', 'addressState']
     });
-    if (!doctor) return res.status(404).json({ success: false, message: 'Doctor not found' });
-    res.json({ success: true, doctor });
+
+    const statesMap = new Map();
+
+    doctors.forEach((doctor) => {
+      const city = doctor.addressCity?.trim();
+      const stateName = doctor.addressState?.trim();
+
+      if (!stateName) {
+        return;
+      }
+
+      if (!statesMap.has(stateName)) {
+        statesMap.set(stateName, new Set());
+      }
+
+      if (city) {
+        statesMap.get(stateName).add(city);
+      }
+    });
+
+    const locations = Array.from(statesMap.entries())
+      .sort(([stateA], [stateB]) => stateA.localeCompare(stateB))
+      .map(([stateName, cities]) => ({
+        state: stateName,
+        cities: Array.from(cities).sort((cityA, cityB) => cityA.localeCompare(cityB))
+      }));
+
+    res.json({ success: true, locations });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// Get specializations list
+router.get('/meta/specializations', async (req, res) => {
+  try {
+    const specs = await Doctor.findAll({
+      where: { isApproved: true },
+      attributes: ['specialization'],
+      group: ['specialization']
+    });
+    res.json({ success: true, specializations: specs.map(s => s.specialization) });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
@@ -139,16 +218,31 @@ router.get('/profile/me', protect, authorize('doctor'), async (req, res) => {
   }
 });
 
+// Get single doctor by UUID only
+router.get('/:id([0-9a-fA-F-]{36})', async (req, res) => {
+  try {
+    const doctor = await Doctor.findByPk(req.params.id, {
+      include: [{ model: User, as: 'user', attributes: ['name', 'email', 'avatar', 'gender', 'phone'] }]
+    });
+    if (!doctor) return res.status(404).json({ success: false, message: 'Doctor not found' });
+    res.json({ success: true, doctor });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 // Update doctor profile
 router.put('/profile/me', protect, authorize('doctor'), async (req, res) => {
   try {
-    const [updated] = await Doctor.update(req.body, { where: { userId: req.user.id } });
+    const profileData = pickDoctorProfileFields(req.body);
+    const [updated] = await Doctor.update(profileData, { where: { userId: req.user.id } });
     if (!updated) {
-      await Doctor.create({ userId: req.user.id, ...req.body });
+      await Doctor.create({ userId: req.user.id, ...profileData });
     }
     const doctor = await Doctor.findOne({ where: { userId: req.user.id } });
     res.json({ success: true, doctor });
   } catch (err) {
+    console.error('Doctor profile update error:', err);
     res.status(400).json({ success: false, message: err.message });
   }
 });
@@ -203,18 +297,5 @@ router.put('/profile/account', protect, authorize('doctor'), async (req, res) =>
   }
 });
 
-// Get specializations list
-router.get('/meta/specializations', async (req, res) => {
-  try {
-    const specs = await Doctor.findAll({
-      where: { isApproved: true },
-      attributes: ['specialization'],
-      group: ['specialization']
-    });
-    res.json({ success: true, specializations: specs.map(s => s.specialization) });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
 
 module.exports = router;

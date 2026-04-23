@@ -58,6 +58,21 @@ const Doctor = sequelize.define('Doctor', {
   hospital: {
     type: DataTypes.STRING
   },
+  addressStreet: {
+    type: DataTypes.STRING
+  },
+  addressCity: {
+    type: DataTypes.STRING
+  },
+  addressState: {
+    type: DataTypes.STRING
+  },
+  addressLandmark: {
+    type: DataTypes.STRING
+  },
+  addressPincode: {
+    type: DataTypes.STRING
+  },
   department: {
     type: DataTypes.STRING
   },

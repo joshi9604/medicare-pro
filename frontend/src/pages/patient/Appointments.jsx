@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { CalendarDays, Clock3, Star, Stethoscope, Video, Wallet } from 'lucide-react';
+import { CalendarDays, Clock3, MapPin, Star, Stethoscope, Video, Wallet } from 'lucide-react';
 import './Appointments.css';
 
 export default function Appointments() {
@@ -49,6 +49,7 @@ export default function Appointments() {
     month: 'short',
     year: 'numeric'
   });
+  const getDoctorLocation = (doctorProfile) => [doctorProfile?.addressCity, doctorProfile?.addressState].filter(Boolean).join(', ');
 
   if (loading) {
     return (
@@ -105,6 +106,9 @@ export default function Appointments() {
                 <div className="appointments-doctor-details">
                   <div className="appointments-doctor-name">Dr. {appointment.doctor?.name}</div>
                   <div className="appointments-specialization">{appointment.doctorProfile?.specialization}</div>
+                  {getDoctorLocation(appointment.doctorProfile) && (
+                    <div className="appointments-location"><MapPin size={13} /> {getDoctorLocation(appointment.doctorProfile)}</div>
+                  )}
                 </div>
               </div>
 
