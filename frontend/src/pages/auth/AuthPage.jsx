@@ -91,7 +91,7 @@ export default function AuthPage() {
             ))}
           </div>
            {/* Admin */}
-          {/* {!isLogin && (
+          {!isLogin && (
             <div className="auth-role-grid">
               {ROLES.map(r => (
                 <div 
@@ -106,9 +106,9 @@ export default function AuthPage() {
                 </div>
               ))}
             </div>
-          )} */}
+          )}
 
-          {!isLogin && (
+          {/* {!isLogin && (
   <div className="auth-role-grid">
     {ROLES.filter(r => r.id !== 'admin').map(r => (
       <div 
@@ -126,7 +126,7 @@ export default function AuthPage() {
       </div>
     ))}
   </div>
-)}
+)} */}
           
 
           <form onSubmit={handleSubmit} className="auth-form">
@@ -179,7 +179,7 @@ export default function AuthPage() {
             </button>
           </form>
             {/* Admin */}
-          {/* {isLogin && (
+          {isLogin && (
             <div className="auth-demo-accounts">
               <p className="auth-demo-title">Demo Accounts:</p>
               {[['patient@demo.com','Patient'],['doctor@demo.com','Doctor'],['admin@demo.com','Admin']].map(([e,r]) => (
@@ -192,8 +192,8 @@ export default function AuthPage() {
                 </button>
               ))}
             </div>
-          )} */}
-           {isLogin && (
+          )}
+           {/* {isLogin && (
             <div className="auth-demo-accounts">
               <p className="auth-demo-title">Demo Accounts:</p>
               {[['patient@demo.com','Patient'],['doctor@demo.com','Doctor']].map(([e,r]) => (
@@ -206,7 +206,7 @@ export default function AuthPage() {
                 </button>
               ))}
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </div>
