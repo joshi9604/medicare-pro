@@ -22,6 +22,7 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminDoctors from './pages/admin/AdminDoctors';
 import AdminAppointments from './pages/admin/AdminAppointments';
+import RouteSeo from './components/seo/RouteSeo';
 
 const Loader = () => (
   <div style={{ minHeight:'100vh', background:'#f0f4f8', display:'flex', alignItems:'center', justifyContent:'center', flexDirection:'column', gap:'12px' }}>
@@ -106,6 +107,7 @@ const AppRoutes = () => {
 export default function App() {
   return (
     <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+      <RouteSeo />
       <ThemeProvider>
         <AuthProvider>
           <AppRoutes />
