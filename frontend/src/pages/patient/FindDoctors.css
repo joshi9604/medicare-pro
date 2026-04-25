@@ -1,187 +1,288 @@
-.find-doctors-page {
-  padding: 24px;
-  max-width: 1200px;
-  margin: 0 auto;
-  font-family: 'Segoe UI', sans-serif;
+/* =====================================================
+   MEDICARE PRO — FIND DOCTORS PREMIUM CSS
+   Healthcare SaaS | CSS Only
+   ===================================================== */
+
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --secondary: #0ea5e9;
+  --accent: #14b8a6;
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --border: #e2e8f0;
+
+  --shadow-sm: 0 6px 18px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 16px 38px rgba(15, 23, 42, 0.1);
+  --shadow-lg: 0 28px 80px rgba(15, 23, 42, 0.18);
+
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --radius-xl: 28px;
+
+  --ease: 0.25s ease;
 }
 
+.find-doctors-page {
+  padding: 28px;
+  max-width: 1240px;
+  margin: 0 auto;
+  min-height: 100vh;
+  font-family: Inter, "Segoe UI", system-ui, sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 30%),
+    radial-gradient(circle at top right, rgba(20, 184, 166, 0.08), transparent 28%),
+    var(--bg);
+}
+
+/* Header */
+
 .find-doctors-header {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 12px;
+  gap: 16px;
   flex-wrap: wrap;
 }
 
 .find-doctors-title {
-  color: #1e293b;
-  font-size: 24px;
-  font-weight: 800;
-  margin: 0 0 4px;
+  color: var(--text);
+  font-size: clamp(1.7rem, 3vw, 2.35rem);
+  font-weight: 900;
+  margin: 0 0 8px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  letter-spacing: -0.05em;
 }
 
 .find-doctors-sub {
-  color: #64748b;
-  font-size: 14px;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.7;
   margin: 0;
 }
+
+/* Filters */
 
 .find-doctors-filters {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr auto;
   gap: 12px;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
   align-items: center;
+  padding: 16px;
+  background: rgba(255,255,255,0.88);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(16px);
 }
 
-.find-doctors-search {
+.find-doctors-search,
+.find-doctors-select,
+.find-doctors-input {
   min-width: 0;
-  padding: 11px 16px;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 12px;
+  width: 100%;
+  padding: 13px 16px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
   font-size: 14px;
   outline: none;
-  background: #fff;
+  background: #ffffff;
+  color: var(--text);
+  font-family: inherit;
+  transition: var(--ease);
 }
 
-.find-doctors-select {
-  min-width: 0;
-  padding: 11px 16px;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 12px;
-  font-size: 14px;
-  outline: none;
-  background: #fff;
+.find-doctors-search::placeholder,
+.find-doctors-input::placeholder {
+  color: #94a3b8;
+}
+
+.find-doctors-search:focus,
+.find-doctors-select:focus,
+.find-doctors-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.13);
 }
 
 .find-doctors-clear-btn {
-  padding: 11px 16px;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 12px;
-  background: #fff;
-  color: #475569;
+  padding: 13px 18px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #ffffff;
+  color: var(--muted);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 800;
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: var(--ease);
+  white-space: nowrap;
 }
 
 .find-doctors-clear-btn:hover {
-  border-color: #1565c0;
-  color: #1565c0;
+  border-color: var(--primary);
+  color: var(--primary);
+  background: #eff6ff;
+  transform: translateY(-1px);
 }
+
+/* Location bar */
 
 .find-doctors-location-bar {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   background: #eff6ff;
-  color: #1565c0;
+  color: var(--primary);
   border: 1px solid #bfdbfe;
   border-radius: 999px;
-  padding: 8px 14px;
+  padding: 9px 15px;
   font-size: 13px;
-  font-weight: 600;
-  margin-bottom: 16px;
+  font-weight: 800;
+  margin-bottom: 18px;
 }
+
+/* Chips */
 
 .find-doctors-chips {
   display: flex;
-  gap: 8px;
+  gap: 9px;
   flex-wrap: wrap;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 .find-doctors-chip {
-  padding: 6px 14px;
-  border-radius: 20px;
-  border: 1.5px solid #e2e8f0;
-  background: #fff;
+  padding: 8px 15px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #ffffff;
   color: #475569;
   font-size: 12px;
   cursor: pointer;
-  transition: all 0.2s;
-  font-weight: 500;
+  transition: var(--ease);
+  font-weight: 800;
+}
+
+.find-doctors-chip:hover {
+  transform: translateY(-2px);
+  border-color: rgba(37, 99, 235, 0.35);
+  color: var(--primary);
 }
 
 .find-doctors-chip.active {
-  border: 1.5px solid #1565c0;
-  background: #e3f2fd;
-  color: #1565c0;
+  border-color: var(--primary);
+  background: #eff6ff;
+  color: var(--primary);
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.12);
 }
 
-.find-doctors-loading {
-  text-align: center;
-  padding: 40px;
-  color: #64748b;
-}
+/* Loading / Empty */
 
+.find-doctors-loading,
 .find-doctors-empty {
   text-align: center;
-  padding: 40px;
-  color: #94a3b8;
+  padding: 48px 22px;
+  color: var(--muted);
+  background: #ffffff;
+  border: 1px dashed #cbd5e1;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
 }
+
+/* Doctor Grid */
 
 .find-doctors-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(315px, 1fr));
+  gap: 22px;
 }
 
 .find-doctors-card {
-  background: #fff;
-  border-radius: 16px;
-  padding: 20px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-  border: 1px solid #f0f4f8;
+  background: var(--card);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  transition: var(--ease);
+  position: relative;
+  overflow: hidden;
+}
+
+.find-doctors-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  opacity: 0;
+  transition: var(--ease);
+}
+
+.find-doctors-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(37, 99, 235, 0.25);
+}
+
+.find-doctors-card:hover::before {
+  opacity: 1;
 }
 
 .find-doctors-card-top {
   display: flex;
-  gap: 14px;
-  margin-bottom: 12px;
+  gap: 15px;
+  margin-bottom: 14px;
 }
 
 .find-doctors-avatar {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #1565c0, #0277bd);
-  color: #fff;
+  width: 58px;
+  height: 58px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 800;
+  font-weight: 900;
   font-size: 20px;
   flex-shrink: 0;
+  box-shadow: 0 14px 28px rgba(37, 99, 235, 0.24);
 }
 
 .find-doctors-doc-info {
   flex: 1;
+  min-width: 0;
 }
 
 .find-doctors-doc-name {
-  color: #1e293b;
-  font-size: 16px;
-  font-weight: 700;
-  margin: 0 0 2px;
+  color: var(--text);
+  font-size: 17px;
+  font-weight: 900;
+  margin: 0 0 4px;
+  letter-spacing: -0.02em;
 }
 
 .find-doctors-doc-spec {
-  color: #1565c0;
+  color: var(--primary);
   font-size: 13px;
-  margin: 0 0 2px;
-  font-weight: 600;
+  margin: 0 0 4px;
+  font-weight: 800;
 }
 
 .find-doctors-doc-exp {
-  color: #64748b;
+  color: var(--muted);
   font-size: 12px;
-  margin: 0 0 4px;
+  margin: 0 0 6px;
+  font-weight: 600;
 }
 
 .find-doctors-doc-location {
@@ -191,71 +292,64 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  line-height: 1.5;
 }
 
 .find-doctors-stars {
-  color: #f59e0b;
+  color: var(--warning);
   font-size: 13px;
 }
 
 .find-doctors-reviews {
   color: #94a3b8;
   font-size: 11px;
+  font-weight: 700;
 }
 
 .find-doctors-about {
-  color: #64748b;
-  font-size: 12px;
-  line-height: 1.5;
-  margin-bottom: 12px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.65;
+  margin-bottom: 14px;
 }
+
+/* Fees / Languages */
 
 .find-doctors-fees {
   display: flex;
   gap: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   flex-wrap: wrap;
 }
 
 .find-doctors-fee {
   background: #f0f9ff;
-  color: #0277bd;
-  padding: 4px 10px;
-  border-radius: 8px;
+  color: #0369a1;
+  border: 1px solid #bae6fd;
+  padding: 6px 11px;
+  border-radius: 999px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 800;
 }
 
 .find-doctors-langs {
   display: flex;
-  gap: 6px;
-  margin-bottom: 14px;
+  gap: 7px;
+  margin-bottom: 16px;
   flex-wrap: wrap;
 }
 
 .find-doctors-lang {
   background: #f8fafc;
-  color: #64748b;
-  padding: 2px 8px;
-  border-radius: 6px;
+  color: var(--muted);
+  padding: 4px 9px;
+  border-radius: 999px;
   font-size: 11px;
-  border: 1px solid #e2e8f0;
+  font-weight: 700;
+  border: 1px solid var(--border);
 }
 
-.find-doctors-book-btn {
-  padding: 11px;
-  background: linear-gradient(135deg, #1565c0, #0277bd);
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
+/* Buttons */
 
 .find-doctors-card-actions {
   display: grid;
@@ -263,10 +357,40 @@
   gap: 10px;
 }
 
+.find-doctors-book-btn {
+  width: 100%;
+  padding: 13px 16px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #ffffff;
+  border: none;
+  border-radius: 15px;
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 12px 26px rgba(37, 99, 235, 0.25);
+  transition: var(--ease);
+}
+
+.find-doctors-book-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 34px rgba(37, 99, 235, 0.34);
+}
+
+.find-doctors-book-btn:active {
+  transform: translateY(0);
+}
+
+/* Modal */
+
 .find-doctors-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(15, 23, 42, 0.64);
+  backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -275,55 +399,59 @@
 }
 
 .find-doctors-modal {
-  background: #fff;
-  border-radius: 20px;
-  padding: 28px;
+  background: #ffffff;
+  border-radius: var(--radius-xl);
+  padding: 30px;
   width: 100%;
-  max-width: 500px;
+  max-width: 520px;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(226, 232, 240, 0.9);
 }
 
 .find-doctors-modal-title {
-  color: #1e293b;
-  font-size: 20px;
-  font-weight: 800;
-  margin: 0 0 16px;
+  color: var(--text);
+  font-size: 22px;
+  font-weight: 900;
+  margin: 0 0 18px;
+  letter-spacing: -0.04em;
 }
 
 .find-doctors-modal-doc {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 14px;
-  background: #f0f4f8;
-  border-radius: 12px;
-  margin-bottom: 20px;
+  gap: 13px;
+  padding: 15px;
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  margin-bottom: 22px;
 }
 
 .find-doctors-modal-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #1565c0, #0277bd);
-  color: #fff;
+  width: 46px;
+  height: 46px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 800;
+  font-weight: 900;
   font-size: 18px;
 }
 
 .find-doctors-modal-doc-name {
-  color: #1e293b;
-  font-weight: 700;
+  color: var(--text);
+  font-weight: 900;
   font-size: 15px;
 }
 
 .find-doctors-modal-doc-spec {
-  color: #1565c0;
+  color: var(--primary);
   font-size: 13px;
+  font-weight: 800;
 }
 
 .find-doctors-modal-doc-location {
@@ -338,25 +466,17 @@
 .find-doctors-m-form {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 15px;
 }
 
 .find-doctors-label {
   color: #475569;
   font-size: 13px;
-  font-weight: 600;
-  margin-bottom: -6px;
+  font-weight: 800;
+  margin-bottom: -7px;
 }
 
-.find-doctors-input {
-  padding: 11px 14px;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 12px;
-  font-size: 14px;
-  outline: none;
-  font-family: inherit;
-  background: #f8fafc;
-}
+/* Appointment Type */
 
 .find-doctors-type-row {
   display: grid;
@@ -365,82 +485,124 @@
 }
 
 .find-doctors-type-card {
-  padding: 14px;
-  border: 2px solid #e2e8f0;
-  border-radius: 12px;
+  padding: 15px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: #ffffff;
   text-align: center;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: var(--ease);
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.find-doctors-type-card:hover {
+  border-color: rgba(37, 99, 235, 0.35);
+  background: #f8fafc;
 }
 
 .find-doctors-type-card.active {
-  border: 2px solid #1565c0;
-  background: #e3f2fd;
+  border-color: var(--primary);
+  background: #eff6ff;
+  color: var(--primary);
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.12);
 }
+
+/* Slots */
 
 .find-doctors-slot-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-  gap: 8px;
+  gap: 9px;
 }
 
 .find-doctors-slot {
-  padding: 8px;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 8px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  background: #ffffff;
+  border-radius: 12px;
   text-align: center;
   cursor: pointer;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 800;
   color: #475569;
-  transition: all 0.15s;
+  transition: var(--ease);
+}
+
+.find-doctors-slot:hover {
+  border-color: rgba(37, 99, 235, 0.35);
+  color: var(--primary);
 }
 
 .find-doctors-slot.active {
-  border: 1.5px solid #1565c0;
-  background: #e3f2fd;
-  color: #1565c0;
-  font-weight: 700;
+  border-color: var(--primary);
+  background: #eff6ff;
+  color: var(--primary);
 }
+
+/* Fee Row */
 
 .find-doctors-fee-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px;
+  padding: 14px;
   background: #f0f9ff;
-  border-radius: 10px;
+  border: 1px solid #bae6fd;
+  border-radius: 15px;
   font-size: 14px;
   color: #475569;
 }
+
+.find-doctors-fee-row strong,
+.find-doctors-fee-row b {
+  color: var(--primary);
+}
+
+/* Modal Buttons */
 
 .find-doctors-modal-btns {
   display: flex;
   gap: 10px;
   justify-content: flex-end;
+  margin-top: 4px;
+}
+
+.find-doctors-cancel-btn,
+.find-doctors-confirm-btn {
+  padding: 12px 20px;
+  border-radius: 14px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 900;
+  transition: var(--ease);
 }
 
 .find-doctors-cancel-btn {
-  padding: 10px 20px;
-  border-radius: 10px;
-  border: 1.5px solid #e2e8f0;
-  background: #fff;
-  color: #64748b;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 600;
+  border: 1px solid var(--border);
+  background: #ffffff;
+  color: var(--muted);
+}
+
+.find-doctors-cancel-btn:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+  background: #fef2f2;
 }
 
 .find-doctors-confirm-btn {
-  padding: 10px 20px;
-  border-radius: 10px;
   border: none;
-  background: linear-gradient(135deg, #1565c0, #0277bd);
-  color: #fff;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #ffffff;
+  box-shadow: 0 12px 26px rgba(37, 99, 235, 0.25);
 }
+
+.find-doctors-confirm-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 34px rgba(37, 99, 235, 0.34);
+}
+
+/* Responsive */
 
 @media (max-width: 1024px) {
   .find-doctors-filters {
@@ -450,7 +612,7 @@
 
 @media (max-width: 768px) {
   .find-doctors-page {
-    padding: 16px;
+    padding: 18px;
   }
 
   .find-doctors-header {
@@ -464,7 +626,7 @@
   }
 
   .find-doctors-modal {
-    padding: 20px;
+    padding: 22px;
   }
 
   .find-doctors-fee-row,
@@ -487,7 +649,7 @@
 
   .find-doctors-card,
   .find-doctors-modal {
-    padding: 16px;
+    padding: 18px;
   }
 
   .find-doctors-card-top,
@@ -499,11 +661,11 @@
     flex-direction: column;
   }
 
-  .find-doctors-card-actions {
-    grid-template-columns: 1fr;
-  }
-
   .find-doctors-slot-grid {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .find-doctors-title {
+    font-size: 1.55rem;
   }
 }

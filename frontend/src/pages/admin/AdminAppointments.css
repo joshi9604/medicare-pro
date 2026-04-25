@@ -1,174 +1,274 @@
-/* AdminAppointments.css */
+/* =====================================================
+   MEDICARE PRO — PREMIUM ADMIN APPOINTMENTS CSS
+   Healthcare SaaS | CSS Only
+   ===================================================== */
+
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --primary-light: #dbeafe;
+  --secondary: #0ea5e9;
+  --accent: #14b8a6;
+
+  --success: #22c55e;
+  --success-light: #dcfce7;
+  --warning: #f59e0b;
+  --warning-light: #fef3c7;
+  --danger: #ef4444;
+  --danger-light: #fee2e2;
+
+  --bg-base: #f8fafc;
+  --bg-subtle: #f1f5f9;
+  --white: #ffffff;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --text-disabled: #94a3b8;
+
+  --shadow-sm: 0 1px 2px rgba(15,23,42,0.06), 0 1px 3px rgba(15,23,42,0.08);
+  --shadow-md: 0 2px 4px rgba(15,23,42,0.04), 0 4px 12px rgba(15,23,42,0.08), 0 0 0 1px rgba(15,23,42,0.03);
+  --shadow-lg: 0 4px 6px rgba(15,23,42,0.04), 0 10px 30px rgba(15,23,42,0.10), inset 0 1px 0 rgba(255,255,255,0.9);
+  --shadow-card-hover: 0 8px 24px rgba(15,23,42,0.12), 0 2px 8px rgba(37,99,235,0.08), inset 0 1px 0 rgba(255,255,255,1);
+  --shadow-primary: 0 4px 14px rgba(37,99,235,0.28), 0 2px 6px rgba(37,99,235,0.18);
+
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 999px;
+
+  --transition-fast: 160ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+}
 
 .admin-appointments-page {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 24px;
+  padding: 28px;
   width: 100%;
+  min-height: 100vh;
   box-sizing: border-box;
+  background:
+    radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 32%),
+    radial-gradient(circle at top right, rgba(20, 184, 166, 0.08), transparent 28%),
+    var(--bg-base);
+  color: var(--text-primary);
 }
 
 .admin-appointments-header {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin-bottom: 24px;
+  margin-bottom: 26px;
 }
 
 .admin-appointments-title {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 28px;
-  font-weight: 800;
-  color: #1e293b;
+  gap: 11px;
+  font-size: clamp(1.75rem, 3vw, 2.4rem);
+  font-weight: 900;
+  color: var(--text-primary);
   margin: 0 0 8px;
+  letter-spacing: -0.05em;
+  line-height: 1.1;
 }
 
 .admin-appointments-subtitle {
-  color: #64748b;
-  font-size: 14px;
+  color: var(--text-muted);
+  font-size: 15px;
   margin: 0;
+  line-height: 1.7;
 }
 
 .admin-appointments-loading {
   text-align: center;
-  padding: 40px;
-  color: #64748b;
+  padding: 48px 22px;
+  color: var(--text-muted);
+  background: var(--white);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
 }
 
-/* Stats */
+/* STATS */
+
 .admin-appointments-stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 16px;
-  margin-bottom: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 18px;
+  margin-bottom: 26px;
 }
 
 .admin-appointments-stat-card {
-  background: #fff;
-  padding: 20px;
-  border-radius: 14px;
+  background: var(--white);
+  padding: 22px;
+  border-radius: var(--radius-xl);
   text-align: center;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
-  border-left: 4px solid #1565c0;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition-normal);
 }
 
-.admin-appointments-stat-card.pending {
-  border-left-color: #f59e0b;
+.admin-appointments-stat-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 4px;
+  background: var(--primary);
 }
 
-.admin-appointments-stat-card.confirmed {
-  border-left-color: #2563eb;
+.admin-appointments-stat-card.pending::before {
+  background: var(--warning);
 }
 
-.admin-appointments-stat-card.completed {
-  border-left-color: #10b981;
+.admin-appointments-stat-card.confirmed::before {
+  background: var(--primary);
 }
 
-.admin-appointments-stat-card.cancelled {
-  border-left-color: #ef4444;
+.admin-appointments-stat-card.completed::before {
+  background: var(--success);
+}
+
+.admin-appointments-stat-card.cancelled::before {
+  background: var(--danger);
+}
+
+.admin-appointments-stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: rgba(37, 99, 235, 0.22);
 }
 
 .admin-appointments-stat-icon {
-  width: 38px;
-  height: 38px;
-  margin: 0 auto 10px;
-  border-radius: 10px;
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 11px;
+  border-radius: var(--radius-lg);
   display: flex;
   align-items: center;
   justify-content: center;
   background: #eff6ff;
-  color: #1565c0;
+  color: var(--primary);
+  border: 1px solid var(--primary-light);
 }
 
 .admin-appointments-stat-value {
-  font-size: 26px;
-  font-weight: 800;
-  color: #0f172a;
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--text-primary);
+  letter-spacing: -0.04em;
 }
 
 .admin-appointments-stat-label {
   font-size: 13px;
-  color: #64748b;
+  color: var(--text-muted);
+  font-weight: 700;
 }
 
-/* Filters */
+/* FILTERS */
+
 .admin-appointments-filters {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-bottom: 24px;
+  margin-bottom: 26px;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(14px);
 }
 
 .admin-appointments-filter-btn {
+  min-height: 42px;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   padding: 10px 18px;
-  border-radius: 10px;
-  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
   background: #fff;
-  color: #475569;
+  color: var(--text-muted);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 800;
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: var(--transition-fast);
 }
 
 .admin-appointments-filter-btn:hover {
-  border-color: #1565c0;
-  color: #1565c0;
+  border-color: var(--primary-light);
+  background: #eff6ff;
+  color: var(--primary);
+  transform: translateY(-1px);
 }
 
 .admin-appointments-filter-btn.active {
-  background: #1565c0;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
   color: #fff;
-  border-color: #1565c0;
+  border-color: var(--primary);
+  box-shadow: var(--shadow-primary);
 }
 
-/* Table */
+/* TABLE */
+
 .admin-appointments-table-container {
-  background: #fff;
-  border-radius: 18px;
+  background: var(--white);
+  border-radius: var(--radius-xl);
   overflow-x: auto;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border);
 }
 
 .admin-appointments-table {
   width: 100%;
   border-collapse: collapse;
+  min-width: 920px;
 }
 
 .admin-appointments-table th {
-  padding: 18px 16px;
-  background: #f8fafc;
-  color: #64748b;
+  padding: 16px;
+  background: var(--bg-subtle);
+  color: var(--text-muted);
   text-align: left;
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 900;
   text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid var(--border);
 }
 
 .admin-appointments-table td {
-  padding: 18px 16px;
-  border-bottom: 1px solid #f1f5f9;
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
   vertical-align: middle;
   white-space: nowrap;
+  color: var(--text-secondary);
+}
+
+.admin-appointments-table tr {
+  transition: var(--transition-fast);
 }
 
 .admin-appointments-table tr:hover {
-  background: #f8fafc;
+  background: #eff6ff;
 }
 
 /* ID */
+
 .admin-appointments-id {
-  font-weight: 700;
-  color: #1565c0;
+  font-weight: 900;
+  color: var(--primary);
   font-size: 13px;
 }
 
-/* User */
+/* USER */
+
 .admin-appointments-user {
   display: flex;
   align-items: center;
@@ -176,49 +276,54 @@
 }
 
 .admin-appointments-avatar {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #10b981, #059669);
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, var(--accent), var(--success));
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 800;
+  font-weight: 900;
+  box-shadow: 0 12px 24px rgba(20, 184, 166, 0.22);
 }
 
 .admin-appointments-avatar.doctor {
-  background: linear-gradient(135deg, #2563eb, #0284c7);
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.22);
 }
 
 .admin-appointments-user-name {
   font-size: 14px;
-  font-weight: 600;
-  color: #0f172a;
+  font-weight: 900;
+  color: var(--text-primary);
 }
 
-/* Date */
+/* DATE */
+
 .admin-appointments-date {
   font-size: 14px;
-  font-weight: 700;
-  color: #0f172a;
+  font-weight: 900;
+  color: var(--text-primary);
 }
 
 .admin-appointments-time {
   font-size: 13px;
-  color: #64748b;
+  color: var(--text-muted);
+  font-weight: 600;
 }
 
-/* Type Badge */
+/* TYPE BADGE */
+
 .admin-appointments-type {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 8px 14px;
-  border-radius: 999px;
+  padding: 7px 12px;
+  border-radius: var(--radius-full);
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 900;
   white-space: nowrap;
 }
 
@@ -228,57 +333,60 @@
 }
 
 .admin-appointments-type.in-person {
-  background: #dcfce7;
+  background: var(--success-light);
   color: #15803d;
 }
 
-/* Status Badge */
+/* STATUS BADGE */
+
 .admin-appointments-status {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-width: 115px;
-  padding: 8px 14px;
-  border-radius: 999px;
+  padding: 7px 12px;
+  border-radius: var(--radius-full);
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 900;
   text-transform: capitalize;
   white-space: nowrap;
   text-align: center;
 }
 
 .admin-appointments-status.pending {
-  background: #fef3c7;
+  background: var(--warning-light);
   color: #92400e;
 }
 
 .admin-appointments-status.confirmed {
-  background: #dbeafe;
-  color: #1d4ed8;
+  background: var(--primary-light);
+  color: var(--primary-dark);
 }
 
 .admin-appointments-status.completed {
-  background: #dcfce7;
+  background: var(--success-light);
   color: #166534;
 }
 
 .admin-appointments-status.cancelled {
-  background: #fee2e2;
+  background: var(--danger-light);
   color: #991b1b;
 }
 
-/* Fee */
+/* FEE */
+
 .admin-appointments-fee {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  color: #1565c0;
+  color: var(--primary);
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 900;
   white-space: nowrap;
 }
 
-/* Responsive */
+/* RESPONSIVE */
+
 @media (max-width: 992px) {
   .admin-appointments-stats {
     grid-template-columns: repeat(2, 1fr);
@@ -296,7 +404,7 @@
 
 @media (max-width: 768px) {
   .admin-appointments-page {
-    padding: 16px;
+    padding: 18px;
   }
 
   .admin-appointments-title {
@@ -306,9 +414,20 @@
 }
 
 @media (max-width: 520px) {
+  .admin-appointments-page {
+    padding: 14px;
+  }
+
   .admin-appointments-stats,
   .admin-appointments-filters {
     grid-template-columns: 1fr;
+  }
+
+  .admin-appointments-table-container {
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    overflow: visible;
   }
 
   .admin-appointments-table,
@@ -318,6 +437,7 @@
   .admin-appointments-table td {
     display: block;
     width: 100%;
+    min-width: 0;
   }
 
   .admin-appointments-table thead {
@@ -326,11 +446,11 @@
 
   .admin-appointments-table tr {
     background: #fff;
-    border: 1px solid #e2e8f0;
-    border-radius: 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
     margin-bottom: 14px;
-    padding: 10px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.04);
+    padding: 8px 0;
+    box-shadow: var(--shadow-md);
   }
 
   .admin-appointments-table td {
@@ -338,15 +458,21 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 6px;
-    padding: 12px;
+    padding: 12px 14px;
     white-space: normal;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .admin-appointments-table td:last-child {
+    border-bottom: none;
   }
 
   .admin-appointments-table td::before {
     content: attr(data-label);
     font-size: 11px;
-    font-weight: 700;
-    color: #94a3b8;
+    font-weight: 900;
+    color: var(--text-disabled);
     text-transform: uppercase;
+    letter-spacing: 0.06em;
   }
 }

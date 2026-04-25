@@ -182,12 +182,12 @@ export default function DoctorProfile() {
             <p className="doctor-profile-about-text">{profile?.about || 'No description provided.'}</p>
           </div>
 
-          <div className="doctor-profile-actions">
+          {/* <div className="doctor-profile-actions">
             <button onClick={() => setIsEditing(true)} className="doctor-profile-edit-btn" type="button">
               <PencilLine size={16} />
               <span>Edit Profile</span>
             </button>
-          </div>
+          </div> */}
         </div>
       )}
 

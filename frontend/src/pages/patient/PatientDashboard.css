@@ -1,143 +1,218 @@
+/* =====================================================
+   MEDICARE PRO — PREMIUM PATIENT DASHBOARD CSS
+   Healthcare SaaS Style | CSS Only
+   ===================================================== */
+
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --secondary: #0ea5e9;
+  --accent: #14b8a6;
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --border-color: #e2e8f0;
+
+  --shadow-sm: 0 6px 18px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 14px 36px rgba(15, 23, 42, 0.1);
+  --shadow-lg: 0 24px 70px rgba(15, 23, 42, 0.14);
+
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --radius-xl: 28px;
+
+  --ease: 0.25s ease;
+}
+
+/* =========================
+   PAGE
+   ========================= */
+
 .patient-dashboard-page {
   max-width: 1240px;
   margin: 0 auto;
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 24px;
+  background:
+    radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 32%),
+    radial-gradient(circle at top right, rgba(20, 184, 166, 0.08), transparent 28%),
+    var(--bg-primary);
+  min-height: 100vh;
 }
+
+/* =========================
+   HEADER
+   ========================= */
 
 .patient-dashboard-header,
 .patient-dashboard-section {
-  background: var(--bg-secondary);
+  background: rgba(255, 255, 255, 0.92);
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(16px);
 }
 
 .patient-dashboard-header {
-  border-radius: 24px;
-  padding: 24px;
+  border-radius: var(--radius-xl);
+  padding: 28px;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 18px;
+  gap: 22px;
   background:
-    radial-gradient(340px 180px at 100% 0%, rgba(21, 101, 192, 0.12), transparent 60%),
-    var(--bg-secondary);
+    radial-gradient(420px 210px at 100% 0%, rgba(37, 99, 235, 0.12), transparent 62%),
+    radial-gradient(340px 180px at 0% 100%, rgba(20, 184, 166, 0.1), transparent 58%),
+    #ffffff;
 }
 
 .patient-dashboard-intro {
-  max-width: 620px;
+  max-width: 660px;
 }
 
 .patient-dashboard-kicker {
   display: inline-flex;
   align-items: center;
-  padding: 7px 12px;
+  gap: 8px;
+  padding: 7px 13px;
   border-radius: 999px;
-  background: rgba(21, 101, 192, 0.12);
-  color: #1565c0;
+  background: #eff6ff;
+  color: var(--primary);
+  border: 1px solid #dbeafe;
   font-size: 12px;
   font-weight: 800;
-  margin-bottom: 14px;
+  margin-bottom: 15px;
+  letter-spacing: 0.03em;
 }
 
 .patient-dashboard-greeting {
   color: var(--text-primary);
-  font-size: clamp(1.75rem, 3vw, 2.4rem);
+  font-size: clamp(1.9rem, 3.5vw, 2.65rem);
   line-height: 1.05;
   font-weight: 900;
-  margin: 0 0 8px;
-  letter-spacing: -0.04em;
+  margin: 0 0 10px;
+  letter-spacing: -0.05em;
 }
 
 .patient-dashboard-sub {
   color: var(--text-secondary);
-  font-size: 14px;
-  line-height: 1.7;
+  font-size: 15px;
+  line-height: 1.75;
+  margin: 0;
 }
 
 .patient-dashboard-date-box {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 12px 16px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.75);
-  border: 1px solid rgba(148, 163, 184, 0.2);
+  white-space: nowrap;
+  padding: 13px 17px;
+  border-radius: 18px;
+  background: rgba(248, 250, 252, 0.9);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.05);
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--text-secondary);
 }
 
-body.dark-mode .patient-dashboard-date-box {
-  background: rgba(15, 23, 42, 0.55);
-}
+/* =========================
+   SECTIONS
+   ========================= */
 
 .patient-dashboard-section {
-  border-radius: 22px;
-  padding: 22px;
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  transition: var(--ease);
+}
+
+.patient-dashboard-section:hover {
+  box-shadow: var(--shadow-md);
 }
 
 .patient-dashboard-section-compact {
-  padding: 18px;
+  padding: 20px;
 }
 
 .patient-dashboard-section-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: 16px;
+  margin-bottom: 18px;
 }
 
 .patient-dashboard-section-title {
   color: var(--text-primary);
-  font-size: 16px;
-  font-weight: 800;
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
 }
 
 .patient-dashboard-title-icon {
-  color: var(--text-secondary);
+  color: var(--primary);
 }
+
+/* =========================
+   QUICK ACTIONS
+   ========================= */
 
 .patient-dashboard-quick-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
+  gap: 16px;
 }
 
 .patient-dashboard-quick-action {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 12px;
-  padding: 18px;
-  background: var(--bg-primary);
-  border-radius: 18px;
+  gap: 14px;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 20px;
   border: 1px solid var(--border-color);
   cursor: pointer;
-  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--ease), box-shadow var(--ease), border-color var(--ease);
 }
 
 .patient-dashboard-quick-action:hover {
-  transform: translateY(-2px);
+  transform: translateY(-4px);
   box-shadow: var(--shadow-md);
+  border-color: rgba(37, 99, 235, 0.32);
+}
+
+.patient-dashboard-quick-action:active {
+  transform: translateY(-1px);
 }
 
 .patient-dashboard-icon-container {
-  width: 52px;
-  height: 52px;
-  border-radius: 16px;
-  border: 1px solid;
+  width: 54px;
+  height: 54px;
+  border-radius: 18px;
   display: grid;
   place-items: center;
+  background: #eff6ff;
+  color: var(--primary);
+  border: 1px solid #dbeafe;
 }
 
 .patient-dashboard-label {
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 900;
   color: var(--text-primary);
 }
+
+/* =========================
+   GRIDS
+   ========================= */
 
 .patient-dashboard-stats-grid,
 .patient-dashboard-charts-row,
@@ -154,6 +229,14 @@ body.dark-mode .patient-dashboard-date-box {
   grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
 }
 
+.patient-dashboard-tips-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+/* =========================
+   EMPTY STATE
+   ========================= */
+
 .patient-dashboard-empty {
   min-height: 220px;
   display: grid;
@@ -161,38 +244,55 @@ body.dark-mode .patient-dashboard-date-box {
   text-align: center;
   color: var(--text-secondary);
   line-height: 1.7;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 20px;
+  padding: 24px;
 }
 
 .patient-dashboard-empty span {
   display: block;
-  color: #1565c0;
-  font-weight: 700;
+  color: var(--primary);
+  font-weight: 800;
 }
+
+/* =========================
+   APPOINTMENT CARD
+   ========================= */
 
 .patient-dashboard-apt-card {
   display: grid;
   grid-template-columns: auto 1fr auto;
-  gap: 14px;
+  gap: 16px;
   align-items: center;
-  padding: 14px;
-  background: var(--bg-primary);
-  border-radius: 18px;
+  padding: 16px;
+  background: #ffffff;
+  border-radius: 20px;
   border: 1px solid var(--border-color);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.04);
+  transition: var(--ease);
+}
+
+.patient-dashboard-apt-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(37, 99, 235, 0.24);
 }
 
 .patient-dashboard-apt-card + .patient-dashboard-apt-card {
-  margin-top: 12px;
+  margin-top: 14px;
 }
 
 .patient-dashboard-apt-avatar {
-  width: 46px;
-  height: 46px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #1565c0, #0f9f6e);
-  color: #fff;
+  width: 48px;
+  height: 48px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #ffffff;
   display: grid;
   place-items: center;
-  font-weight: 800;
+  font-weight: 900;
+  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.24);
 }
 
 .patient-dashboard-apt-info {
@@ -202,7 +302,7 @@ body.dark-mode .patient-dashboard-date-box {
 .patient-dashboard-apt-doctor {
   color: var(--text-primary);
   font-size: 15px;
-  font-weight: 800;
+  font-weight: 900;
 }
 
 .patient-dashboard-apt-meta,
@@ -213,12 +313,13 @@ body.dark-mode .patient-dashboard-date-box {
   flex-wrap: wrap;
   color: var(--text-secondary);
   font-size: 12px;
+  font-weight: 600;
   margin-top: 6px;
 }
 
 .patient-dashboard-meta-dot {
-  width: 4px;
-  height: 4px;
+  width: 5px;
+  height: 5px;
   border-radius: 999px;
   background: currentColor;
 }
@@ -227,25 +328,49 @@ body.dark-mode .patient-dashboard-date-box {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 8px;
+  gap: 9px;
 }
 
+/* =========================
+   BADGES / BUTTONS
+   ========================= */
+
 .patient-dashboard-badge {
-  padding: 5px 10px;
+  padding: 6px 11px;
   border-radius: 999px;
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 900;
   text-transform: capitalize;
+  background: #eff6ff;
+  color: var(--primary);
+  border: 1px solid #dbeafe;
 }
 
 .patient-dashboard-join-btn {
-  padding: 9px 12px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #1565c0, #1d4ed8);
-  color: #fff;
+  border: none;
+  cursor: pointer;
+  padding: 10px 14px;
+  border-radius: 13px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #ffffff;
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 800;
+  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.26);
+  transition: var(--ease);
 }
+
+.patient-dashboard-join-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px rgba(37, 99, 235, 0.34);
+}
+
+.patient-dashboard-join-btn:active {
+  transform: translateY(0);
+}
+
+/* =========================
+   LEGEND
+   ========================= */
 
 .patient-dashboard-legend {
   display: flex;
@@ -253,6 +378,7 @@ body.dark-mode .patient-dashboard-date-box {
   justify-content: center;
   gap: 14px;
   flex-wrap: wrap;
+  margin-top: 10px;
 }
 
 .patient-dashboard-legend span {
@@ -260,7 +386,8 @@ body.dark-mode .patient-dashboard-date-box {
   align-items: center;
   gap: 7px;
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 800;
+  color: var(--text-secondary);
 }
 
 .patient-dashboard-legend-dot {
@@ -269,36 +396,82 @@ body.dark-mode .patient-dashboard-date-box {
   border-radius: 999px;
 }
 
-.patient-dashboard-tips-grid {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-}
+/* =========================
+   TIPS
+   ========================= */
 
 .patient-dashboard-tip-card {
-  background: var(--bg-primary);
-  border-radius: 18px;
+  background: #ffffff;
+  border-radius: 20px;
   border: 1px solid var(--border-color);
-  padding: 18px 14px;
+  padding: 20px 16px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   align-items: flex-start;
+  box-shadow: var(--shadow-sm);
+  transition: var(--ease);
+}
+
+.patient-dashboard-tip-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(20, 184, 166, 0.3);
 }
 
 .patient-dashboard-tip-icon {
-  width: 42px;
-  height: 42px;
-  border-radius: 14px;
+  width: 44px;
+  height: 44px;
+  border-radius: 16px;
   display: grid;
   place-items: center;
-  background: rgba(255, 255, 255, 0.75);
+  background: #ecfeff;
+  color: var(--accent);
+  border: 1px solid #ccfbf1;
 }
 
 .patient-dashboard-tip-card span:last-child {
   color: var(--text-secondary);
   font-size: 13px;
   font-weight: 700;
-  line-height: 1.6;
+  line-height: 1.65;
 }
+
+/* =========================
+   DARK MODE SUPPORT
+   ========================= */
+
+body.dark-mode {
+  --bg-primary: #020617;
+  --bg-secondary: #0f172a;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --border-color: rgba(148, 163, 184, 0.18);
+}
+
+body.dark-mode .patient-dashboard-page {
+  background:
+    radial-gradient(circle at top left, rgba(37, 99, 235, 0.18), transparent 30%),
+    radial-gradient(circle at top right, rgba(20, 184, 166, 0.14), transparent 30%),
+    #020617;
+}
+
+body.dark-mode .patient-dashboard-header,
+body.dark-mode .patient-dashboard-section,
+body.dark-mode .patient-dashboard-quick-action,
+body.dark-mode .patient-dashboard-apt-card,
+body.dark-mode .patient-dashboard-tip-card {
+  background: rgba(15, 23, 42, 0.88);
+}
+
+body.dark-mode .patient-dashboard-date-box,
+body.dark-mode .patient-dashboard-empty {
+  background: rgba(15, 23, 42, 0.65);
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
 
 @media (max-width: 1080px) {
   .patient-dashboard-quick-grid,
@@ -313,8 +486,13 @@ body.dark-mode .patient-dashboard-date-box {
 }
 
 @media (max-width: 720px) {
+  .patient-dashboard-page {
+    padding: 16px;
+    gap: 18px;
+  }
+
   .patient-dashboard-header {
-    padding: 18px;
+    padding: 20px;
     flex-direction: column;
   }
 
@@ -325,6 +503,11 @@ body.dark-mode .patient-dashboard-date-box {
 
   .patient-dashboard-section {
     padding: 18px;
+  }
+
+  .patient-dashboard-section-heading {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .patient-dashboard-apt-card {
@@ -343,21 +526,27 @@ body.dark-mode .patient-dashboard-date-box {
     grid-template-columns: 1fr;
   }
 
-  .patient-dashboard-page {
-    gap: 16px;
+  .patient-dashboard-greeting {
+    font-size: 1.75rem;
   }
 
   .patient-dashboard-section {
     padding: 16px;
+    border-radius: 18px;
   }
 
-  .patient-dashboard-quick-action {
-    align-items: center;
-    text-align: center;
-  }
-
+  .patient-dashboard-quick-action,
   .patient-dashboard-tip-card {
     align-items: center;
     text-align: center;
+  }
+
+  .patient-dashboard-icon-container {
+    margin: 0 auto;
+  }
+
+  .patient-dashboard-apt-avatar {
+    width: 52px;
+    height: 52px;
   }
 }

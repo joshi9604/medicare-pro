@@ -2,6 +2,8 @@
   padding: 28px;
   max-width: 900px;
   margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .account-info-header {
@@ -300,5 +302,14 @@
 
   .account-info-title {
     font-size: 22px;
+  }
+
+  .account-info-page {
+    padding: 14px;
+  }
+
+  .account-info-form,
+  .account-info-card {
+    padding: 18px 16px;
   }
 }

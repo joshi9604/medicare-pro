@@ -97,11 +97,11 @@ export default function DoctorDashboard() {
 
   return (
     <div className="doctor-dashboard-page">
-      <div className="doctor-tabs">
+      {/* <div className="doctor-tabs">
         <button className={`doctor-tab-btn ${activeTab === 'dashboard' ? 'active' : ''}`} onClick={() => setActiveTab('dashboard')} type="button">
           <LayoutDashboard size={16} /> Dashboard
         </button>
-      </div>
+      </div> */}
 
       {activeTab === 'dashboard' && (
         <>

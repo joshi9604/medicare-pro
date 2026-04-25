@@ -1,155 +1,272 @@
-/* AdminDashboard.css */
+/* =====================================================
+   MEDICARE PRO — PREMIUM ADMIN DASHBOARD CSS
+   Healthcare SaaS | CSS Only
+   ===================================================== */
+
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --primary-light: #dbeafe;
+  --secondary: #0ea5e9;
+  --accent: #14b8a6;
+
+  --success: #22c55e;
+  --success-light: #dcfce7;
+  --warning: #f59e0b;
+  --warning-light: #fef3c7;
+  --danger: #ef4444;
+  --danger-light: #fee2e2;
+
+  --bg-base: #f8fafc;
+  --bg-subtle: #f1f5f9;
+  --white: #ffffff;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --text-disabled: #94a3b8;
+
+  --shadow-sm: 0 1px 2px rgba(15,23,42,0.06), 0 1px 3px rgba(15,23,42,0.08);
+  --shadow-md: 0 2px 4px rgba(15,23,42,0.04), 0 4px 12px rgba(15,23,42,0.08), 0 0 0 1px rgba(15,23,42,0.03);
+  --shadow-lg: 0 4px 6px rgba(15,23,42,0.04), 0 10px 30px rgba(15,23,42,0.10), inset 0 1px 0 rgba(255,255,255,0.9);
+  --shadow-card-hover: 0 8px 24px rgba(15,23,42,0.12), 0 2px 8px rgba(37,99,235,0.08), inset 0 1px 0 rgba(255,255,255,1);
+  --shadow-primary: 0 4px 14px rgba(37,99,235,0.28), 0 2px 6px rgba(37,99,235,0.18);
+
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 999px;
+
+  --transition-fast: 160ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+}
 
 .admin-dashboard-page {
-  padding: 24px;
-  max-width: 1200px;
+  padding: 28px;
+  max-width: 1240px;
   margin: 0 auto;
-  font-family: 'Segoe UI', sans-serif;
   width: 100%;
+  min-height: 100vh;
   box-sizing: border-box;
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 32%),
+    radial-gradient(circle at top right, rgba(20, 184, 166, 0.08), transparent 28%),
+    var(--bg-base);
+  color: var(--text-primary);
 }
 
 .admin-dashboard-title {
   display: flex;
   align-items: center;
-  gap: 10px;
-  color: #1e293b;
-  font-size: 24px;
-  font-weight: 800;
-  margin-bottom: 24px;
+  gap: 11px;
+  color: var(--text-primary);
+  font-size: clamp(1.75rem, 3vw, 2.4rem);
+  font-weight: 900;
+  margin: 0 0 26px;
+  letter-spacing: -0.05em;
+  line-height: 1.1;
 }
+
+/* STATS */
 
 .admin-dashboard-stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 14px;
-  margin-bottom: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+  gap: 18px;
+  margin-bottom: 26px;
   width: 100%;
 }
 
 .admin-dashboard-stat-card {
-  background: #fff;
-  border-radius: 14px;
-  padding: 16px;
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  padding: 20px;
   text-align: center;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   min-width: 0;
+  min-height: 142px;
+  position: relative;
+  overflow: hidden;
   box-sizing: border-box;
+  transition: var(--transition-normal);
+}
+
+.admin-dashboard-stat-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  opacity: 0;
+  transition: var(--transition-normal);
+}
+
+.admin-dashboard-stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: rgba(37, 99, 235, 0.22);
+}
+
+.admin-dashboard-stat-card:hover::before {
+  opacity: 1;
 }
 
 .admin-dashboard-stat-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-lg);
   background: #eff6ff;
-  color: #1565c0;
+  color: var(--primary);
+  border: 1px solid var(--primary-light);
 }
 
 .admin-dashboard-stat-value {
-  font-size: 22px;
-  font-weight: 800;
-  color: #1e293b;
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--text-primary);
   line-height: 1.1;
+  letter-spacing: -0.04em;
   overflow-wrap: anywhere;
 }
 
 .admin-dashboard-stat-label {
-  font-size: 11px;
-  color: #64748b;
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 800;
 }
+
+/* TABS */
 
 .admin-dashboard-tabs {
   display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
-  border-bottom: 2px solid #f0f4f8;
-  padding-bottom: 0;
+  gap: 10px;
+  margin-bottom: 18px;
+  padding: 8px;
   width: 100%;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(14px);
 }
 
 .admin-dashboard-tab {
+  min-height: 42px;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 10px 20px;
-  border: none;
+  padding: 11px 18px;
+  border: 1px solid transparent;
   background: transparent;
-  color: #64748b;
+  color: var(--text-muted);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 800;
   cursor: pointer;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -2px;
-  transition: all 0.2s;
+  border-radius: var(--radius-lg);
+  transition: var(--transition-fast);
   min-width: 0;
+  white-space: nowrap;
 }
 
 .admin-dashboard-tab:hover {
-  color: #1565c0;
+  color: var(--primary);
+  background: #eff6ff;
+  border-color: var(--primary-light);
 }
 
 .admin-dashboard-tab.active {
-  color: #1565c0;
-  border-bottom: 2px solid #1565c0;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border-color: var(--primary);
+  box-shadow: var(--shadow-primary);
 }
 
+/* SECTION */
+
 .admin-dashboard-section {
-  background: #fff;
-  border-radius: 16px;
-  padding: 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border);
   width: 100%;
   box-sizing: border-box;
   overflow: hidden;
+  transition: var(--transition-normal);
+}
+
+.admin-dashboard-section:hover {
+  box-shadow: var(--shadow-lg);
 }
 
 .admin-dashboard-section-title {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #1e293b;
-  font-size: 16px;
-  font-weight: 700;
-  margin: 0 0 16px;
+  color: var(--text-primary);
+  font-size: 17px;
+  font-weight: 900;
+  margin: 0 0 18px;
+  letter-spacing: -0.02em;
 }
 
 .admin-dashboard-empty {
   text-align: center;
-  color: #94a3b8;
-  padding: 30px;
+  color: var(--text-disabled);
+  padding: 34px;
+  background: var(--bg-subtle);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-lg);
 }
+
+/* DOCTOR APPROVAL ROW */
 
 .admin-dashboard-doc-row {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 14px;
-  border: 1.5px solid #f0f4f8;
-  border-radius: 12px;
-  margin-bottom: 10px;
+  gap: 13px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  margin-bottom: 12px;
   width: 100%;
+  background: #ffffff;
+  box-shadow: var(--shadow-sm);
   box-sizing: border-box;
+  transition: var(--transition-fast);
+}
+
+.admin-dashboard-doc-row:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(37,99,235,0.24);
 }
 
 .admin-dashboard-doc-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #1565c0, #0277bd);
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, var(--primary), var(--accent));
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 800;
+  font-weight: 900;
   font-size: 18px;
   flex-shrink: 0;
+  box-shadow: 0 12px 24px rgba(37,99,235,0.22);
 }
 
 .admin-dashboard-doc-info {
@@ -158,16 +275,17 @@
 }
 
 .admin-dashboard-doc-name {
-  color: #1e293b;
-  font-weight: 700;
+  color: var(--text-primary);
+  font-weight: 900;
   font-size: 15px;
 }
 
 .admin-dashboard-doc-meta {
-  color: #64748b;
+  color: var(--text-muted);
   font-size: 12px;
-  margin-top: 2px;
+  margin-top: 3px;
   overflow-wrap: anywhere;
+  font-weight: 600;
 }
 
 .admin-dashboard-doc-actions {
@@ -178,34 +296,47 @@
 
 .admin-dashboard-approve-btn,
 .admin-dashboard-reject-btn {
+  min-height: 34px;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
   padding: 7px 14px;
-  border: none;
-  border-radius: 8px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 900;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: var(--transition-fast);
 }
 
 .admin-dashboard-approve-btn {
-  background: #dcfce7;
+  background: var(--success-light);
   color: #15803d;
+  border-color: #bbf7d0;
 }
 
 .admin-dashboard-approve-btn:hover {
-  background: #c6f6d5;
+  transform: translateY(-2px);
+  background: #bbf7d0;
 }
 
 .admin-dashboard-reject-btn {
-  background: #fee2e2;
-  color: #dc2626;
+  background: var(--danger-light);
+  color: #b91c1c;
+  border-color: #fecaca;
 }
 
 .admin-dashboard-reject-btn:hover {
+  transform: translateY(-2px);
   background: #fecaca;
+}
+
+/* TABLE */
+
+.admin-dashboard-overflow-auto {
+  overflow-x: auto;
+  width: 100%;
 }
 
 .admin-dashboard-table {
@@ -214,65 +345,73 @@
 }
 
 .admin-dashboard-table-header {
-  padding: 12px 14px;
+  padding: 14px;
   text-align: left;
-  color: #64748b;
+  color: var(--text-muted);
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  border-bottom: 2px solid #f0f4f8;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-subtle);
 }
 
 .admin-dashboard-table-row {
-  border-bottom: 1px solid #f8fafc;
+  border-bottom: 1px solid var(--border);
+  transition: var(--transition-fast);
+}
+
+.admin-dashboard-table-row:hover {
+  background: #eff6ff;
 }
 
 .admin-dashboard-table-cell {
-  padding: 12px 14px;
+  padding: 14px;
   vertical-align: middle;
   overflow-wrap: anywhere;
+  color: var(--text-secondary);
+  font-size: 14px;
 }
 
 .admin-dashboard-table-cell-name {
   font-size: 13px;
+  font-weight: 900;
+  color: var(--text-primary);
+}
+
+.admin-dashboard-table-cell-email,
+.admin-dashboard-table-cell-date {
+  font-size: 12px;
+  color: var(--text-muted);
   font-weight: 600;
 }
 
-.admin-dashboard-table-cell-email {
-  font-size: 12px;
-  color: #64748b;
-}
-
-.admin-dashboard-table-cell-date {
-  font-size: 12px;
-  color: #94a3b8;
-}
+/* BADGES / STATUS */
 
 .admin-dashboard-role-badge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 3px 8px;
-  border-radius: 6px;
+  padding: 6px 10px;
+  border-radius: var(--radius-full);
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 900;
   text-transform: capitalize;
   max-width: 100%;
 }
 
 .admin-dashboard-role-badge.admin {
-  background: #fef3c7;
+  background: var(--warning-light);
   color: #92400e;
 }
 
 .admin-dashboard-role-badge.doctor {
-  background: #dbeafe;
-  color: #1e40af;
+  background: var(--primary-light);
+  color: var(--primary-dark);
 }
 
 .admin-dashboard-role-badge.patient {
-  background: #dcfce7;
+  background: var(--success-light);
   color: #166534;
 }
 
@@ -280,61 +419,63 @@
   display: inline-flex;
   align-items: center;
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 900;
 }
 
 .admin-dashboard-status.active {
-  color: #10b981;
+  color: var(--success);
 }
 
 .admin-dashboard-status.inactive {
-  color: #ef4444;
+  color: var(--danger);
 }
 
 .admin-dashboard-toggle-btn {
-  padding: 5px 10px;
-  border: none;
-  border-radius: 6px;
+  min-height: 32px;
+  padding: 6px 11px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 900;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: var(--transition-fast);
 }
 
 .admin-dashboard-toggle-btn.active {
-  background: #fee2e2;
-  color: #dc2626;
+  background: var(--danger-light);
+  color: #b91c1c;
+  border-color: #fecaca;
 }
 
 .admin-dashboard-toggle-btn.inactive {
-  background: #dcfce7;
+  background: var(--success-light);
   color: #15803d;
+  border-color: #bbf7d0;
 }
 
-.admin-dashboard-overflow-auto {
-  overflow-x: auto;
-  width: 100%;
+.admin-dashboard-toggle-btn:hover {
+  transform: translateY(-2px);
 }
+
+/* RESPONSIVE */
 
 @media (max-width: 768px) {
   .admin-dashboard-page {
-    padding: 16px;
+    padding: 18px;
   }
 
   .admin-dashboard-title {
-    font-size: 20px;
+    font-size: 24px;
   }
 
   .admin-dashboard-stats-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+    gap: 12px;
   }
 
   .admin-dashboard-tabs {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    border-bottom: none;
-    gap: 10px;
   }
 
   .admin-dashboard-title,
@@ -343,17 +484,7 @@
   }
 
   .admin-dashboard-tab {
-    justify-content: center;
-    padding: 12px 14px;
-    border: 1px solid #dbe4ef;
-    border-radius: 12px;
-    background: #fff;
-    margin-bottom: 0;
-  }
-
-  .admin-dashboard-tab.active {
-    border-bottom: 1px solid #1565c0;
-    background: #eff6ff;
+    width: 100%;
   }
 
   .admin-dashboard-doc-row {
@@ -375,16 +506,14 @@
     padding: 14px;
   }
 
-  .admin-dashboard-stats-grid {
-    grid-template-columns: 1fr;
-  }
-
+  .admin-dashboard-stats-grid,
   .admin-dashboard-tabs {
     grid-template-columns: 1fr;
   }
 
   .admin-dashboard-section {
-    padding: 16px;
+    padding: 18px;
+    border-radius: 18px;
   }
 
   .admin-dashboard-title {
@@ -416,11 +545,11 @@
 
   .admin-dashboard-table-row {
     background: #fff;
-    border: 1px solid #e2e8f0;
-    border-radius: 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
     margin-bottom: 14px;
     padding: 6px 0;
-    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+    box-shadow: var(--shadow-md);
   }
 
   .admin-dashboard-table-cell {
@@ -429,7 +558,7 @@
     align-items: flex-start;
     gap: 6px;
     padding: 12px 14px;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid var(--border);
   }
 
   .admin-dashboard-table-cell:last-child {
@@ -439,10 +568,10 @@
   .admin-dashboard-table-cell::before {
     content: attr(data-label);
     font-size: 11px;
-    font-weight: 700;
+    font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: #94a3b8;
+    color: var(--text-disabled);
   }
 
   .admin-dashboard-toggle-btn {
