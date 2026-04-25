@@ -4,9 +4,14 @@ import axios from 'axios';
 import App from './App';
 import './styles/index.css';
 
-// Global API Base URL
-axios.defaults.baseURL = process.env.REACT_APP_API_URL;
-axios.defaults.withCredentials = true; // optional
+const rawApiUrl = process.env.REACT_APP_API_URL || '';
+const apiBaseUrl = rawApiUrl.trim().replace(/\/+$/, '');
+
+if (apiBaseUrl) {
+  axios.defaults.baseURL = apiBaseUrl;
+}
+
+axios.defaults.withCredentials = true;
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
