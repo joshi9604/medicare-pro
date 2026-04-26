@@ -68,9 +68,9 @@ const PROFILE_MENU_ITEMS = {
     { to: '/doctor/profile', icon: Stethoscope, label: 'Professional Profile' },
     { to: '/doctor/payments', icon: CircleDollarSign, label: 'Payment History' },
   ],
-  admin: [
-    { to: '/admin/dashboard', icon: Activity, label: 'Admin Panel' },
-  ]
+  // admin: [
+  //   { to: '/admin/dashboard', icon: Activity, label: 'Admin Panel' },
+  // ]
 };
 
 export default function AppLayout({ children }) {

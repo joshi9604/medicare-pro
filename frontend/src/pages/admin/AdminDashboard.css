@@ -1,6 +1,6 @@
 /* =====================================================
-   MEDICARE PRO — PREMIUM ADMIN DASHBOARD CSS
-   Healthcare SaaS | CSS Only
+   MEDICARE PRO - PREMIUM ADMIN DASHBOARD CSS
+   Healthcare SaaS | Dashboard + Revenue Workspace
    ===================================================== */
 
 :root {
@@ -16,6 +16,7 @@
   --warning-light: #fef3c7;
   --danger: #ef4444;
   --danger-light: #fee2e2;
+  --violet-light: #ede9fe;
 
   --bg-base: #f8fafc;
   --bg-subtle: #f1f5f9;
@@ -70,6 +71,63 @@
   line-height: 1.1;
 }
 
+.admin-dashboard-revenue-hero {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.admin-dashboard-revenue-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  padding: 7px 12px;
+  border-radius: var(--radius-full);
+  background: #ecfdf5;
+  color: #047857;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.admin-dashboard-revenue-subtitle {
+  max-width: 760px;
+  color: var(--text-muted);
+  font-size: 15px;
+  margin: 0;
+  line-height: 1.7;
+}
+
+.admin-dashboard-back-btn {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: rgba(255,255,255,0.92);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-fast);
+}
+
+.admin-dashboard-back-btn:hover {
+  transform: translateY(-2px);
+  background: #eff6ff;
+  border-color: var(--primary-light);
+  color: var(--primary);
+}
+
 /* STATS */
 
 .admin-dashboard-stats-grid {
@@ -119,7 +177,8 @@
   opacity: 1;
 }
 
-.admin-dashboard-stat-icon {
+.admin-dashboard-stat-icon,
+.admin-dashboard-revenue-stat-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -146,12 +205,79 @@
   font-weight: 800;
 }
 
+.admin-dashboard-revenue-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.admin-dashboard-revenue-stat-card {
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+  padding: 22px;
+  min-height: 150px;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition-normal);
+}
+
+.admin-dashboard-revenue-stat-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 4px;
+}
+
+.admin-dashboard-revenue-stat-card.emerald::before {
+  background: linear-gradient(90deg, #10b981, #14b8a6);
+}
+
+.admin-dashboard-revenue-stat-card.blue::before {
+  background: linear-gradient(90deg, #2563eb, #0ea5e9);
+}
+
+.admin-dashboard-revenue-stat-card.violet::before {
+  background: linear-gradient(90deg, #7c3aed, #8b5cf6);
+}
+
+.admin-dashboard-revenue-stat-card.teal::before {
+  background: linear-gradient(90deg, #06b6d4, #14b8a6);
+}
+
+.admin-dashboard-revenue-stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.admin-dashboard-revenue-stat-icon {
+  margin-bottom: 16px;
+}
+
+.admin-dashboard-revenue-stat-value {
+  font-size: clamp(24px, 3vw, 30px);
+  font-weight: 900;
+  color: var(--text-primary);
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  overflow-wrap: anywhere;
+}
+
+.admin-dashboard-revenue-stat-label {
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text-muted);
+}
+
 /* TABS */
 
-.admin-dashboard-tabs {
+.admin-dashboard-tabs,
+.admin-dashboard-revenue-tabs {
   display: flex;
   gap: 10px;
-  margin-bottom: 18px;
   padding: 8px;
   width: 100%;
   background: rgba(255,255,255,0.9);
@@ -159,6 +285,14 @@
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-sm);
   backdrop-filter: blur(14px);
+}
+
+.admin-dashboard-tabs {
+  margin-bottom: 18px;
+}
+
+.admin-dashboard-revenue-tabs {
+  margin-bottom: 22px;
 }
 
 .admin-dashboard-tab {
@@ -180,6 +314,10 @@
   white-space: nowrap;
 }
 
+.admin-dashboard-tab span {
+  min-width: 0;
+}
+
 .admin-dashboard-tab:hover {
   color: var(--primary);
   background: #eff6ff;
@@ -193,7 +331,7 @@
   box-shadow: var(--shadow-primary);
 }
 
-/* SECTION */
+/* SECTIONS */
 
 .admin-dashboard-section {
   background: var(--white);
@@ -222,6 +360,16 @@
   letter-spacing: -0.02em;
 }
 
+.admin-dashboard-revenue-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.85fr);
+  gap: 18px;
+}
+
+.admin-dashboard-revenue-panel {
+  min-height: 100%;
+}
+
 .admin-dashboard-empty {
   text-align: center;
   color: var(--text-disabled);
@@ -229,6 +377,82 @@
   background: var(--bg-subtle);
   border: 1px dashed var(--border-strong);
   border-radius: var(--radius-lg);
+}
+
+.admin-dashboard-billing-list,
+.admin-dashboard-monthly-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admin-dashboard-billing-item,
+.admin-dashboard-monthly-item,
+.admin-dashboard-analytics-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 15px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: #ffffff;
+  box-shadow: var(--shadow-sm);
+}
+
+.admin-dashboard-billing-item span,
+.admin-dashboard-analytics-item span,
+.admin-dashboard-monthly-meta {
+  color: var(--text-muted);
+}
+
+.admin-dashboard-billing-item strong,
+.admin-dashboard-analytics-item strong,
+.admin-dashboard-monthly-item strong {
+  color: var(--text-primary);
+  font-weight: 900;
+}
+
+.admin-dashboard-billing-cards,
+.admin-dashboard-analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.admin-dashboard-billing-card {
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, #ffffff, #f8fafc);
+  box-shadow: var(--shadow-sm);
+}
+
+.admin-dashboard-billing-card span {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.admin-dashboard-billing-card strong {
+  font-size: 24px;
+  color: var(--text-primary);
+  font-weight: 900;
+}
+
+.admin-dashboard-monthly-label {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.admin-dashboard-monthly-meta {
+  font-size: 12px;
+  font-weight: 700;
 }
 
 /* DOCTOR APPROVAL ROW */
@@ -344,6 +568,31 @@
   border-collapse: collapse;
 }
 
+.admin-dashboard-payments-table {
+  table-layout: fixed;
+}
+
+.admin-dashboard-payments-table .admin-dashboard-table-header:nth-child(1) {
+  width: 22%;
+}
+
+.admin-dashboard-payments-table .admin-dashboard-table-header:nth-child(2),
+.admin-dashboard-payments-table .admin-dashboard-table-header:nth-child(3) {
+  width: 16%;
+}
+
+.admin-dashboard-payments-table .admin-dashboard-table-header:nth-child(4) {
+  width: 22%;
+}
+
+.admin-dashboard-payments-table .admin-dashboard-table-header:nth-child(5) {
+  width: 12%;
+}
+
+.admin-dashboard-payments-table .admin-dashboard-table-header:nth-child(6) {
+  width: 12%;
+}
+
 .admin-dashboard-table-header {
   padding: 14px;
   text-align: left;
@@ -384,6 +633,37 @@
   font-size: 12px;
   color: var(--text-muted);
   font-weight: 600;
+}
+
+.admin-dashboard-payment-id {
+  font-family: "JetBrains Mono", "Courier New", monospace;
+  font-size: 12px;
+  color: var(--primary);
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.admin-dashboard-payment-amount {
+  color: #15803d;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.admin-dashboard-payments-section .admin-dashboard-section-title {
+  margin-bottom: 16px;
+}
+
+.admin-dashboard-payments-section .admin-dashboard-overflow-auto {
+  border-radius: 18px;
+}
+
+.admin-dashboard-payments-table .admin-dashboard-table-cell {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.admin-dashboard-payments-table .admin-dashboard-table-row:hover {
+  background: #f8fbff;
 }
 
 /* BADGES / STATUS */
@@ -430,6 +710,38 @@
   color: var(--danger);
 }
 
+.admin-dashboard-payment-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: capitalize;
+}
+
+.admin-dashboard-payment-status.paid {
+  background: var(--success-light);
+  color: #15803d;
+}
+
+.admin-dashboard-payment-status.created,
+.admin-dashboard-payment-status.pending {
+  background: var(--warning-light);
+  color: #a16207;
+}
+
+.admin-dashboard-payment-status.refunded {
+  background: var(--violet-light);
+  color: #6d28d9;
+}
+
+.admin-dashboard-payment-status.failed {
+  background: var(--danger-light);
+  color: #b91c1c;
+}
+
 .admin-dashboard-toggle-btn {
   min-height: 32px;
   padding: 6px 11px;
@@ -459,6 +771,12 @@
 
 /* RESPONSIVE */
 
+@media (max-width: 1024px) {
+  .admin-dashboard-revenue-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 768px) {
   .admin-dashboard-page {
     padding: 18px;
@@ -473,9 +791,18 @@
     gap: 12px;
   }
 
+  .admin-dashboard-revenue-stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .admin-dashboard-tabs {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .admin-dashboard-revenue-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .admin-dashboard-title,
@@ -485,6 +812,11 @@
 
   .admin-dashboard-tab {
     width: 100%;
+    white-space: normal;
+    text-align: left;
+    justify-content: flex-start;
+    padding: 12px 14px;
+    min-height: 48px;
   }
 
   .admin-dashboard-doc-row {
@@ -499,26 +831,114 @@
   .admin-dashboard-doc-actions button {
     flex: 1;
   }
+
+  .admin-dashboard-billing-cards,
+  .admin-dashboard-analytics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-dashboard-revenue-hero {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-dashboard-back-btn {
+    width: 100%;
+  }
+
+  .admin-dashboard-payments-section {
+    padding: 18px;
+  }
+
+  .admin-dashboard-payments-section .admin-dashboard-section-title {
+    margin-bottom: 14px;
+  }
+
+  .admin-dashboard-payment-amount,
+  .admin-dashboard-payment-status,
+  .admin-dashboard-table-cell-name,
+  .admin-dashboard-table-cell-email {
+    overflow-wrap: anywhere;
+  }
+
+  .admin-dashboard-payments-table .admin-dashboard-table-cell {
+    padding-top: 13px;
+    padding-bottom: 13px;
+  }
 }
 
 @media (max-width: 520px) {
   .admin-dashboard-page {
-    padding: 14px;
+    padding: 12px;
   }
 
   .admin-dashboard-stats-grid,
-  .admin-dashboard-tabs {
+  .admin-dashboard-tabs,
+  .admin-dashboard-revenue-tabs,
+  .admin-dashboard-revenue-stats-grid {
     grid-template-columns: 1fr;
   }
 
+  .admin-dashboard-revenue-hero {
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+
+  .admin-dashboard-revenue-kicker {
+    margin-bottom: 8px;
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  .admin-dashboard-revenue-subtitle {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
   .admin-dashboard-section {
-    padding: 18px;
+    padding: 16px;
     border-radius: 18px;
   }
 
   .admin-dashboard-title {
     justify-content: center;
     text-align: center;
+    margin-bottom: 18px;
+    font-size: 21px;
+  }
+
+  .admin-dashboard-revenue-stats-grid {
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .admin-dashboard-revenue-stat-card {
+    min-height: 118px;
+    padding: 16px;
+    border-radius: 18px;
+  }
+
+  .admin-dashboard-revenue-stat-icon {
+    width: 42px;
+    height: 42px;
+    margin-bottom: 12px;
+  }
+
+  .admin-dashboard-revenue-stat-value {
+    font-size: 20px;
+  }
+
+  .admin-dashboard-revenue-stat-label {
+    margin-top: 6px;
+    font-size: 12px;
+  }
+
+  .admin-dashboard-revenue-grid {
+    gap: 14px;
+  }
+
+  .admin-dashboard-payments-section {
+    padding: 14px;
   }
 
   .admin-dashboard-overflow-auto {
@@ -552,6 +972,25 @@
     box-shadow: var(--shadow-md);
   }
 
+  .admin-dashboard-payments-table .admin-dashboard-table-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      "transaction transaction"
+      "patient doctor"
+      "datetime datetime"
+      "amount status";
+    gap: 0;
+    border-radius: 20px;
+    padding: 0;
+    margin-bottom: 16px;
+    background: linear-gradient(180deg, #ffffff, #f8fbff);
+    box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
+    border: 1px solid rgba(37, 99, 235, 0.12);
+    border-left: 4px solid #2563eb;
+    overflow: hidden;
+  }
+
   .admin-dashboard-table-cell {
     display: flex;
     flex-direction: column;
@@ -559,6 +998,49 @@
     gap: 6px;
     padding: 12px 14px;
     border-bottom: 1px solid var(--border);
+  }
+
+  .admin-dashboard-payments-table .admin-dashboard-table-cell {
+    padding: 14px 14px 12px;
+    gap: 7px;
+    position: relative;
+    min-width: 0;
+  }
+
+  .admin-dashboard-payments-table .admin-dashboard-table-cell:first-child {
+    padding-top: 16px;
+  }
+
+  .admin-dashboard-payments-table .admin-dashboard-table-cell:last-child {
+    padding-bottom: 16px;
+  }
+
+  .admin-dashboard-payments-table .admin-dashboard-table-cell[data-label="Transaction"] {
+    grid-area: transaction;
+    background: linear-gradient(180deg, rgba(239, 246, 255, 0.7), rgba(255, 255, 255, 0));
+    padding-top: 16px;
+    padding-bottom: 14px;
+  }
+
+  .admin-dashboard-payments-table .admin-dashboard-table-cell[data-label="Patient"] {
+    grid-area: patient;
+  }
+
+  .admin-dashboard-payments-table .admin-dashboard-table-cell[data-label="Doctor"] {
+    grid-area: doctor;
+  }
+
+  .admin-dashboard-payments-table .admin-dashboard-table-cell[data-label="Date & Time"] {
+    grid-area: datetime;
+    background: rgba(248, 250, 252, 0.76);
+  }
+
+  .admin-dashboard-payments-table .admin-dashboard-table-cell[data-label="Amount"] {
+    grid-area: amount;
+  }
+
+  .admin-dashboard-payments-table .admin-dashboard-table-cell[data-label="Status"] {
+    grid-area: status;
   }
 
   .admin-dashboard-table-cell:last-child {
@@ -574,8 +1056,192 @@
     color: var(--text-disabled);
   }
 
+  .admin-dashboard-revenue-tabs {
+    padding: 8px;
+    gap: 8px;
+    margin-bottom: 16px;
+    border-radius: 18px;
+  }
+
+  .admin-dashboard-tab {
+    justify-content: flex-start;
+    align-items: center;
+    padding: 11px 12px;
+    border-radius: 14px;
+    min-height: 44px;
+    font-size: 13px;
+  }
+
+  .admin-dashboard-tab span {
+    white-space: normal;
+    overflow-wrap: anywhere;
+    line-height: 1.35;
+  }
+
+  .admin-dashboard-section-title {
+    font-size: 15px;
+    margin-bottom: 14px;
+  }
+
+  .admin-dashboard-table-row {
+    padding: 6px 0;
+  }
+
+  .admin-dashboard-table-cell {
+    gap: 8px;
+    padding: 11px 12px;
+  }
+
+  .admin-dashboard-payment-id,
+  .admin-dashboard-table-cell-email {
+    line-height: 1.5;
+  }
+
+  .admin-dashboard-payments-table .admin-dashboard-payment-id {
+    display: inline-flex;
+    width: 100%;
+    font-size: 11px;
+    line-height: 1.6;
+    word-break: break-all;
+    color: #1d4ed8;
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .admin-dashboard-payments-table .admin-dashboard-table-cell-name {
+    font-size: 15px;
+    line-height: 1.35;
+  }
+
+  .admin-dashboard-payments-table .admin-dashboard-table-cell[data-label="Patient"] .admin-dashboard-table-cell-name,
+  .admin-dashboard-payments-table .admin-dashboard-table-cell[data-label="Doctor"] .admin-dashboard-table-cell-email {
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: inset 0 0 0 1px rgba(226, 232, 240, 0.9);
+  }
+
+  .admin-dashboard-payments-table .admin-dashboard-table-cell-email,
+  .admin-dashboard-payments-table .admin-dashboard-table-cell-date {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .admin-dashboard-payments-table .admin-dashboard-payment-amount {
+    font-size: 16px;
+    color: #047857;
+  }
+
+  .admin-dashboard-payments-table .admin-dashboard-payment-status {
+    display: inline-flex;
+    align-self: flex-start;
+    padding: 7px 11px;
+    font-size: 10px;
+    letter-spacing: 0.03em;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+  }
+
+  .admin-dashboard-payments-table .admin-dashboard-table-cell::before {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    margin-bottom: 1px;
+  }
+
+  .admin-dashboard-payments-table .admin-dashboard-table-cell[data-label="Amount"],
+  .admin-dashboard-payments-table .admin-dashboard-table-cell[data-label="Status"] {
+    background: rgba(248, 250, 252, 0.92);
+    min-height: 88px;
+    justify-content: center;
+  }
+
+  .admin-dashboard-payments-table .admin-dashboard-table-cell[data-label="Amount"] {
+    border-top: 1px dashed var(--border);
+    border-right: 1px solid rgba(226, 232, 240, 0.9);
+  }
+
+  .admin-dashboard-payments-table .admin-dashboard-table-cell[data-label="Status"] {
+    border-bottom: none;
+    padding-top: 12px;
+  }
+
   .admin-dashboard-toggle-btn {
     width: 100%;
     padding: 10px 12px;
+  }
+
+  .admin-dashboard-revenue-stat-card,
+  .admin-dashboard-billing-card,
+  .admin-dashboard-analytics-item,
+  .admin-dashboard-billing-item,
+  .admin-dashboard-monthly-item {
+    padding: 14px;
+    border-radius: 16px;
+  }
+
+  .admin-dashboard-billing-card strong {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 380px) {
+  .admin-dashboard-page {
+    padding: 10px;
+  }
+
+  .admin-dashboard-title {
+    font-size: 19px;
+  }
+
+  .admin-dashboard-section,
+  .admin-dashboard-revenue-stat-card {
+    padding: 14px;
+    border-radius: 16px;
+  }
+
+  .admin-dashboard-tab {
+    padding: 10px 11px;
+    font-size: 12px;
+  }
+
+  .admin-dashboard-section-title {
+    font-size: 14px;
+  }
+
+  .admin-dashboard-payments-table .admin-dashboard-table-cell {
+    padding: 12px 12px 10px;
+  }
+
+  .admin-dashboard-payments-table .admin-dashboard-payment-amount {
+    font-size: 15px;
+  }
+
+  .admin-dashboard-payments-table .admin-dashboard-table-row {
+    border-radius: 18px;
+  }
+
+  .admin-dashboard-payments-table .admin-dashboard-table-row {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "transaction"
+      "patient"
+      "doctor"
+      "datetime"
+      "amount"
+      "status";
+  }
+
+  .admin-dashboard-payments-table .admin-dashboard-table-cell[data-label="Amount"] {
+    border-right: none;
+    border-top: 1px dashed var(--border);
+  }
+
+  .admin-dashboard-payments-table .admin-dashboard-table-cell[data-label="Status"] {
+    border-top: 1px solid rgba(226, 232, 240, 0.9);
+  }
+
+  .admin-dashboard-payments-section {
+    padding: 12px;
   }
 }

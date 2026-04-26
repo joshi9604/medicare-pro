@@ -319,14 +319,14 @@ body.dark-mode .sidebar {
   transform: rotate(180deg);
 }
 
-.user-menu {
+/* .user-menu {
   background: var(--bg-secondary);
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-color);
   padding: 8px;
   margin-bottom: 12px;
   box-shadow: var(--shadow-sm);
-}
+} */
 
 .user-menu-item {
   display: flex;

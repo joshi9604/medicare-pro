@@ -48,6 +48,77 @@ router.get('/stats', async (req, res) => {
   }
 });
 
+router.get('/payments', async (req, res) => {
+  try {
+    const payments = await Payment.findAll({
+      include: [
+        { model: Appointment, as: 'appointment', attributes: ['appointmentDate', 'timeSlot', 'type', 'status'] },
+        { model: User, as: 'patient', attributes: ['name', 'email'] },
+        { model: User, as: 'doctor', attributes: ['name', 'email'] }
+      ],
+      order: [['createdAt', 'DESC']]
+    });
+
+    const paidPayments = payments.filter((payment) => payment.status === 'paid');
+    const refundedPayments = payments.filter((payment) => payment.status === 'refunded');
+    const pendingPayments = payments.filter((payment) => ['created', 'pending'].includes(String(payment.status).toLowerCase()));
+    const totalRevenue = paidPayments.reduce((sum, payment) => sum + Number(payment.amount || 0), 0);
+    const totalRefunds = refundedPayments.reduce((sum, payment) => sum + Number(payment.refundAmount || 0), 0);
+
+    const monthStart = new Date();
+    monthStart.setDate(1);
+    monthStart.setHours(0, 0, 0, 0);
+
+    const monthlyRevenue = paidPayments
+      .filter((payment) => new Date(payment.createdAt) >= monthStart)
+      .reduce((sum, payment) => sum + Number(payment.amount || 0), 0);
+
+    const averageOrderValue = paidPayments.length ? totalRevenue / paidPayments.length : 0;
+    const collectionRate = payments.length ? (paidPayments.length / payments.length) * 100 : 0;
+
+    const monthlyMap = new Map();
+    for (let index = 5; index >= 0; index -= 1) {
+      const month = new Date();
+      month.setMonth(month.getMonth() - index, 1);
+      month.setHours(0, 0, 0, 0);
+      const key = `${month.getFullYear()}-${month.getMonth()}`;
+      monthlyMap.set(key, {
+        label: month.toLocaleDateString('en-IN', { month: 'short' }),
+        revenue: 0,
+        transactions: 0
+      });
+    }
+
+    paidPayments.forEach((payment) => {
+      const createdAt = new Date(payment.createdAt);
+      const key = `${createdAt.getFullYear()}-${createdAt.getMonth()}`;
+      if (!monthlyMap.has(key)) return;
+      const monthEntry = monthlyMap.get(key);
+      monthEntry.revenue += Number(payment.amount || 0);
+      monthEntry.transactions += 1;
+    });
+
+    res.json({
+      success: true,
+      payments,
+      analytics: {
+        totalRevenue,
+        monthlyRevenue,
+        totalTransactions: payments.length,
+        paidTransactions: paidPayments.length,
+        pendingTransactions: pendingPayments.length,
+        refundedTransactions: refundedPayments.length,
+        totalRefunds,
+        averageOrderValue,
+        collectionRate,
+        monthlyBreakdown: Array.from(monthlyMap.values())
+      }
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 // Get all users
 router.get('/users', async (req, res) => {
   try {
