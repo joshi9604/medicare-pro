@@ -230,8 +230,10 @@ export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
   const [selectedRole, setSelectedRole] = useState('patient');
   const [loading, setLoading] = useState(false);
+  const [verificationEmail, setVerificationEmail] = useState('');
+  const [otp, setOtp] = useState('');
   const [form, setForm] = useState({ name: '', email: '', password: '', phone: '', gender: 'male', role: 'patient' });
-  const { login, register } = useAuth();
+  const { login, register, verifyEmail, resendOtp } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -251,12 +253,45 @@ export default function AuthPage() {
         navigate(`/${data.user.role}/dashboard`);
       } else {
         const data = await register({ ...form, role: selectedRole });
-        toast.success('Account created successfully!');
-        navigate(`/${data.user.role}/dashboard`);
+        setVerificationEmail(data.email || form.email);
+        setOtp('');
+        toast.success(data.message || 'OTP sent to your email');
       }
     } catch (err) {
+      if (err.response?.data?.requiresVerification) {
+        setVerificationEmail(err.response.data.email || form.email);
+        setOtp('');
+      }
       const errorMsg = err.response?.data?.errors?.[0]?.msg || err.response?.data?.message || 'Something went wrong';
       toast.error(errorMsg);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleVerifyOtp = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    try {
+      const data = await verifyEmail(verificationEmail, otp);
+      toast.success('Email verified successfully!');
+      navigate(`/${data.user.role}/dashboard`);
+    } catch (err) {
+      const errorMsg = err.response?.data?.errors?.[0]?.msg || err.response?.data?.message || 'Invalid OTP';
+      toast.error(errorMsg);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleResendOtp = async () => {
+    if (!verificationEmail) return;
+    setLoading(true);
+    try {
+      const data = await resendOtp(verificationEmail);
+      toast.success(data.message || 'OTP sent again');
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to resend OTP');
     } finally {
       setLoading(false);
     }
@@ -272,14 +307,18 @@ export default function AuthPage() {
               <button
                 key={t}
                 className={`auth-toggle-btn ${isLogin === (i === 0) ? 'active' : ''}`}
-                onClick={() => setIsLogin(i === 0)}
+                onClick={() => {
+                  setIsLogin(i === 0);
+                  setVerificationEmail('');
+                  setOtp('');
+                }}
               >
                 {t}
               </button>
             ))}
           </div>
 
-          {!isLogin && (
+          {!isLogin && !verificationEmail && (
             <div className="auth-role-grid">
               {ROLES.map(r => (
                 <div
@@ -315,6 +354,32 @@ export default function AuthPage() {
    </div>
  )} */}
 
+          {verificationEmail ? (
+            <form onSubmit={handleVerifyOtp} className="auth-form auth-otp-form">
+              <div className="auth-otp-head">
+                <h3>Verify your email</h3>
+                <p>Enter the 6-digit OTP sent to {verificationEmail}</p>
+              </div>
+              <input
+                className="auth-input auth-otp-input"
+                inputMode="numeric"
+                maxLength="6"
+                placeholder="Enter OTP"
+                value={otp}
+                onChange={e => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                required
+              />
+              <button className="auth-submit-btn" type="submit" disabled={loading || otp.length !== 6}>
+                {loading ? 'Please wait...' : 'Verify OTP'}
+              </button>
+              <button className="auth-link-btn" type="button" onClick={handleResendOtp} disabled={loading}>
+                Resend OTP
+              </button>
+              <button className="auth-link-btn" type="button" onClick={() => setVerificationEmail('')} disabled={loading}>
+                Change email
+              </button>
+            </form>
+          ) : (
           <form onSubmit={handleSubmit} className="auth-form">
             {!isLogin && (
               <input
@@ -364,11 +429,12 @@ export default function AuthPage() {
               {loading ? 'Please wait...' : (isLogin ? 'Sign In' : 'Create Account')}
             </button>
           </form>
+          )}
 
-          {isLogin && (
+          {isLogin && !verificationEmail && (
             <div className="auth-demo-accounts">
-              <p className="auth-demo-title">Demo Accounts:</p>
-              {[['patient@demo.com', 'Patient'], ['doctor@demo.com', 'Doctor'], ['admin@demo.com', 'Admin']].map(([e, r]) => (
+              {/* <p className="auth-demo-title">Demo Accounts:</p> */}
+              {[['patient@demo.com'], ['doctor@demo.com'], ['admin@demo.com']].map(([e, r]) => (
                 <button
                   key={e}
                   className="auth-demo-btn"

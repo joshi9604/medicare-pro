@@ -37,12 +37,12 @@ exports.sendEmail = async ({ to, subject, html }) => {
   if (provider === 'sendgrid') {
     if (!process.env.SENDGRID_API_KEY || process.env.SENDGRID_API_KEY === 'your_sendgrid_api_key_here') {
       console.log('📧 Email skipped (no SENDGRID_API_KEY set)');
-      return;
+      return false;
     }
   } else {
     if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
       console.log('📧 Email skipped (no EMAIL_USER or EMAIL_PASS set)');
-      return;
+      return false;
     }
   }
   
@@ -55,6 +55,7 @@ exports.sendEmail = async ({ to, subject, html }) => {
       to, subject, html
     });
     console.log(`📧 Email sent to ${to} via ${provider}`);
+    return true;
   } catch (err) {
     console.error('❌ Email failed:', err.message);
     throw err;

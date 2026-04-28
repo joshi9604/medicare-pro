@@ -125,6 +125,12 @@ const User = sequelize.define('User', {
     type: DataTypes.BOOLEAN,
     defaultValue: false
   },
+  emailVerificationOtp: {
+    type: DataTypes.STRING
+  },
+  emailVerificationOtpExpire: {
+    type: DataTypes.DATE
+  },
   isActive: {
     type: DataTypes.BOOLEAN,
     defaultValue: true

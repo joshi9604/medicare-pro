@@ -21,11 +21,11 @@
   --muted: #64748b;
   --border: #e2e8f0;
 
-  --shadow-sm: 0 4px 14px rgba(15, 23, 42, 0.06);
-  --shadow-md: 0 12px 30px rgba(15, 23, 42, 0.08);
-  --shadow-lg: 0 22px 60px rgba(15, 23, 42, 0.12);
+  --shadow-sm: 0 6px 18px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 14px 34px rgba(15, 23, 42, 0.09);
+  --shadow-lg: 0 24px 70px rgba(15, 23, 42, 0.13);
 
-  --radius-sm: 10px;
+  --radius-sm: 12px;
   --radius-md: 16px;
   --radius-lg: 22px;
   --radius-xl: 30px;
@@ -48,9 +48,7 @@ body {
   color: var(--text);
 }
 
-/* =========================
-   GLOBAL LAYOUT
-   ========================= */
+/* ================= GLOBAL LAYOUT ================= */
 
 .app,
 .dashboard,
@@ -95,15 +93,12 @@ h1 {
   line-height: 1.7;
 }
 
-/* =========================
-   AUTH PAGE
-   ========================= */
+/* ================= AUTH PAGE ================= */
 
 .auth-page {
   display: flex;
   min-height: 100vh;
   background: var(--bg);
-  font-family: "Inter", sans-serif;
 }
 
 .auth-left {
@@ -134,7 +129,7 @@ h1 {
 .auth-left-content {
   position: relative;
   z-index: 2;
-  max-width: 420px;
+  max-width: 430px;
 }
 
 .auth-logo {
@@ -243,15 +238,15 @@ h1 {
   flex: 1;
   display: grid;
   place-items: center;
-  padding: 40px 24px;
+  padding: 42px 24px;
 }
 
 .auth-card {
-  width: min(100%, 450px);
+  width: min(100%, 520px);
   padding: 36px;
   border-radius: var(--radius-xl);
-  background: rgba(255,255,255,0.88);
-  border: 1px solid rgba(226, 232, 240, 0.9);
+  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(226, 232, 240, 0.95);
   box-shadow: var(--shadow-lg);
   backdrop-filter: blur(18px);
 }
@@ -264,22 +259,22 @@ h1 {
 .auth-toggle {
   display: flex;
   gap: 8px;
-  padding: 6px;
-  border-radius: 18px;
+  padding: 7px;
+  border-radius: 20px;
   background: #eef6ff;
   border: 1px solid #dbeafe;
-  margin-bottom: 24px;
+  margin-bottom: 26px;
 }
 
 .auth-toggle-btn {
   flex: 1;
   border: 0;
   cursor: pointer;
-  border-radius: 14px;
-  padding: 12px 16px;
+  border-radius: 15px;
+  padding: 15px 16px;
   background: transparent;
   color: var(--muted);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 800;
   transition: var(--transition);
 }
@@ -335,7 +330,7 @@ h1 {
 
 .auth-form {
   display: grid;
-  gap: 14px;
+  gap: 15px;
 }
 
 .auth-input,
@@ -343,13 +338,14 @@ input,
 select,
 textarea {
   width: 100%;
+  min-height: 54px;
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: 15px;
   background: var(--surface);
   color: var(--text);
   padding: 14px 16px;
   font: inherit;
-  font-size: 14px;
+  font-size: 15px;
   outline: none;
   transition: var(--transition);
 }
@@ -373,13 +369,14 @@ textarea:focus {
 button[type="submit"] {
   border: 0;
   border-radius: 16px;
-  padding: 14px 18px;
+  padding: 15px 20px;
+  min-height: 54px;
   background: linear-gradient(135deg, var(--primary), var(--secondary));
   color: #fff;
   font-weight: 800;
-  font-size: 14px;
+  font-size: 15px;
   cursor: pointer;
-  box-shadow: 0 12px 26px rgba(37, 99, 235, 0.25);
+  box-shadow: 0 12px 26px rgba(37, 99, 235, 0.24);
   transition: var(--transition);
 }
 
@@ -387,7 +384,7 @@ button[type="submit"] {
 .btn:hover,
 button[type="submit"]:hover {
   transform: translateY(-2px);
-  box-shadow: 0 18px 36px rgba(37, 99, 235, 0.32);
+  box-shadow: 0 18px 36px rgba(37, 99, 235, 0.30);
 }
 
 .auth-submit-btn:active,
@@ -401,6 +398,51 @@ button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
+}
+
+/* OTP Verification UI */
+.auth-otp-head {
+  text-align: center;
+  display: grid;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+
+.auth-otp-head h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.auth-otp-head p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.auth-otp-input {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 8px;
+}
+
+.auth-link-btn {
+  border: 0;
+  background: transparent;
+  color: var(--primary);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.auth-link-btn:hover {
+  text-decoration: underline;
 }
 
 .auth-divider {
@@ -420,46 +462,14 @@ button:disabled {
   background: var(--border);
 }
 
-.auth-demo-accounts {
-  margin-top: 20px;
-  padding: 16px;
-  border-radius: 20px;
-  background: #f8fafc;
-  border: 1px solid var(--border);
-}
-
-.auth-demo-title {
-  text-align: center;
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 12px;
-}
-
+/* Hide demo accounts */
+.auth-demo-accounts,
+.auth-demo-title,
 .auth-demo-btn {
-  width: 100%;
-  margin-top: 8px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--surface);
-  color: var(--text);
-  padding: 10px 12px;
-  font-weight: 800;
-  cursor: pointer;
-  transition: var(--transition);
+  display: none !important;
 }
 
-.auth-demo-btn:hover {
-  border-color: var(--primary);
-  color: var(--primary);
-  background: #eff6ff;
-}
-
-/* =========================
-   CARDS / DASHBOARD
-   ========================= */
+/* ================= CARDS / DASHBOARD ================= */
 
 .card,
 .dashboard-card,
@@ -467,7 +477,12 @@ button:disabled {
 .profile-card,
 .appointment-card,
 .doctor-card,
-.patient-card {
+.patient-card,
+.form-card,
+.form-container,
+.bmi-card,
+.bmi-calculator,
+.bmi-result-card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -482,7 +497,9 @@ button:disabled {
 .profile-card:hover,
 .appointment-card:hover,
 .doctor-card:hover,
-.patient-card:hover {
+.patient-card:hover,
+.bmi-card:hover,
+.bmi-calculator:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-md);
   border-color: rgba(37, 99, 235, 0.18);
@@ -514,7 +531,7 @@ button:disabled {
 
 .stat-value,
 .card-value {
-  font-size: 30px;
+  font-size: 32px;
   font-weight: 900;
   letter-spacing: -0.04em;
   color: var(--text);
@@ -528,9 +545,7 @@ button:disabled {
   font-weight: 700;
 }
 
-/* =========================
-   BUTTON VARIANTS
-   ========================= */
+/* ================= BUTTON VARIANTS ================= */
 
 .btn-secondary {
   background: #e0f2fe;
@@ -565,16 +580,10 @@ button:disabled {
   background: #eff6ff;
 }
 
-/* =========================
-   FORMS
-   ========================= */
+/* ================= FORMS ================= */
 
 .form-card,
 .form-container {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
   padding: 26px;
 }
 
@@ -603,9 +612,7 @@ textarea {
   gap: 16px;
 }
 
-/* =========================
-   TABLES
-   ========================= */
+/* ================= TABLES ================= */
 
 .table-container,
 .table-wrapper {
@@ -657,9 +664,7 @@ tbody tr:last-child td {
   border-bottom: none;
 }
 
-/* =========================
-   BADGES / STATUS
-   ========================= */
+/* ================= BADGES / STATUS ================= */
 
 .badge,
 .status-badge {
@@ -701,13 +706,11 @@ tbody tr:last-child td {
   color: #1d4ed8;
 }
 
-/* =========================
-   NAVBAR / SIDEBAR
-   ========================= */
+/* ================= NAVBAR / SIDEBAR ================= */
 
 .navbar,
 .topbar {
-  background: rgba(255,255,255,0.86);
+  background: rgba(255,255,255,0.88);
   border-bottom: 1px solid var(--border);
   backdrop-filter: blur(18px);
   box-shadow: var(--shadow-sm);
@@ -736,9 +739,106 @@ tbody tr:last-child td {
   color: var(--primary);
 }
 
-/* =========================
-   RESPONSIVE
-   ========================= */
+/* ================= BMI CALCULATOR ================= */
+
+.bmi-section,
+.bmi-page {
+  padding: 28px;
+}
+
+.bmi-calculator {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.bmi-title {
+  font-size: clamp(26px, 4vw, 38px);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  color: var(--text);
+  margin: 0 0 8px;
+}
+
+.bmi-subtitle {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 0 0 24px;
+}
+
+.bmi-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.bmi-form .form-group {
+  margin-bottom: 0;
+}
+
+.bmi-form input {
+  min-height: 56px;
+  border-radius: 16px;
+}
+
+.bmi-calculate-btn,
+.calculate-btn,
+.bmi-btn {
+  grid-column: 1 / -1;
+  width: 100%;
+  min-height: 56px;
+  border: 0;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 14px 30px rgba(37, 99, 235, 0.25);
+  transition: var(--transition);
+}
+
+.bmi-calculate-btn:hover,
+.calculate-btn:hover,
+.bmi-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 38px rgba(37, 99, 235, 0.32);
+}
+
+.bmi-result,
+.bmi-result-card {
+  margin-top: 22px;
+  padding: 20px;
+  border-radius: 20px;
+  background: #f8fafc;
+  border: 1px solid var(--border);
+}
+
+.bmi-value {
+  font-size: 38px;
+  font-weight: 900;
+  color: var(--primary);
+  letter-spacing: -0.04em;
+}
+
+.bmi-category {
+  display: inline-flex;
+  margin-top: 8px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.bmi-info {
+  margin-top: 12px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* ================= RESPONSIVE ================= */
 
 @media (max-width: 1100px) {
   .stats-grid,
@@ -785,7 +885,7 @@ tbody tr:last-child td {
   }
 
   .auth-card {
-    padding: 26px 18px;
+    padding: 24px 18px;
     border-radius: 22px;
   }
 
@@ -795,7 +895,8 @@ tbody tr:last-child td {
   .dashboard-grid,
   .cards-grid,
   .input-row,
-  .form-row {
+  .form-row,
+  .bmi-form {
     grid-template-columns: 1fr;
   }
 
@@ -822,7 +923,8 @@ tbody tr:last-child td {
   .dashboard-card,
   .stat-card,
   .form-card,
-  .form-container {
+  .form-container,
+  .bmi-calculator {
     padding: 18px;
     border-radius: 18px;
   }
@@ -830,6 +932,11 @@ tbody tr:last-child td {
   th,
   td {
     padding: 13px 14px;
+  }
+
+  .auth-otp-input {
+    font-size: 20px;
+    letter-spacing: 5px;
   }
 }
 
@@ -856,5 +963,10 @@ tbody tr:last-child td {
   .btn,
   button[type="submit"] {
     width: 100%;
+  }
+
+  .bmi-section,
+  .bmi-page {
+    padding: 18px 12px;
   }
 }

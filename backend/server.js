@@ -133,6 +133,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.get('/favicon.ico', (req, res) => res.status(204).end());
 
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/public', require('./routes/public'));
 app.use('/api/doctors', require('./routes/doctors'));
 app.use('/api/patients', require('./routes/patients'));
 app.use('/api/appointments', require('./routes/appointments'));

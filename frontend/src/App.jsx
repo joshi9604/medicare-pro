@@ -6,6 +6,12 @@ import { ThemeProvider } from './context/ThemeContext';
 import AppLayout from './components/layout/AppLayout';
 import AuthPage from './pages/auth/AuthPage';
 import HomePage from './pages/home/HomePage';
+import HomeStatsPage from './pages/home/HomeStatsPage';
+import BmiPage from './pages/home/tools/BmiPage';
+import BmrPage from './pages/home/tools/BmrPage';
+import WaterIntakePage from './pages/home/tools/WaterIntakePage';
+import BloodPressureGuidePage from './pages/home/tools/BloodPressureGuidePage';
+import SugarLevelGuidePage from './pages/home/tools/SugarLevelGuidePage';
 import PatientDashboard from './pages/patient/PatientDashboard';
 import FindDoctors from './pages/patient/FindDoctors';
 import Appointments from './pages/patient/Appointments';
@@ -68,6 +74,12 @@ const AppRoutes = () => {
       {/* Public Routes */}
       <Route path="/auth" element={<PublicRoute />} />
       <Route path="/" element={<PublicHomeRoute />} />
+      <Route path="/stats/:role" element={<HomeStatsPage />} />
+      <Route path="/bmi" element={<BmiPage />} />
+      <Route path="/bmr" element={<BmrPage />} />
+      <Route path="/water-intake" element={<WaterIntakePage />} />
+      <Route path="/blood-pressure-guide" element={<BloodPressureGuidePage />} />
+      <Route path="/sugar-level-guide" element={<SugarLevelGuidePage />} />
 
       {/* Patient Routes */}
       <Route element={<ProtectedLayout allowedRole="patient" />}>

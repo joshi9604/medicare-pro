@@ -46,10 +46,20 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (formData) => {
     const { data } = await axios.post('/api/auth/register', formData);
+    return data;
+  };
+
+  const verifyEmail = async (email, otp) => {
+    const { data } = await axios.post('/api/auth/verify-email', { email, otp });
     localStorage.setItem('medicare_token', data.token);
     axios.defaults.headers.common.Authorization = `Bearer ${data.token}`;
     setToken(data.token);
     setUser(data.user);
+    return data;
+  };
+
+  const resendOtp = async (email) => {
+    const { data } = await axios.post('/api/auth/resend-otp', { email });
     return data;
   };
 
@@ -69,6 +79,8 @@ export const AuthProvider = ({ children }) => {
     loading,
     login,
     register,
+    verifyEmail,
+    resendOtp,
     logout,
     roleMeta
   }), [user, token, loading, roleMeta]);
