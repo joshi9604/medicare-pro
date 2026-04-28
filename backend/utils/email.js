@@ -65,7 +65,9 @@
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
-const getEnv = (key) => String(process.env[key] || '').trim();
+const getEnv = (key) => String(process.env[key] || '')
+  .trim()
+  .replace(/^['"]|['"]$/g, '');
 
 const getTransporter = () => {
   const provider = getEnv('EMAIL_PROVIDER').toLowerCase() || 'gmail';
@@ -82,11 +84,12 @@ const getTransporter = () => {
     });
   }
 
-  // Gmail SMTP FIXED
+  // Gmail SMTP via STARTTLS is more reliable on hosted platforms than port 465.
   return nodemailer.createTransport({
     host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
+    port: Number(getEnv('EMAIL_PORT')) || 587,
+    secure: false,
+    requireTLS: true,
     connectionTimeout: 20000,
     greetingTimeout: 20000,
     socketTimeout: 20000,

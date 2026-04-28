@@ -112,6 +112,7 @@ router.post(
         await existingUser.save();
 
         let emailSent = false;
+        let emailErrorMessage = '';
 
         try {
           console.log(`Sending verification OTP to ${existingUser.email}`);
@@ -121,7 +122,8 @@ router.post(
             html: buildOtpEmail(existingUser.name, otp),
           });
         } catch (emailErr) {
-          console.error('Verification OTP email failed:', emailErr.message);
+          emailErrorMessage = emailErr.message;
+          console.error('Verification OTP email failed:', emailErrorMessage);
         }
 
         if (!emailSent) {
@@ -129,7 +131,7 @@ router.post(
             success: false,
             requiresVerification: true,
             email: existingUser.email,
-            message: 'OTP email could not be sent. Please check SMTP/email configuration.',
+            message: `OTP email could not be sent. ${emailErrorMessage || 'Please check SMTP/email configuration.'}`,
           });
         }
 
@@ -163,6 +165,7 @@ router.post(
       }
 
       let emailSent = false;
+      let emailErrorMessage = '';
 
       try {
         console.log(`Sending verification OTP to ${user.email}`);
@@ -172,7 +175,8 @@ router.post(
           html: buildOtpEmail(user.name, otp),
         });
       } catch (emailErr) {
-        console.error('Verification OTP email failed:', emailErr.message);
+        emailErrorMessage = emailErr.message;
+        console.error('Verification OTP email failed:', emailErrorMessage);
       }
 
       if (!emailSent) {
@@ -180,7 +184,7 @@ router.post(
           success: false,
           requiresVerification: true,
           email: user.email,
-          message: 'Account created, but OTP email could not be sent. Please check SMTP/email configuration.',
+          message: `Account created, but OTP email could not be sent. ${emailErrorMessage || 'Please check SMTP/email configuration.'}`,
         });
       }
 
@@ -317,6 +321,7 @@ router.post(
       await user.save();
 
       let emailSent = false;
+      let emailErrorMessage = '';
 
       try {
         console.log(`Sending verification OTP to ${user.email}`);
@@ -326,13 +331,14 @@ router.post(
           html: buildOtpEmail(user.name, otp),
         });
       } catch (emailErr) {
-        console.error('Verification OTP email failed:', emailErr.message);
+        emailErrorMessage = emailErr.message;
+        console.error('Verification OTP email failed:', emailErrorMessage);
       }
 
       if (!emailSent) {
         return res.status(500).json({
           success: false,
-          message: 'OTP email could not be sent. Please check SMTP/email configuration.',
+          message: `OTP email could not be sent. ${emailErrorMessage || 'Please check SMTP/email configuration.'}`,
         });
       }
 
