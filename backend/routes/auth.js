@@ -76,11 +76,38 @@ router.post('/register', [
   try {
     const { name, email, password, role, phone, gender, dateOfBirth, bloodGroup } = req.body;
     
-    const existingUser = await User.findOne({ where: { email } });
-    if (existingUser)
-      return res.status(400).json({ success: false, message: 'Email already registered' });
-
     const otp = generateOtp();
+    const existingUser = await User.findOne({ where: { email } });
+    if (existingUser) {
+      if (existingUser.isVerified) {
+        return res.status(400).json({ success: false, message: 'Email already registered' });
+      }
+
+      existingUser.emailVerificationOtp = otp;
+      existingUser.emailVerificationOtpExpire = new Date(Date.now() + 10 * 60 * 1000);
+      await existingUser.save();
+
+      let emailSent = false;
+      try {
+        emailSent = await sendEmail({
+          to: existingUser.email,
+          subject: 'Verify your MediCare Pro account',
+          html: buildOtpEmail(existingUser.name, otp)
+        });
+      } catch (emailErr) {
+        console.error('Verification OTP email failed:', emailErr.message);
+      }
+
+      return res.json({
+        success: true,
+        requiresVerification: true,
+        email: existingUser.email,
+        message: emailSent
+          ? 'Account already exists but is not verified. A new OTP has been sent.'
+          : 'Account already exists but is not verified. Email service is not configured so OTP could not be sent.'
+      });
+    }
+
     const user = await User.create({
       name,
       email,
