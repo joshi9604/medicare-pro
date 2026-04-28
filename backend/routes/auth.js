@@ -95,8 +95,9 @@ router.post(
         bloodGroup,
       } = req.body;
 
+      const normalizedEmail = String(email || '').trim().toLowerCase();
       const otp = generateOtp();
-      const existingUser = await User.findOne({ where: { email } });
+      const existingUser = await User.findOne({ where: { email: normalizedEmail } });
 
       if (existingUser) {
         if (existingUser.isVerified) {
@@ -113,6 +114,7 @@ router.post(
         let emailSent = false;
 
         try {
+          console.log(`Sending verification OTP to ${existingUser.email}`);
           emailSent = await sendEmail({
             to: existingUser.email,
             subject: 'Verify your MediCare Pro account',
@@ -122,20 +124,26 @@ router.post(
           console.error('Verification OTP email failed:', emailErr.message);
         }
 
+        if (!emailSent) {
+          return res.status(500).json({
+            success: false,
+            requiresVerification: true,
+            email: existingUser.email,
+            message: 'OTP email could not be sent. Please check SMTP/email configuration.',
+          });
+        }
+
         return res.json({
           success: true,
           requiresVerification: true,
           email: existingUser.email,
-          otp: emailSent ? undefined : otp,
-          message: emailSent
-            ? 'Account already exists but is not verified. A new OTP has been sent.'
-            : `Email failed. Your OTP is ${otp}`,
+          message: 'Account already exists but is not verified. A new OTP has been sent.',
         });
       }
 
       const user = await User.create({
         name,
-        email,
+        email: normalizedEmail,
         password,
         role,
         phone,
@@ -157,6 +165,7 @@ router.post(
       let emailSent = false;
 
       try {
+        console.log(`Sending verification OTP to ${user.email}`);
         emailSent = await sendEmail({
           to: user.email,
           subject: 'Verify your MediCare Pro account',
@@ -166,14 +175,20 @@ router.post(
         console.error('Verification OTP email failed:', emailErr.message);
       }
 
+      if (!emailSent) {
+        return res.status(500).json({
+          success: false,
+          requiresVerification: true,
+          email: user.email,
+          message: 'Account created, but OTP email could not be sent. Please check SMTP/email configuration.',
+        });
+      }
+
       return res.status(201).json({
         success: true,
         requiresVerification: true,
         email: user.email,
-        otp: emailSent ? undefined : otp,
-        message: emailSent
-          ? 'Account created. Please verify OTP sent to your email.'
-          : `Email failed. Your OTP is ${otp}`,
+        message: 'Account created. Please verify OTP sent to your email.',
       });
     } catch (err) {
       console.error('Register error:', err.message);
@@ -304,6 +319,7 @@ router.post(
       let emailSent = false;
 
       try {
+        console.log(`Sending verification OTP to ${user.email}`);
         emailSent = await sendEmail({
           to: user.email,
           subject: 'Your new MediCare Pro verification OTP',
@@ -313,12 +329,16 @@ router.post(
         console.error('Verification OTP email failed:', emailErr.message);
       }
 
+      if (!emailSent) {
+        return res.status(500).json({
+          success: false,
+          message: 'OTP email could not be sent. Please check SMTP/email configuration.',
+        });
+      }
+
       return res.json({
         success: true,
-        otp: emailSent ? undefined : otp,
-        message: emailSent
-          ? 'OTP sent successfully'
-          : `Email failed. Your OTP is ${otp}`,
+        message: 'OTP sent successfully',
       });
     } catch (err) {
       console.error('Resend OTP error:', err.message);

@@ -65,8 +65,10 @@
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
+const getEnv = (key) => String(process.env[key] || '').trim();
+
 const getTransporter = () => {
-  const provider = process.env.EMAIL_PROVIDER || 'gmail';
+  const provider = getEnv('EMAIL_PROVIDER').toLowerCase() || 'gmail';
 
   if (provider === 'sendgrid') {
     return nodemailer.createTransport({
@@ -75,7 +77,7 @@ const getTransporter = () => {
       secure: false,
       auth: {
         user: 'apikey',
-        pass: process.env.SENDGRID_API_KEY,
+        pass: getEnv('SENDGRID_API_KEY'),
       },
     });
   }
@@ -89,22 +91,22 @@ const getTransporter = () => {
     greetingTimeout: 20000,
     socketTimeout: 20000,
     auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
+      user: getEnv('EMAIL_USER'),
+      pass: getEnv('EMAIL_PASS').replace(/\s/g, ''),
     },
   });
 };
 
 exports.sendEmail = async ({ to, subject, html }) => {
-  const provider = process.env.EMAIL_PROVIDER || 'gmail';
+  const provider = getEnv('EMAIL_PROVIDER').toLowerCase() || 'gmail';
 
   if (provider === 'sendgrid') {
-    if (!process.env.SENDGRID_API_KEY) {
+    if (!getEnv('SENDGRID_API_KEY')) {
       console.log('📧 Email skipped: SENDGRID_API_KEY missing');
       return false;
     }
   } else {
-    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    if (!getEnv('EMAIL_USER') || !getEnv('EMAIL_PASS')) {
       console.log('📧 Email skipped: EMAIL_USER or EMAIL_PASS missing');
       return false;
     }
@@ -116,7 +118,7 @@ exports.sendEmail = async ({ to, subject, html }) => {
     await transporter.verify();
 
     await transporter.sendMail({
-      from: `"MediCare Pro" <${process.env.EMAIL_FROM || process.env.EMAIL_USER}>`,
+      from: `"MediCare Pro" <${getEnv('EMAIL_FROM') || getEnv('EMAIL_USER')}>`,
       to,
       subject,
       html,
