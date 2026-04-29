@@ -65,85 +65,30 @@
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
-const getEnv = (key) =>
-  String(process.env[key] || '')
-    .trim()
-    .replace(/^['"]|['"]$/g, '');
-
-const getTransporter = () => {
-  const provider = getEnv('EMAIL_PROVIDER').toLowerCase() || 'brevo';
-
-  if (provider === 'brevo') {
-    return nodemailer.createTransport({
-      host: 'smtp-relay.brevo.com',
-      port: 587,
-      secure: false,
-      connectionTimeout: 10000,
-      greetingTimeout: 10000,
-      socketTimeout: 10000,
-      auth: {
-        user: getEnv('BREVO_SMTP_USER'),
-        pass: getEnv('BREVO_SMTP_PASS'),
-      },
-    });
-  }
-
-  if (provider === 'sendgrid') {
-    return nodemailer.createTransport({
-      host: 'smtp.sendgrid.net',
-      port: 587,
-      secure: false,
-      auth: {
-        user: 'apikey',
-        pass: getEnv('SENDGRID_API_KEY'),
-      },
-    });
-  }
-
-  return nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false,
-    requireTLS: true,
-    auth: {
-      user: getEnv('EMAIL_USER'),
-      pass: getEnv('EMAIL_PASS').replace(/\s/g, ''),
-    },
-  });
-};
-
 exports.sendEmail = async ({ to, subject, html }) => {
-  const provider = getEnv('EMAIL_PROVIDER').toLowerCase() || 'brevo';
-
-  if (provider === 'brevo' && (!getEnv('BREVO_SMTP_USER') || !getEnv('BREVO_SMTP_PASS'))) {
-    console.error('Email failed: BREVO_SMTP_USER or BREVO_SMTP_PASS missing');
-    return false;
-  }
-
-  if (provider === 'sendgrid' && !getEnv('SENDGRID_API_KEY')) {
-    console.error('Email failed: SENDGRID_API_KEY missing');
-    return false;
-  }
-
-  if (provider === 'gmail' && (!getEnv('EMAIL_USER') || !getEnv('EMAIL_PASS'))) {
-    console.error('Email failed: EMAIL_USER or EMAIL_PASS missing');
-    return false;
-  }
-
   try {
-    const transporter = getTransporter();
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: String(process.env.EMAIL_PASS || '').replace(/\s/g, ''),
+      },
+      connectionTimeout: 20000,
+      greetingTimeout: 20000,
+      socketTimeout: 20000,
+    });
 
     await transporter.sendMail({
-      from: `"MediCare Pro" <${getEnv('EMAIL_FROM') || getEnv('EMAIL_USER') || getEnv('BREVO_SMTP_USER')}>`,
+      from: `"MediCare Pro" <${process.env.EMAIL_FROM || process.env.EMAIL_USER}>`,
       to,
       subject,
       html,
     });
 
-    console.log(`📧 Email sent to ${to} via ${provider}`);
+    console.log(`✅ Gmail email sent to ${to}`);
     return true;
   } catch (err) {
-    console.error('❌ Email failed:', err.message);
+    console.error('❌ Gmail email failed:', err.message);
     return false;
   }
 };
