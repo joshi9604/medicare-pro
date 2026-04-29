@@ -115,11 +115,26 @@ const getTransporter = () => {
 exports.sendEmail = async ({ to, subject, html }) => {
   const provider = getEnv('EMAIL_PROVIDER').toLowerCase() || 'brevo';
 
+  if (provider === 'brevo' && (!getEnv('BREVO_SMTP_USER') || !getEnv('BREVO_SMTP_PASS'))) {
+    console.error('Email failed: BREVO_SMTP_USER or BREVO_SMTP_PASS missing');
+    return false;
+  }
+
+  if (provider === 'sendgrid' && !getEnv('SENDGRID_API_KEY')) {
+    console.error('Email failed: SENDGRID_API_KEY missing');
+    return false;
+  }
+
+  if (provider === 'gmail' && (!getEnv('EMAIL_USER') || !getEnv('EMAIL_PASS'))) {
+    console.error('Email failed: EMAIL_USER or EMAIL_PASS missing');
+    return false;
+  }
+
   try {
     const transporter = getTransporter();
 
     await transporter.sendMail({
-      from: `"MediCare Pro" <${getEnv('EMAIL_FROM') || getEnv('EMAIL_USER')}>`,
+      from: `"MediCare Pro" <${getEnv('EMAIL_FROM') || getEnv('EMAIL_USER') || getEnv('BREVO_SMTP_USER')}>`,
       to,
       subject,
       html,
