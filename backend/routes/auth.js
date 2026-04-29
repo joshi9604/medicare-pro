@@ -51,6 +51,9 @@ const generateToken = (id) =>
   });
 
 const generateOtp = () => String(Math.floor(100000 + Math.random() * 900000));
+const canExposeOtp = () => process.env.EXPOSE_OTP_IN_RESPONSE === 'true';
+const emailConfigMessage = (prefix, errorMessage) =>
+  `${prefix} OTP email could not be sent. ${errorMessage || 'Please check SMTP/email configuration.'}`;
 
 const buildOtpEmail = (name, otp) => `
   <div style="font-family:Arial,sans-serif;line-height:1.6;color:#0f172a">
@@ -127,12 +130,23 @@ router.post(
         }
 
         if (!emailSent) {
-          return res.status(500).json({
-            success: false,
+          const response = {
+            success: true,
             requiresVerification: true,
             email: existingUser.email,
-            message: `OTP email could not be sent. ${emailErrorMessage || 'Please check SMTP/email configuration.'}`,
-          });
+            emailDeliveryFailed: true,
+            message: emailConfigMessage(
+              'A new OTP was generated, but',
+              emailErrorMessage
+            ),
+          };
+
+          if (canExposeOtp()) {
+            response.otp = otp;
+            response.message = `Development mode: email failed, use OTP ${otp}`;
+          }
+
+          return res.status(202).json(response);
         }
 
         return res.json({
@@ -180,12 +194,23 @@ router.post(
       }
 
       if (!emailSent) {
-        return res.status(500).json({
-          success: false,
+        const response = {
+          success: true,
           requiresVerification: true,
           email: user.email,
-          message: `Account created, but OTP email could not be sent. ${emailErrorMessage || 'Please check SMTP/email configuration.'}`,
-        });
+          emailDeliveryFailed: true,
+          message: emailConfigMessage(
+            'Account created, but',
+            emailErrorMessage
+          ),
+        };
+
+        if (canExposeOtp()) {
+          response.otp = otp;
+          response.message = `Development mode: email failed, use OTP ${otp}`;
+        }
+
+        return res.status(202).json(response);
       }
 
       return res.status(201).json({
@@ -336,10 +361,21 @@ router.post(
       }
 
       if (!emailSent) {
-        return res.status(500).json({
-          success: false,
-          message: `OTP email could not be sent. ${emailErrorMessage || 'Please check SMTP/email configuration.'}`,
-        });
+        const response = {
+          success: true,
+          emailDeliveryFailed: true,
+          message: emailConfigMessage(
+            'A new OTP was generated, but',
+            emailErrorMessage
+          ),
+        };
+
+        if (canExposeOtp()) {
+          response.otp = otp;
+          response.message = `Development mode: email failed, use OTP ${otp}`;
+        }
+
+        return res.status(202).json(response);
       }
 
       return res.json({

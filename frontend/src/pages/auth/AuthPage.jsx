@@ -258,7 +258,7 @@ export default function AuthPage() {
         toast.success(data.message || 'OTP sent to your email');
       }
     } catch (err) {
-      if (err.response?.data?.requiresVerification) {
+      if (err.response?.data?.requiresVerification && err.response?.status !== 500) {
         setVerificationEmail(err.response.data.email || form.email);
         setOtp('');
       }
@@ -289,6 +289,7 @@ export default function AuthPage() {
     setLoading(true);
     try {
       const data = await resendOtp(verificationEmail);
+      setOtp('');
       toast.success(data.message || 'OTP sent again');
     } catch (err) {
       toast.error(err.response?.data?.message || 'Failed to resend OTP');
