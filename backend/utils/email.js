@@ -65,12 +65,28 @@
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
-const getEnv = (key) => String(process.env[key] || '')
-  .trim()
-  .replace(/^['"]|['"]$/g, '');
+const getEnv = (key) =>
+  String(process.env[key] || '')
+    .trim()
+    .replace(/^['"]|['"]$/g, '');
 
 const getTransporter = () => {
-  const provider = getEnv('EMAIL_PROVIDER').toLowerCase() || 'gmail';
+  const provider = getEnv('EMAIL_PROVIDER').toLowerCase() || 'brevo';
+
+  if (provider === 'brevo') {
+    return nodemailer.createTransport({
+      host: 'smtp-relay.brevo.com',
+      port: 587,
+      secure: false,
+      connectionTimeout: 10000,
+      greetingTimeout: 10000,
+      socketTimeout: 10000,
+      auth: {
+        user: getEnv('BREVO_SMTP_USER'),
+        pass: getEnv('BREVO_SMTP_PASS'),
+      },
+    });
+  }
 
   if (provider === 'sendgrid') {
     return nodemailer.createTransport({
@@ -84,15 +100,11 @@ const getTransporter = () => {
     });
   }
 
-  // Gmail SMTP via STARTTLS is more reliable on hosted platforms than port 465.
   return nodemailer.createTransport({
     host: 'smtp.gmail.com',
-    port: Number(getEnv('EMAIL_PORT')) || 587,
+    port: 587,
     secure: false,
     requireTLS: true,
-    connectionTimeout: 20000,
-    greetingTimeout: 20000,
-    socketTimeout: 20000,
     auth: {
       user: getEnv('EMAIL_USER'),
       pass: getEnv('EMAIL_PASS').replace(/\s/g, ''),
@@ -101,24 +113,10 @@ const getTransporter = () => {
 };
 
 exports.sendEmail = async ({ to, subject, html }) => {
-  const provider = getEnv('EMAIL_PROVIDER').toLowerCase() || 'gmail';
-
-  if (provider === 'sendgrid') {
-    if (!getEnv('SENDGRID_API_KEY')) {
-      console.log('📧 Email skipped: SENDGRID_API_KEY missing');
-      return false;
-    }
-  } else {
-    if (!getEnv('EMAIL_USER') || !getEnv('EMAIL_PASS')) {
-      console.log('📧 Email skipped: EMAIL_USER or EMAIL_PASS missing');
-      return false;
-    }
-  }
-
-  const transporter = getTransporter();
+  const provider = getEnv('EMAIL_PROVIDER').toLowerCase() || 'brevo';
 
   try {
-    await transporter.verify();
+    const transporter = getTransporter();
 
     await transporter.sendMail({
       from: `"MediCare Pro" <${getEnv('EMAIL_FROM') || getEnv('EMAIL_USER')}>`,
@@ -130,7 +128,7 @@ exports.sendEmail = async ({ to, subject, html }) => {
     console.log(`📧 Email sent to ${to} via ${provider}`);
     return true;
   } catch (err) {
-    console.error('❌ Email failed:', err);
-    throw err;
+    console.error('❌ Email failed:', err.message);
+    return false;
   }
 };
