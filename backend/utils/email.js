@@ -46,12 +46,14 @@
 
 //local testing with Gmail SMTP (requires app password and less secure apps enabled)
 // 
-
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 exports.sendEmail = async ({ to, subject, html }) => {
   try {
+    console.log('EMAIL_PROVIDER:', process.env.EMAIL_PROVIDER);
+    console.log('BREVO_USER:', process.env.BREVO_SMTP_USER);
+
     const transporter = nodemailer.createTransport({
       host: 'smtp-relay.brevo.com',
       port: 587,
@@ -69,10 +71,10 @@ exports.sendEmail = async ({ to, subject, html }) => {
       html,
     });
 
-    console.log("✅ Brevo Email Sent");
+    console.log(`✅ Brevo email sent to ${to}`);
     return true;
   } catch (err) {
-    console.log("❌ Brevo Error:", err.message);
+    console.error('❌ Brevo email failed:', err.message);
     return false;
   }
 };
