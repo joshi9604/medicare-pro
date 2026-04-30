@@ -254,13 +254,18 @@ export default function AuthPage() {
       } else {
         const data = await register({ ...form, role: selectedRole });
         setVerificationEmail(data.email || form.email);
-        setOtp('');
-        toast.success(data.message || 'OTP sent to your email');
+        setOtp(data.otp || '');
+
+        if (data.emailDeliveryFailed) {
+          toast.error(data.message || 'OTP email could not be sent');
+        } else {
+          toast.success(data.message || 'OTP sent to your email');
+        }
       }
     } catch (err) {
       if (err.response?.data?.requiresVerification && err.response?.status !== 500) {
         setVerificationEmail(err.response.data.email || form.email);
-        setOtp('');
+        setOtp(err.response.data.otp || '');
       }
       const errorMsg = err.response?.data?.errors?.[0]?.msg || err.response?.data?.message || 'Something went wrong';
       toast.error(errorMsg);
@@ -289,8 +294,13 @@ export default function AuthPage() {
     setLoading(true);
     try {
       const data = await resendOtp(verificationEmail);
-      setOtp('');
-      toast.success(data.message || 'OTP sent again');
+      setOtp(data.otp || '');
+
+      if (data.emailDeliveryFailed) {
+        toast.error(data.message || 'OTP email could not be sent');
+      } else {
+        toast.success(data.message || 'OTP sent again');
+      }
     } catch (err) {
       toast.error(err.response?.data?.message || 'Failed to resend OTP');
     } finally {

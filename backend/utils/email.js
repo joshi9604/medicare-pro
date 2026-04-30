@@ -49,23 +49,35 @@
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
+const getEnv = (key) => String(process.env[key] || '').trim().replace(/^['"]|['"]$/g, '');
+
 exports.sendEmail = async ({ to, subject, html }) => {
   try {
-    console.log('EMAIL_PROVIDER:', process.env.EMAIL_PROVIDER);
-    console.log('BREVO_USER:', process.env.BREVO_SMTP_USER);
+    const host = getEnv('SMTP_HOST') || 'smtp-relay.brevo.com';
+    const port = Number(getEnv('SMTP_PORT')) || 587;
+    const user = getEnv('BREVO_SMTP_USER') || getEnv('SMTP_USER');
+    const pass = getEnv('BREVO_SMTP_PASS') || getEnv('SMTP_PASS');
+    const from = getEnv('EMAIL_FROM') || user;
+
+    if (!user || !pass || !from) {
+      throw new Error('SMTP user, password, or from address missing');
+    }
 
     const transporter = nodemailer.createTransport({
-      host: 'smtp-relay.brevo.com',
-      port: 587,
-      secure: false,
+      host,
+      port,
+      secure: port === 465,
+      connectionTimeout: Number(getEnv('SMTP_CONNECTION_TIMEOUT')) || 20000,
+      greetingTimeout: Number(getEnv('SMTP_GREETING_TIMEOUT')) || 20000,
+      socketTimeout: Number(getEnv('SMTP_SOCKET_TIMEOUT')) || 20000,
       auth: {
-        user: process.env.BREVO_SMTP_USER,
-        pass: process.env.BREVO_SMTP_PASS,
+        user,
+        pass,
       },
     });
 
     await transporter.sendMail({
-      from: `"MediCare Pro" <${process.env.EMAIL_FROM}>`,
+      from: `"MediCare Pro" <${from}>`,
       to,
       subject,
       html,

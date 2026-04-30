@@ -248,7 +248,8 @@ router.post(
 
     try {
       const { email, otp } = req.body;
-      const user = await User.findOne({ where: { email } });
+      const normalizedEmail = String(email || '').trim().toLowerCase();
+      const user = await User.findOne({ where: { email: normalizedEmail } });
 
       if (!user) {
         return res.status(404).json({
@@ -323,7 +324,8 @@ router.post(
 
     try {
       const { email } = req.body;
-      const user = await User.findOne({ where: { email } });
+      const normalizedEmail = String(email || '').trim().toLowerCase();
+      const user = await User.findOne({ where: { email: normalizedEmail } });
 
       if (!user) {
         return res.status(404).json({
@@ -396,10 +398,11 @@ router.post(
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
+    const normalizedEmail = String(email || '').trim().toLowerCase();
 
-    console.log('Login attempt:', { email });
+    console.log('Login attempt:', { email: normalizedEmail });
 
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({ where: { email: normalizedEmail } });
 
     console.log('User found:', user ? 'Yes' : 'No');
 
@@ -429,12 +432,45 @@ router.post('/login', async (req, res) => {
     }
 
     if (!user.isVerified) {
-      return res.status(403).json({
+      const otp = generateOtp();
+      user.emailVerificationOtp = otp;
+      user.emailVerificationOtpExpire = new Date(Date.now() + 10 * 60 * 1000);
+      await user.save();
+
+      let emailSent = false;
+      let emailErrorMessage = '';
+
+      try {
+        console.log(`Sending verification OTP to ${user.email}`);
+        emailSent = await sendEmail({
+          to: user.email,
+          subject: 'Verify your MediCare Pro account',
+          html: buildOtpEmail(user.name, otp),
+        });
+      } catch (emailErr) {
+        emailErrorMessage = emailErr.message;
+        console.error('Verification OTP email failed:', emailErrorMessage);
+      }
+
+      const response = {
         success: false,
         requiresVerification: true,
         email: user.email,
-        message: 'Please verify your email before login',
-      });
+        message: emailSent
+          ? 'Please verify your email before login. A new OTP has been sent.'
+          : emailConfigMessage('Please verify your email before login, but', emailErrorMessage),
+      };
+
+      if (!emailSent) {
+        response.emailDeliveryFailed = true;
+      }
+
+      if (!emailSent && canExposeOtp()) {
+        response.otp = otp;
+        response.message = `Development mode: email failed, use OTP ${otp}`;
+      }
+
+      return res.status(403).json(response);
     }
 
     return res.json({
