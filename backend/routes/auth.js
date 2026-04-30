@@ -470,7 +470,7 @@ router.post('/login', async (req, res) => {
         response.message = `Development mode: email failed, use OTP ${otp}`;
       }
 
-      return res.status(403).json(response);
+      return res.status(202).json(response);
     }
 
     return res.json({

@@ -37,6 +37,11 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     const { data } = await axios.post('/api/auth/login', { email, password });
+
+    if (data.requiresVerification) {
+      return data;
+    }
+
     localStorage.setItem('medicare_token', data.token);
     axios.defaults.headers.common.Authorization = `Bearer ${data.token}`;
     setToken(data.token);

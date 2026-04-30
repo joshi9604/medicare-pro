@@ -249,6 +249,20 @@ export default function AuthPage() {
     try {
       if (isLogin) {
         const data = await login(form.email, form.password);
+
+        if (data.requiresVerification) {
+          setVerificationEmail(data.email || form.email);
+          setOtp(data.otp || '');
+
+          if (data.emailDeliveryFailed) {
+            toast.error(data.message || 'OTP email could not be sent');
+          } else {
+            toast.success(data.message || 'OTP sent to your email');
+          }
+
+          return;
+        }
+
         toast.success(`Welcome back, ${data.user.name}!`);
         navigate(`/${data.user.role}/dashboard`);
       } else {
