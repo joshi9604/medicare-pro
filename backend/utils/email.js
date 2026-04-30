@@ -46,47 +46,37 @@
 
 //local testing with Gmail SMTP (requires app password and less secure apps enabled)
 // 
-const nodemailer = require('nodemailer');
+const axios = require('axios');
 require('dotenv').config();
 
-const getEnv = (key) => String(process.env[key] || '').trim().replace(/^['"]|['"]$/g, '');
+const getEnv = (key) =>
+  String(process.env[key] || '').trim();
 
 exports.sendEmail = async ({ to, subject, html }) => {
   try {
-    const host = getEnv('SMTP_HOST') || 'smtp-relay.brevo.com';
-    const port = Number(getEnv('SMTP_PORT')) || 587;
-    const user = getEnv('BREVO_SMTP_USER') || getEnv('SMTP_USER');
-    const pass = getEnv('BREVO_SMTP_PASS') || getEnv('SMTP_PASS');
-    const from = getEnv('EMAIL_FROM') || user;
-
-    if (!user || !pass || !from) {
-      throw new Error('SMTP user, password, or from address missing');
-    }
-
-    const transporter = nodemailer.createTransport({
-      host,
-      port,
-      secure: port === 465,
-      connectionTimeout: Number(getEnv('SMTP_CONNECTION_TIMEOUT')) || 20000,
-      greetingTimeout: Number(getEnv('SMTP_GREETING_TIMEOUT')) || 20000,
-      socketTimeout: Number(getEnv('SMTP_SOCKET_TIMEOUT')) || 20000,
-      auth: {
-        user,
-        pass,
+    const res = await axios.post(
+      'https://api.brevo.com/v3/smtp/email',
+      {
+        sender: {
+          name: 'MediCare Pro',
+          email: getEnv('EMAIL_FROM'),
+        },
+        to: [{ email: to }],
+        subject,
+        htmlContent: html,
       },
-    });
+      {
+        headers: {
+          'api-key': getEnv('BREVO_API_KEY'),
+          'Content-Type': 'application/json',
+        },
+      }
+    );
 
-    await transporter.sendMail({
-      from: `"MediCare Pro" <${from}>`,
-      to,
-      subject,
-      html,
-    });
-
-    console.log(`✅ Brevo email sent to ${to}`);
+    console.log('✅ Brevo API email sent');
     return true;
   } catch (err) {
-    console.error('❌ Brevo email failed:', err.message);
+    console.error('❌ Brevo API error:', err.response?.data || err.message);
     return false;
   }
 };
