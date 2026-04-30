@@ -66,6 +66,7 @@ exports.sendEmail = async ({ to, subject, html }) => {
         htmlContent: html,
       },
       {
+        proxy: false,
         headers: {
           'api-key': getEnv('BREVO_API_KEY'),
           'Content-Type': 'application/json',
