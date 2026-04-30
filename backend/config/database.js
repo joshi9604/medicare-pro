@@ -122,6 +122,7 @@
 
 const { Sequelize } = require('sequelize');
 require('dotenv').config();
+const logger = require('../utils/logger');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -157,9 +158,9 @@ if (process.env.DATABASE_URL && process.env.DATABASE_URL.trim() !== '') {
 const testConnection = async () => {
   try {
     await sequelize.authenticate();
-    console.log('✅ PostgreSQL Connected');
+    logger.info('PostgreSQL connected');
   } catch (error) {
-    console.error('❌ PostgreSQL connection failed:', error.message);
+    logger.error('PostgreSQL connection failed', error.message);
   }
 };
 

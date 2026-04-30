@@ -5,6 +5,7 @@ const Razorpay = require('razorpay');
 const { Payment, Appointment, User, Notification } = require('../models');
 const { protect, authorize } = require('../middleware/auth');
 const { sendEmail } = require('../utils/email');
+const logger = require('../utils/logger');
 
 // Initialize Razorpay
 const razorpay = new Razorpay({
@@ -55,7 +56,7 @@ router.post('/create-order', authorize('patient'), async (req, res) => {
       paymentId: payment.id
     });
   } catch (err) {
-    console.error('Razorpay order creation error:', err);
+    logger.error('Razorpay order creation failed', err.message);
     res.status(500).json({ success: false, message: err.message });
   }
 });
@@ -121,9 +122,9 @@ router.post('/verify', authorize('patient'), async (req, res) => {
             <p><strong>Status:</strong> ✅ Confirmed</p>
             <br><p>Thank you for choosing MediCare Pro! 🏥</p>`
         });
-        console.log('✅ Payment confirmation email sent to patient');
+        logger.info('Payment confirmation email sent to patient');
       } catch (e) { 
-        console.error('❌ Payment email failed:', e.message); 
+        logger.error('Payment confirmation email failed', e.message);
       }
 
       // 📧 Send appointment booked email to doctor
@@ -142,9 +143,9 @@ router.post('/verify', authorize('patient'), async (req, res) => {
             ${appointment.videoCallLink ? `<p><strong>Video Link:</strong> <a href="${appointment.videoCallLink}">${appointment.videoCallLink}</a></p>` : ''}
             <br><p>Please check your dashboard for details. 🏥</p>`
         });
-        console.log('✅ Appointment confirmation email sent to doctor');
+        logger.info('Appointment confirmation email sent to doctor');
       } catch (e) { 
-        console.error('❌ Doctor email failed:', e.message); 
+        logger.error('Doctor appointment email failed', e.message);
       }
 
       // 🔔 Create notification for patient
@@ -156,9 +157,9 @@ router.post('/verify', authorize('patient'), async (req, res) => {
           type: 'appointment',
           link: '/patient/appointments'
         });
-        console.log('✅ Patient notification created');
+        logger.info('Patient payment notification created');
       } catch (e) { 
-        console.error('❌ Patient notification failed:', e.message); 
+        logger.error('Patient payment notification failed', e.message);
       }
 
       // 🔔 Create notification for doctor
@@ -170,9 +171,9 @@ router.post('/verify', authorize('patient'), async (req, res) => {
           type: 'appointment',
           link: '/doctor/appointments'
         });
-        console.log('✅ Doctor notification created');
+        logger.info('Doctor appointment notification created');
       } catch (e) { 
-        console.error('❌ Doctor notification failed:', e.message); 
+        logger.error('Doctor appointment notification failed', e.message);
       }
 
       // 📡 Emit socket event for real-time notification to doctor
@@ -183,7 +184,7 @@ router.post('/verify', authorize('patient'), async (req, res) => {
           message: `New appointment booked by ${appointment.patient.name}`,
           type: 'appointment'
         });
-        console.log('✅ Socket notification emitted to doctor');
+        logger.debug('Socket notification emitted to doctor', { doctorId: appointment.doctorId });
       }
 
       res.json({ success: true, message: 'Payment verified and appointment confirmed successfully' });

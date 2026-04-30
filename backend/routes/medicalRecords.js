@@ -3,6 +3,7 @@ const router = express.Router();
 const { MedicalRecord, User, Appointment } = require('../models');
 const { protect, authorize } = require('../middleware/auth');
 const { Op } = require('sequelize');
+const logger = require('../utils/logger');
 
 // Get all medical records for current user
 router.get('/', protect, async (req, res) => {
@@ -32,7 +33,7 @@ router.get('/', protect, async (req, res) => {
     
     res.json({ success: true, count: records.length, records });
   } catch (err) {
-    console.error('Medical records fetch error:', err);
+    logger.error('Medical records fetch failed', err.message);
     res.status(500).json({ success: false, message: err.message });
   }
 });
@@ -128,7 +129,7 @@ router.post('/', protect, authorize('doctor'), async (req, res) => {
     
     res.status(201).json({ success: true, record: recordWithDetails });
   } catch (err) {
-    console.error('Create medical record error:', err);
+    logger.error('Create medical record failed', err.message);
     res.status(400).json({ success: false, message: err.message, errors: err.errors?.map(e => e.message) });
   }
 });

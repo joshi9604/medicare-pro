@@ -7,6 +7,7 @@ const path = require('path');
 const { User, Doctor } = require('../models');
 const { protect } = require('../middleware/auth');
 const { sendEmail } = require('../utils/email');
+const logger = require('../utils/logger');
 
 const sanitizeUser = (user) => {
   if (!user) return null;
@@ -78,8 +79,7 @@ router.post(
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      console.log('Validation errors:', errors.array());
-      console.log('Request body:', req.body);
+      logger.warn('Registration validation failed', errors.array());
       return res.status(400).json({
         success: false,
         errors: errors.array(),
@@ -118,7 +118,7 @@ router.post(
         let emailErrorMessage = '';
 
         try {
-          console.log(`Sending verification OTP to ${existingUser.email}`);
+          logger.info('Sending verification OTP', { to: logger.maskEmail(existingUser.email) });
           emailSent = await sendEmail({
             to: existingUser.email,
             subject: 'Verify your MediCare Pro account',
@@ -126,7 +126,7 @@ router.post(
           });
         } catch (emailErr) {
           emailErrorMessage = emailErr.message;
-          console.error('Verification OTP email failed:', emailErrorMessage);
+          logger.error('Verification OTP email failed', emailErrorMessage);
         }
 
         if (!emailSent) {
@@ -182,7 +182,7 @@ router.post(
       let emailErrorMessage = '';
 
       try {
-        console.log(`Sending verification OTP to ${user.email}`);
+        logger.info('Sending verification OTP', { to: logger.maskEmail(user.email) });
         emailSent = await sendEmail({
           to: user.email,
           subject: 'Verify your MediCare Pro account',
@@ -190,7 +190,7 @@ router.post(
         });
       } catch (emailErr) {
         emailErrorMessage = emailErr.message;
-        console.error('Verification OTP email failed:', emailErrorMessage);
+        logger.error('Verification OTP email failed', emailErrorMessage);
       }
 
       if (!emailSent) {
@@ -220,7 +220,7 @@ router.post(
         message: 'Account created. Please verify OTP sent to your email.',
       });
     } catch (err) {
-      console.error('Register error:', err.message);
+      logger.error('Register error', err.message);
       return res.status(500).json({
         success: false,
         message: err.message,
@@ -299,7 +299,7 @@ router.post(
         message: 'Email verified successfully',
       });
     } catch (err) {
-      console.error('Verify OTP error:', err.message);
+      logger.error('Verify OTP error', err.message);
       return res.status(500).json({
         success: false,
         message: err.message,
@@ -351,7 +351,7 @@ router.post(
       let emailErrorMessage = '';
 
       try {
-        console.log(`Sending verification OTP to ${user.email}`);
+        logger.info('Sending verification OTP', { to: logger.maskEmail(user.email) });
         emailSent = await sendEmail({
           to: user.email,
           subject: 'Your new MediCare Pro verification OTP',
@@ -359,7 +359,7 @@ router.post(
         });
       } catch (emailErr) {
         emailErrorMessage = emailErr.message;
-        console.error('Verification OTP email failed:', emailErrorMessage);
+        logger.error('Verification OTP email failed', emailErrorMessage);
       }
 
       if (!emailSent) {
@@ -385,7 +385,7 @@ router.post(
         message: 'OTP sent successfully',
       });
     } catch (err) {
-      console.error('Resend OTP error:', err.message);
+      logger.error('Resend OTP error', err.message);
       return res.status(500).json({
         success: false,
         message: err.message,
@@ -400,11 +400,11 @@ router.post('/login', async (req, res) => {
     const { email, password } = req.body;
     const normalizedEmail = String(email || '').trim().toLowerCase();
 
-    console.log('Login attempt:', { email: normalizedEmail });
+    logger.debug('Login attempt', { email: logger.maskEmail(normalizedEmail) });
 
     const user = await User.findOne({ where: { email: normalizedEmail } });
 
-    console.log('User found:', user ? 'Yes' : 'No');
+    logger.debug('Login user lookup completed', { found: Boolean(user) });
 
     if (!user) {
       return res.status(401).json({
@@ -415,7 +415,7 @@ router.post('/login', async (req, res) => {
 
     const isMatch = await user.comparePassword(password);
 
-    console.log('Password match:', isMatch);
+    logger.debug('Login password check completed', { matched: isMatch });
 
     if (!isMatch) {
       return res.status(401).json({
@@ -441,7 +441,7 @@ router.post('/login', async (req, res) => {
       let emailErrorMessage = '';
 
       try {
-        console.log(`Sending verification OTP to ${user.email}`);
+        logger.info('Sending verification OTP', { to: logger.maskEmail(user.email) });
         emailSent = await sendEmail({
           to: user.email,
           subject: 'Verify your MediCare Pro account',
@@ -449,7 +449,7 @@ router.post('/login', async (req, res) => {
         });
       } catch (emailErr) {
         emailErrorMessage = emailErr.message;
-        console.error('Verification OTP email failed:', emailErrorMessage);
+        logger.error('Verification OTP email failed', emailErrorMessage);
       }
 
       const response = {
@@ -485,7 +485,7 @@ router.post('/login', async (req, res) => {
       },
     });
   } catch (err) {
-    console.error('Login error:', err);
+    logger.error('Login error', err.message);
 
     return res.status(500).json({
       success: false,
@@ -497,7 +497,7 @@ router.post('/login', async (req, res) => {
 // Current User
 router.get('/me', protect, async (req, res) => {
   try {
-    console.log('👤 /api/auth/me - User:', req.user?.id, req.user?.name, req.user?.role);
+    logger.debug('Current user requested', { userId: req.user?.id, role: req.user?.role });
 
     if (!req.user) {
       return res.status(404).json({
@@ -511,7 +511,7 @@ router.get('/me', protect, async (req, res) => {
       user: sanitizeUser(req.user),
     });
   } catch (err) {
-    console.error('❌ Error in /me:', err.message);
+    logger.error('Current user lookup failed', err.message);
 
     return res.status(500).json({
       success: false,
@@ -555,7 +555,7 @@ router.put('/profile', protect, async (req, res) => {
       user: sanitizeUser(user),
     });
   } catch (err) {
-    console.error('Update profile error:', err.message);
+    logger.error('Update profile error', err.message);
 
     return res.status(400).json({
       success: false,
@@ -587,7 +587,7 @@ router.post('/upload-avatar', protect, upload.single('avatar'), async (req, res)
       message: 'Avatar uploaded successfully',
     });
   } catch (err) {
-    console.error('Upload avatar error:', err.message);
+    logger.error('Upload avatar error', err.message);
 
     return res.status(500).json({
       success: false,

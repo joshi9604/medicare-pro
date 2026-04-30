@@ -3,6 +3,7 @@ const router = express.Router();
 const { Op } = require('sequelize');
 const { Doctor, User } = require('../models');
 const { protect, authorize } = require('../middleware/auth');
+const logger = require('../utils/logger');
 
 const pickDoctorProfileFields = (payload = {}) => {
   const allowedFields = [
@@ -242,7 +243,7 @@ router.put('/profile/me', protect, authorize('doctor'), async (req, res) => {
     const doctor = await Doctor.findOne({ where: { userId: req.user.id } });
     res.json({ success: true, doctor });
   } catch (err) {
-    console.error('Doctor profile update error:', err);
+    logger.error('Doctor profile update failed', err.message);
     res.status(400).json({ success: false, message: err.message });
   }
 });
@@ -292,7 +293,7 @@ router.put('/profile/account', protect, authorize('doctor'), async (req, res) =>
     const updatedDoctor = await Doctor.findOne({ where: { userId: req.user.id } });
     res.json({ success: true, doctor: updatedDoctor });
   } catch (err) {
-    console.error('Account update error:', err);
+    logger.error('Doctor account update failed', err.message);
     res.status(400).json({ success: false, message: err.message });
   }
 });

@@ -3,6 +3,7 @@ const router = express.Router();
 const { Prescription, User, Appointment, Notification } = require('../models');
 const { protect, authorize } = require('../middleware/auth');
 const { sendEmail } = require('../utils/email');
+const logger = require('../utils/logger');
 
 router.use(protect);
 
@@ -38,8 +39,8 @@ router.post('/', authorize('doctor'), async (req, res) => {
           <p><strong>Instructions:</strong> ${req.body.instructions || 'Take as prescribed'}</p>
           <br><p>Please login to view full details. 🏥</p>`
       });
-      console.log('✅ Prescription email sent');
-    } catch (e) { console.log('Prescription email failed:', e.message); }
+      logger.info('Prescription email sent');
+    } catch (e) { logger.error('Prescription email failed', e.message); }
     
     // Create notification for patient
     try {
@@ -50,7 +51,7 @@ router.post('/', authorize('doctor'), async (req, res) => {
         type: 'prescription',
         link: '/patient/prescriptions'
       });
-      console.log('✅ Prescription notification created');
+      logger.info('Prescription notification created');
       
       // Emit socket event for real-time notification
       const io = req.app.get('io');
@@ -60,10 +61,10 @@ router.post('/', authorize('doctor'), async (req, res) => {
           message: `Dr. ${prescriptionWithDetails.doctor?.name} has prescribed you medication.`,
           type: 'prescription'
         });
-        console.log('✅ Socket notification emitted to patient');
+        logger.debug('Socket notification emitted to patient', { patientId: req.body.patientId });
       }
     } catch (e) {
-      console.error('❌ Prescription notification failed:', e.message);
+      logger.error('Prescription notification failed', e.message);
     }
     
     res.status(201).json({ success: true, prescription: prescriptionWithDetails });
@@ -91,7 +92,7 @@ router.get('/', async (req, res) => {
 
     res.json({ success: true, count: prescriptions.length, prescriptions });
   } catch (err) {
-    console.error('Prescriptions fetch error:', err);
+    logger.error('Prescriptions fetch failed', err.message);
     res.status(500).json({ success: false, message: err.message });
   }
 });

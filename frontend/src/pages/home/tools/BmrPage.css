@@ -1,0 +1,542 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
+
+.bmr-page {
+  --primary: #2563eb;
+  --secondary: #0ea5e9;
+  --accent: #14b8a6;
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --bg: #f8fafc;
+  --text: #0f172a;
+  --muted: #64748b;
+  --body: #475569;
+  --border: #e2e8f0;
+  --card: #ffffff;
+  --ring: rgba(37, 99, 235, 0.18);
+  --shadow-sm: 0 10px 25px rgba(15, 23, 42, 0.07);
+  --shadow-md: 0 18px 45px rgba(15, 23, 42, 0.11);
+
+  min-height: 100vh;
+  background:
+    radial-gradient(700px 320px at 12% 8%, rgba(37, 99, 235, 0.12), transparent 60%),
+    radial-gradient(650px 320px at 88% 10%, rgba(20, 184, 166, 0.11), transparent 60%),
+    linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
+  color: var(--text);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.bmr-header {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.bmr-brand,
+.bmr-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 900;
+}
+
+.bmr-logo {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  box-shadow: 0 14px 28px rgba(37, 99, 235, 0.22);
+}
+
+.bmr-brand small {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.bmr-back {
+  padding: 10px 15px;
+  border-radius: 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+}
+
+.bmr-back:hover {
+  color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.bmr-main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 34px 18px 44px;
+  display: grid;
+  grid-template-columns: 1fr 0.75fr;
+  gap: 22px;
+}
+
+.bmr-card,
+.bmr-result {
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+  padding: 30px;
+}
+
+.bmr-kicker {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #ecfeff;
+  color: #0f766e;
+  border: 1px solid #ccfbf1;
+  font-weight: 900;
+  font-size: 12px;
+}
+
+.bmr-card h1 {
+  margin: 16px 0 10px;
+  font-size: clamp(30px, 4vw, 44px);
+  line-height: 1.08;
+  letter-spacing: -1px;
+  color: var(--text);
+  font-weight: 900;
+}
+
+.bmr-card p,
+.bmr-result p {
+  margin: 0;
+  color: var(--body);
+  font-weight: 650;
+  line-height: 1.75;
+  font-size: 14.5px;
+}
+
+.bmr-form {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.bmr-form label {
+  display: grid;
+  gap: 8px;
+}
+
+.bmr-form span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--body);
+  font-weight: 900;
+  font-size: 13px;
+}
+
+.bmr-form input,
+.bmr-form select {
+  width: 100%;
+  min-height: 52px;
+  border-radius: 15px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: var(--text);
+  padding: 13px 15px;
+  font: inherit;
+  font-weight: 800;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.bmr-form input::placeholder {
+  color: #94a3b8;
+}
+
+.bmr-form input:hover,
+.bmr-form select:hover {
+  border-color: #93c5fd;
+}
+
+.bmr-form input:focus,
+.bmr-form select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--ring);
+}
+
+.bmr-form button,
+.bmr-btn,
+.bmr-calculate-btn {
+  grid-column: 1 / -1;
+  width: 100%;
+  min-height: 54px;
+  border: none;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 16px 34px rgba(37, 99, 235, 0.24);
+  transition: all 0.22s ease;
+}
+
+.bmr-form button:hover,
+.bmr-btn:hover,
+.bmr-calculate-btn:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #1d4ed8, #0284c7);
+  box-shadow: 0 22px 44px rgba(37, 99, 235, 0.3);
+}
+
+.bmr-result {
+  background: #ffffff;
+  border-top: 1px solid #dbeafe;
+  padding: 56px 20px 70px;
+  text-align: center;
+  width: 100%;
+}
+
+.bmr-result h2 {
+  margin: 0 0 24px;
+  color: #1e40af;
+  font-size: 28px;
+  font-weight: 900;
+}
+
+.bmr-result h3 {
+  margin: 0 0 26px;
+  color: #0f766e;
+  font-size: 26px;
+  font-weight: 900;
+}
+
+.bmr-gauge {
+  width: 330px;
+  height: 165px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  border-radius: 330px 330px 0 0;
+  background: conic-gradient(
+    from 270deg,
+    #0ea5e9 0deg,
+    #38bdf8 85deg,
+    #5eead4 150deg,
+    #14b8a6 180deg,
+    transparent 180deg
+  );
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.12);
+}
+
+.bmr-gauge::after {
+  content: "";
+  position: absolute;
+  left: 44px;
+  right: 44px;
+  bottom: 0;
+  height: 88px;
+  background: #ffffff;
+  border-radius: 220px 220px 0 0;
+}
+
+.bmr-needle {
+  position: absolute;
+  width: 5px;
+  height: 155px;
+  background: #1e293b;
+  left: 50%;
+  bottom: 0;
+  transform-origin: bottom center;
+  transform: translateX(-50%) rotate(13deg);
+  border-radius: 999px;
+  z-index: 3;
+}
+
+.bmr-needle::after {
+  content: "";
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  left: 50%;
+  bottom: -7px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: #1e40af;
+  border: 3px solid #ffffff;
+}
+
+.bmr-gauge-value {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  bottom: 8px;
+  transform: translateX(-50%);
+  color: #ffffff;
+  text-shadow: 0 3px 7px rgba(15, 23, 42, 0.45);
+}
+
+.bmr-gauge-value strong {
+  display: block;
+  font-size: 58px;
+  line-height: 1;
+  font-weight: 900;
+}
+
+.bmr-gauge-value span {
+  display: block;
+  font-size: 28px;
+  font-weight: 800;
+}
+.bmr-gauge-labels {
+  max-width: 330px;
+  margin: 12px auto 20px;
+  display: flex;
+  justify-content: space-between;
+  color: #64748b;
+  font-size: 20px;
+
+  /* background added */
+  background: linear-gradient(135deg, #eff6ff, #ecfeff);
+  padding: 12px 18px;
+  border-radius: 14px;
+  border: 1px solid #dbeafe;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+}
+
+.bmr-result p {
+  margin: 0 auto 22px;
+  max-width: 720px;
+  color: #334155;
+  font-size: 22px;
+  line-height: 1.6;
+}
+
+.bmr-unit-toggle {
+  width: fit-content;
+  margin: 0 auto;
+  padding: 6px;
+  display: flex;
+  gap: 8px;
+  background: #eff6ff;
+  border: 1px solid #dbeafe;
+  border-radius: 999px;
+}
+
+.bmr-unit-toggle button {
+  border: none;
+  background: transparent;
+  padding: 14px 28px;
+  border-radius: 999px;
+  color: #0369a1;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.bmr-unit-toggle button.active {
+  background: #0ea5e9;
+  color: #ffffff;
+  box-shadow: 0 8px 18px rgba(14, 165, 233, 0.35);
+}
+
+@media (max-width: 1024px) {
+  .bmr-main {
+    grid-template-columns: 1fr;
+    max-width: 760px;
+  }
+
+  .bmr-result {
+    padding: 42px 24px 50px;
+  }
+}
+
+@media (max-width: 760px) {
+  .bmr-header {
+    padding: 16px 14px;
+  }
+
+  .bmr-main {
+    padding: 20px 14px 34px;
+    gap: 16px;
+  }
+
+  .bmr-card,
+  .bmr-result {
+    border-radius: 20px;
+    padding: 22px;
+  }
+
+  .bmr-card h1 {
+    font-size: 30px;
+    letter-spacing: 0;
+  }
+
+  .bmr-form {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
+
+@media (max-width: 600px) {
+  .bmr-result {
+    padding: 42px 14px 56px;
+  }
+
+  .bmr-result h2 {
+    font-size: 24px;
+  }
+
+  .bmr-result h3 {
+    font-size: 21px;
+  }
+
+  .bmr-gauge {
+    width: 280px;
+    height: 140px;
+  }
+
+  .bmr-gauge::after {
+    left: 38px;
+    right: 38px;
+    height: 74px;
+  }
+
+  .bmr-needle {
+    height: 130px;
+  }
+
+  .bmr-gauge-value strong {
+    font-size: 44px;
+  }
+
+  .bmr-gauge-value span {
+    font-size: 22px;
+  }
+
+  .bmr-gauge-labels {
+    max-width: 280px;
+    font-size: 16px;
+  }
+
+  .bmr-result p {
+    font-size: 17px;
+  }
+
+  .bmr-unit-toggle button {
+    padding: 12px 22px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 640px) {
+  .bmr-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .bmr-brand,
+  .bmr-back {
+    justify-content: center;
+  }
+
+  .bmr-main {
+    padding-top: 18px;
+    padding-inline: 14px;
+  }
+
+  .bmr-card,
+  .bmr-result {
+    padding: 22px;
+    border-radius: 20px;
+  }
+
+  .bmr-form {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .bmr-form input,
+  .bmr-form select,
+  .bmr-form button,
+  .bmr-btn,
+  .bmr-calculate-btn {
+    min-height: 50px;
+  }
+}
+
+@media (max-width: 420px) {
+  .bmr-header {
+    gap: 10px;
+  }
+
+  .bmr-brand {
+    font-size: 14px;
+  }
+
+  .bmr-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 13px;
+  }
+
+  .bmr-card,
+  .bmr-result {
+    padding: 18px;
+  }
+
+  .bmr-gauge {
+    width: min(245px, 100%);
+    height: 122px;
+  }
+
+  .bmr-gauge::after {
+    left: 32px;
+    right: 32px;
+    height: 64px;
+  }
+
+  .bmr-needle {
+    height: 114px;
+  }
+
+  .bmr-gauge-value strong {
+    font-size: 38px;
+  }
+
+  .bmr-gauge-value span {
+    font-size: 18px;
+  }
+
+  .bmr-gauge-labels {
+    max-width: 245px;
+    font-size: 13px;
+    padding: 9px 12px;
+  }
+
+  .bmr-unit-toggle {
+    width: 100%;
+  }
+
+  .bmr-unit-toggle button {
+    flex: 1;
+    padding: 11px 10px;
+    font-size: 13px;
+  }
+}

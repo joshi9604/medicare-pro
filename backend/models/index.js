@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/database');
+const logger = require('../utils/logger');
 
 // Import all models
 const User = require('./User');
@@ -67,7 +68,7 @@ const ensureDoctorColumns = async () => {
   for (const [columnName, definition] of requiredDoctorColumns) {
     if (!doctorTable[columnName]) {
       await queryInterface.addColumn('doctors', columnName, definition);
-      console.log(`Added missing doctors.${columnName} column`);
+      logger.info(`Added missing doctors.${columnName} column`);
     }
   }
 };
@@ -115,13 +116,13 @@ const syncDatabase = async () => {
       await sequelize.sync({ alter: true });
     }
 
-    console.log('Database synced successfully');
+    logger.info('Database synced successfully');
     if (forceSync) {
-      console.log('Tables were recreated (force: true)');
+      logger.warn('Tables were recreated because DB_FORCE_SYNC=true');
     }
   } catch (error) {
-    console.error('Database sync error:', error.message);
-    console.log('Try running with DB_FORCE_SYNC=true to recreate tables');
+    logger.error('Database sync failed', error.message);
+    logger.info('Try running with DB_FORCE_SYNC=true to recreate tables');
     throw error;
   }
 };
