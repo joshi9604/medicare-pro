@@ -68,6 +68,16 @@ export const AuthProvider = ({ children }) => {
     return data;
   };
 
+  const forgotPassword = async (email) => {
+    const { data } = await axios.post('/api/auth/forgot-password', { email });
+    return data;
+  };
+
+  const resetPassword = async (email, otp, password) => {
+    const { data } = await axios.post('/api/auth/reset-password', { email, otp, password });
+    return data;
+  };
+
   const logout = () => {
     localStorage.removeItem('medicare_token');
     delete axios.defaults.headers.common.Authorization;
@@ -86,6 +96,8 @@ export const AuthProvider = ({ children }) => {
     register,
     verifyEmail,
     resendOtp,
+    forgotPassword,
+    resetPassword,
     logout,
     roleMeta
   }), [user, token, loading, roleMeta]);

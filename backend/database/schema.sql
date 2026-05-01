@@ -17,6 +17,8 @@ CREATE TABLE users (
     role VARCHAR(50) DEFAULT 'patient' CHECK (role IN ('patient', 'doctor', 'admin')),
     avatar VARCHAR(500) DEFAULT '',
     is_verified BOOLEAN DEFAULT false,
+    email_verification_otp VARCHAR(10),
+    email_verification_otp_expire TIMESTAMP,
     is_active BOOLEAN DEFAULT true,
     address_street VARCHAR(255),
     address_city VARCHAR(255),

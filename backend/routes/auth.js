@@ -53,8 +53,8 @@ const generateToken = (id) =>
 
 const generateOtp = () => String(Math.floor(100000 + Math.random() * 900000));
 const canExposeOtp = () => process.env.EXPOSE_OTP_IN_RESPONSE === 'true';
-const emailConfigMessage = (prefix, errorMessage) =>
-  `${prefix} OTP email could not be sent. ${errorMessage || 'Please check SMTP/email configuration.'}`;
+const emailConfigMessage = (prefix) =>
+  `${prefix} OTP email could not be sent. Please check SMTP/email configuration.`;
 
 const buildOtpEmail = (name, otp) => `
   <div style="font-family:Arial,sans-serif;line-height:1.6;color:#0f172a">
@@ -66,13 +66,31 @@ const buildOtpEmail = (name, otp) => `
   </div>
 `;
 
+const buildPasswordResetEmail = (name, otp) => `
+  <div style="font-family:Arial,sans-serif;line-height:1.6;color:#0f172a">
+    <h2>MediCare Pro password reset</h2>
+    <p>Hello ${name || 'there'},</p>
+    <p>Your password reset OTP is:</p>
+    <div style="font-size:28px;font-weight:700;letter-spacing:6px;margin:18px 0">${otp}</div>
+    <p>This OTP is valid for 10 minutes. If you did not request this, you can ignore this email.</p>
+  </div>
+`;
+
 // Register
 router.post(
   '/register',
   [
     body('name').notEmpty().withMessage('Name required'),
-    body('email').isEmail().withMessage('Valid email required'),
+    body('email')
+      .isEmail()
+      .withMessage('Valid email required')
+      .bail()
+      .custom((value) => String(value || '').trim().toLowerCase().endsWith('@gmail.com'))
+      .withMessage('Email must end with @gmail.com'),
     body('password').isLength({ min: 6 }).withMessage('Password min 6 chars'),
+    body('phone')
+      .matches(/^\d{10}$/)
+      .withMessage('Contact number must be exactly 10 digits'),
     body('role').isIn(['patient', 'doctor', 'admin']).withMessage('Valid role required'),
   ],
   async (req, res) => {
@@ -99,6 +117,7 @@ router.post(
       } = req.body;
 
       const normalizedEmail = String(email || '').trim().toLowerCase();
+      const normalizedPhone = String(phone || '').trim();
       const otp = generateOtp();
       const existingUser = await User.findOne({ where: { email: normalizedEmail } });
 
@@ -162,7 +181,7 @@ router.post(
         email: normalizedEmail,
         password,
         role,
-        phone,
+        phone: normalizedPhone,
         gender,
         dateOfBirth,
         bloodGroup,
@@ -386,6 +405,154 @@ router.post(
       });
     } catch (err) {
       logger.error('Resend OTP error', err.message);
+      return res.status(500).json({
+        success: false,
+        message: err.message,
+      });
+    }
+  }
+);
+
+// Forgot Password
+router.post(
+  '/forgot-password',
+  [body('email').isEmail().withMessage('Valid email required')],
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        errors: errors.array(),
+      });
+    }
+
+    try {
+      const { email } = req.body;
+      const normalizedEmail = String(email || '').trim().toLowerCase();
+      const user = await User.findOne({ where: { email: normalizedEmail } });
+
+      if (!user) {
+        return res.json({
+          success: true,
+          message: 'If an account exists for this email, a reset OTP has been sent.',
+        });
+      }
+
+      const otp = generateOtp();
+      user.resetPasswordToken = otp;
+      user.resetPasswordExpire = new Date(Date.now() + 10 * 60 * 1000);
+      await user.save();
+
+      let emailSent = false;
+      let emailErrorMessage = '';
+
+      try {
+        logger.info('Sending password reset OTP', { to: logger.maskEmail(user.email) });
+        emailSent = await sendEmail({
+          to: user.email,
+          subject: 'Reset your MediCare Pro password',
+          html: buildPasswordResetEmail(user.name, otp),
+        });
+      } catch (emailErr) {
+        emailErrorMessage = emailErr.message;
+        logger.error('Password reset OTP email failed', emailErrorMessage);
+      }
+
+      if (!emailSent) {
+        const response = {
+          success: true,
+          emailDeliveryFailed: true,
+          message: emailConfigMessage(
+            'Password reset OTP was generated, but',
+            emailErrorMessage
+          ),
+        };
+
+        if (canExposeOtp()) {
+          response.otp = otp;
+          response.message = `Development mode: email failed, use reset OTP ${otp}`;
+        }
+
+        return res.status(202).json(response);
+      }
+
+      return res.json({
+        success: true,
+        message: 'Password reset OTP sent to your email.',
+      });
+    } catch (err) {
+      logger.error('Forgot password error', err.message);
+      return res.status(500).json({
+        success: false,
+        message: err.message,
+      });
+    }
+  }
+);
+
+// Reset Password
+router.post(
+  '/reset-password',
+  [
+    body('email').isEmail().withMessage('Valid email required'),
+    body('otp').isLength({ min: 6, max: 6 }).withMessage('6-digit OTP required'),
+    body('password').isLength({ min: 6 }).withMessage('Password min 6 chars'),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        errors: errors.array(),
+      });
+    }
+
+    try {
+      const { email, otp, password } = req.body;
+      const normalizedEmail = String(email || '').trim().toLowerCase();
+      const user = await User.findOne({ where: { email: normalizedEmail } });
+
+      if (!user) {
+        return res.status(404).json({
+          success: false,
+          message: 'User not found',
+        });
+      }
+
+      if (!user.resetPasswordToken || !user.resetPasswordExpire) {
+        return res.status(400).json({
+          success: false,
+          message: 'Reset OTP not found. Please request a new OTP.',
+        });
+      }
+
+      if (new Date(user.resetPasswordExpire) < new Date()) {
+        return res.status(400).json({
+          success: false,
+          message: 'Reset OTP expired. Please request a new OTP.',
+        });
+      }
+
+      if (String(user.resetPasswordToken) !== String(otp)) {
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid reset OTP',
+        });
+      }
+
+      user.password = password;
+      user.resetPasswordToken = null;
+      user.resetPasswordExpire = null;
+      await user.save();
+
+      return res.json({
+        success: true,
+        message: 'Password reset successfully. You can now login.',
+      });
+    } catch (err) {
+      logger.error('Reset password error', err.message);
       return res.status(500).json({
         success: false,
         message: err.message,

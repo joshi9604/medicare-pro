@@ -17,7 +17,13 @@ exports.protect = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'medicare_secret_2024');
     req.user = await User.findByPk(decoded.id, {
       attributes: {
-        exclude: ['password', 'resetPasswordToken', 'resetPasswordExpire']
+        exclude: [
+          'password',
+          'resetPasswordToken',
+          'resetPasswordExpire',
+          'emailVerificationOtp',
+          'emailVerificationOtpExpire'
+        ]
       }
     });
 
