@@ -1,19 +1,25 @@
 const express = require('express');
 const router = express.Router();
-const { User, Doctor } = require('../models');
+const { User, Doctor, Appointment } = require('../models');
 
 router.get('/stats', async (req, res) => {
   try {
-    const [totalPatients, totalDoctors] = await Promise.all([
+    const [totalPatients, totalDoctors, totalAppointments, totalVideoConsults, totalConsultations] = await Promise.all([
       User.count({ where: { role: 'patient' } }),
-      User.count({ where: { role: 'doctor' } })
+      User.count({ where: { role: 'doctor' } }),
+      Appointment.count(),
+      Appointment.count({ where: { type: 'telemedicine' } }),
+      Appointment.count({ where: { type: 'in-person' } })
     ]);
 
     res.json({
       success: true,
       stats: {
         totalPatients,
-        totalDoctors
+        totalDoctors,
+        totalAppointments,
+        totalVideoConsults,
+        totalConsultations
       }
     });
   } catch (err) {
