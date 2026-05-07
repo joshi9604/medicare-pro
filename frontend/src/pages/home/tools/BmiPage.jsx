@@ -1,7 +1,49 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Building2, Calculator, HeartPulse, Ruler, Users } from 'lucide-react';
+import { ArrowLeft, Building2, Calculator, HeartPulse, Ruler, ShieldCheck, Users } from 'lucide-react';
 import './BmiPage.css';
+
+const brand = {
+  name: 'MediCare Pro',
+  subtitle: 'Hospital Management + Telemedicine',
+};
+
+const footerColumns = [
+  {
+    title: 'Product',
+    links: [
+      { label: 'Features', href: '/#features' },
+      { label: 'Roles', href: '/#roles' },
+      { label: 'Workflow', href: '/#workflow' },
+      { label: 'FAQ', href: '/#faq' },
+    ],
+  },
+  {
+    title: 'Resources',
+    links: [
+      { label: 'BMI Calculator', to: '/bmi' },
+      { label: 'BMR Calculator', to: '/bmr' },
+      { label: 'Water Intake', to: '/water-intake' },
+      { label: 'Health Guides', to: '/blood-pressure-guide' },
+    ],
+  },
+];
+
+const AppLink = ({ link, className, children, onClick }) => {
+  if (link.to) {
+    return (
+      <Link className={className} to={link.to} onClick={onClick}>
+        {children || link.label}
+      </Link>
+    );
+  }
+
+  return (
+    <a className={className} href={link.href} onClick={onClick}>
+      {children || link.label}
+    </a>
+  );
+};
 
 const getBmiInfo = (bmi) => {
   if (!bmi) return { label: 'Enter details', tone: 'neutral', note: 'Add your height and weight to calculate BMI.' };
@@ -52,9 +94,10 @@ export default function BmiPage() {
 
   return (
     <div className="home">
+      {/* HEADER */}
       <header className="home-header">
         <Link className="home-brand home-brand-link" to="/">
-          <div className="home-logo" aria-hidden>
+          <div className="home-logo">
             <Building2 size={22} />
           </div>
           <div className="home-brand-text">
@@ -68,13 +111,16 @@ export default function BmiPage() {
         </Link>
       </header>
 
+      {/* MAIN */}
       <main className="home-main">
-        <section className="bmi-page" aria-label="BMI Calculator">
+        <section className="bmi-page">
           <div className="bmi-panel">
             <div className="home-kicker">
               <Calculator size={15} /> Free BMI Calculator
             </div>
+
             <h1 className="home-h2">Calculate your BMI</h1>
+
             <p className="home-p">
               Enter age, height, and weight to see your BMI instantly.
             </p>
@@ -84,11 +130,9 @@ export default function BmiPage() {
                 <span><Users size={16} /> Age</span>
                 <input
                   type="number"
-                  min="1"
-                  max="120"
                   value={age}
-                  onChange={(event) => setAge(event.target.value)}
-                  placeholder="Age in years"
+                  onChange={(e) => setAge(e.target.value)}
+                  placeholder="Age"
                 />
               </label>
 
@@ -96,10 +140,9 @@ export default function BmiPage() {
                 <span><Ruler size={16} /> Height</span>
                 <input
                   type="number"
-                  min="1"
                   value={height}
-                  onChange={(event) => setHeight(event.target.value)}
-                  placeholder="Height in cm"
+                  onChange={(e) => setHeight(e.target.value)}
+                  placeholder="Height (cm)"
                 />
               </label>
 
@@ -107,52 +150,70 @@ export default function BmiPage() {
                 <span><HeartPulse size={16} /> Weight</span>
                 <input
                   type="number"
-                  min="1"
                   value={weight}
-                  onChange={(event) => setWeight(event.target.value)}
-                  placeholder="Weight in kg"
+                  onChange={(e) => setWeight(e.target.value)}
+                  placeholder="Weight (kg)"
                 />
               </label>
 
               {error && <div className="bmi-error">{error}</div>}
 
-              <button className="home-btn home-btn-primary bmi-calculate-btn" type="submit">
+              <button className="home-btn home-btn-primary">
                 <Calculator size={16} /> Calculate BMI
               </button>
             </form>
           </div>
+          
 
-          <div className={`bmi-result bmi-result-${info.tone} ${result ? 'bmi-result-ready' : ''}`}>
+          {/* RESULT */}
+          <div className={`bmi-result bmi-result-${info.tone}`}>
             <div className="bmi-speedometer" style={{ '--needle-angle': `${needleAngle}deg` }}>
               <div className="bmi-speedometer-arc" />
-              <div className="bmi-speedometer-ticks" aria-hidden>
-                {[-90, -60, -30, 0, 30, 60, 90].map((angle) => (
-                  <span key={angle} style={{ '--tick-angle': `${angle}deg` }} />
-                ))}
-              </div>
               <div className="bmi-speedometer-needle" />
-              <div className="bmi-speedometer-center" />
-              <div className="bmi-speedometer-scale">
-                <span>12</span>
-                <span>18.5</span>
-                <span>25</span>
-                <span>30+</span>
-              </div>
             </div>
+
             <div className="bmi-result-label">Your BMI</div>
             <div className="bmi-result-value">{roundedBmi || '--'}</div>
-            {result?.age && <div className="bmi-result-age">Age: {result.age} years</div>}
             <div className="bmi-result-status">{info.label}</div>
             <p>{info.note}</p>
-            <div className="bmi-range-legend" aria-label="BMI ranges">
-              <span><i className="bmi-dot bmi-dot-low" /> Under 18.5</span>
-              <span><i className="bmi-dot bmi-dot-good" /> 18.5 - 24.9</span>
-              <span><i className="bmi-dot bmi-dot-mid" /> 25 - 29.9</span>
-              <span><i className="bmi-dot bmi-dot-high" /> 30+</span>
-            </div>
           </div>
         </section>
+        
       </main>
+      
+      
+
+      {/* FOOTER */}
+      <footer className="footer">
+        <div className="footer-container">
+          <div className="footer-brand">
+            <div className="footer-logo-wrap">
+              <div className="footer-logo" aria-hidden><Building2 size={20} /></div>
+              <div>
+                <div className="footer-title">{brand.name}</div>
+                <div className="footer-sub">{brand.subtitle}</div>
+              </div>
+            </div>
+            <p className="footer-desc">
+              A modern medical management and telemedicine platform for patients, doctors, and admins.
+            </p>
+          </div>
+
+          {footerColumns.map((column) => (
+            <div className="footer-col" key={column.title}>
+              <h4>{column.title}</h4>
+              {column.links.map((link) => (
+                <AppLink key={link.label} link={link} />
+              ))}
+            </div>
+          ))}
+        </div>
+
+        <div className="footer-bottom">
+          <span>Copyright {new Date().getFullYear()} {brand.name}. All rights reserved.</span>
+          <span><ShieldCheck size={14} /> Secure healthcare workflows</span>
+        </div>
+      </footer>
     </div>
   );
 }

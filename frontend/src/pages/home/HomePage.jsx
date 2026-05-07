@@ -253,15 +253,15 @@ const footerColumns = [
       { label: 'FAQ', href: '#faq' },
     ],
   },
-  {
-    title: 'Company',
-    links: [
-      { label: 'About', href: '#home' },
-      { label: 'Reviews', href: '#testimonials' },
-      { label: 'Contact', to: '/auth?mode=login' },
-      { label: 'Security', href: '#features' },
-    ],
-  },
+  // {
+  //   title: 'Company',
+  //   links: [
+  //     { label: 'About', href: '#home' },
+  //     { label: 'Reviews', href: '#testimonials' },
+  //     { label: 'Contact', to: '/auth?mode=login' },
+  //     { label: 'Security', href: '#features' },
+  //   ],
+  // },
   {
     title: 'Resources',
     links: [
@@ -271,15 +271,15 @@ const footerColumns = [
       { label: 'Health Guides', to: '/blood-pressure-guide' },
     ],
   },
-  {
-    title: 'Legal',
-    links: [
-      { label: 'Privacy Policy', href: '#home' },
-      { label: 'Terms of Service', href: '#home' },
-      { label: 'Compliance', href: '#home' },
-      { label: 'Status', href: '#home' },
-    ],
-  },
+  // {
+  //   title: 'Legal',
+  //   links: [
+  //     { label: 'Privacy Policy', href: '#home' },
+  //     { label: 'Terms of Service', href: '#home' },
+  //     { label: 'Compliance', href: '#home' },
+  //     { label: 'Status', href: '#home' },
+  //   ],
+  // },
 ];
 
 const AppLink = ({ link, className, children, onClick }) => {
