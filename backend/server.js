@@ -5,6 +5,7 @@ const path = require('path');
 const { createServer } = require('http');
 const { Server } = require('socket.io');
 const { testConnection } = require('./config/database');
+const { connectRedis } = require('./config/redis');
 const { syncDatabase } = require('./models');
 const { initializeSocket } = require('./utils/socket');
 const logger = require('./utils/logger');
@@ -50,19 +51,6 @@ app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.get('/favicon.ico', (req, res) => res.status(204).end());
 
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/public', require('./routes/public'));
-app.use('/api/doctors', require('./routes/doctors'));
-app.use('/api/patients', require('./routes/patients'));
-app.use('/api/appointments', require('./routes/appointments'));
-app.use('/api/prescriptions', require('./routes/prescriptions'));
-app.use('/api/payments', require('./routes/payments'));
-app.use('/api/admin', require('./routes/admin'));
-app.use('/api/notifications', require('./routes/notifications'));
-app.use('/api/medical-records', require('./routes/medicalRecords'));
-app.use('/api/chat', require('./routes/chat'));
-app.use('/api/users', require('./routes/users'));
-
 app.get('/', (req, res) => {
   res.json({
     message: 'MediCare Pro API Running',
@@ -85,7 +73,24 @@ const PORT = process.env.PORT || 5000;
 const startServer = async () => {
   try {
     await testConnection();
+    // Connect Redis during server startup (best-effort; does not break boot).
+    await connectRedis();
     await syncDatabase();
+
+    // Register API routes after Redis/PostgreSQL startup.
+    // This ensures Redis-dependent middleware can be initialized safely.
+    app.use('/api/auth', require('./routes/auth'));
+    app.use('/api/public', require('./routes/public'));
+    app.use('/api/doctors', require('./routes/doctors'));
+    app.use('/api/patients', require('./routes/patients'));
+    app.use('/api/appointments', require('./routes/appointments'));
+    app.use('/api/prescriptions', require('./routes/prescriptions'));
+    app.use('/api/payments', require('./routes/payments'));
+    app.use('/api/admin', require('./routes/admin'));
+    app.use('/api/notifications', require('./routes/notifications'));
+    app.use('/api/medical-records', require('./routes/medicalRecords'));
+    app.use('/api/chat', require('./routes/chat'));
+    app.use('/api/users', require('./routes/users'));
 
     httpServer.once('error', (err) => {
       if (err.code === 'EADDRINUSE') {

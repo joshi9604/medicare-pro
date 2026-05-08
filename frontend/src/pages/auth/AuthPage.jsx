@@ -104,7 +104,7 @@ export default function AuthPage() {
 
   const { login, register, verifyEmail, resendOtp, forgotPassword, resetPassword } = useAuth();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     const mode = (searchParams.get('mode') || '').toLowerCase();
@@ -116,6 +116,14 @@ export default function AuthPage() {
     setActiveMode(mode);
     setVerificationEmail('');
     setOtp('');
+
+    // Keep UI state in sync with URL so router shows login/register mode.
+    // Example URLs:
+    // - /auth?mode=login
+    // - /auth?mode=register
+    if (mode === 'login' || mode === 'register' || mode === 'forgot') {
+      setSearchParams({ mode }, { replace: true });
+    }
 
     if (mode === 'register') setAgreeTerms(false);
 

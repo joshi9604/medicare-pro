@@ -2,15 +2,18 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import {
+  Activity,
   Bell,
   Building2,
   CalendarCheck,
   CalendarDays,
+  Calculator,
   CheckCircle2,
   ChevronDown,
   ChevronRight,
   Clock3,
   CreditCard,
+  Droplets,
   FileText,
   HeartPulse,
   LayoutDashboard,
@@ -62,11 +65,11 @@ const navLinks = [
 ];
 
 const resourceLinks = [
-  { label: 'BMI Calculator', to: '/bmi' },
-  { label: 'BMR Calculator', to: '/bmr' },
-  { label: 'Water Intake Calculator', to: '/water-intake' },
-  { label: 'Blood Pressure Guide', to: '/blood-pressure-guide' },
-  { label: 'Sugar Level Guide', to: '/sugar-level-guide' },
+  { label: 'BMI Calculator', to: '/bmi', icon: Calculator },
+  { label: 'BMR Calculator', to: '/bmr', icon: Calculator },
+  { label: 'Water Intake Calculator', to: '/water-intake', icon: Droplets },
+  { label: 'Blood Pressure Guide', to: '/blood-pressure-guide', icon: HeartPulse },
+  { label: 'Sugar Level Guide', to: '/sugar-level-guide', icon: Activity },
 ];
 
 const authLinks = [
@@ -403,9 +406,11 @@ export default function HomePage() {
   const [stats, setStats] = useState(fallbackStats);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [resourcesOpen, setResourcesOpen] = useState(false);
+  const [headerScrolled, setHeaderScrolled] = useState(false);
   const [activeFaq, setActiveFaq] = useState(0);
   const closeMobileMenu = () => setMobileMenuOpen(false);
   const chartPaths = useMemo(() => buildChartPaths(chartData), []);
+  const resourcesDropdownRef = useRef(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -429,6 +434,17 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
+    // Sticky blur effect on scroll (premium glass feel).
+    const onScroll = () => {
+      setHeaderScrolled(window.scrollY > 10);
+    };
+
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') {
         setMobileMenuOpen(false);
@@ -440,9 +456,22 @@ export default function HomePage() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  useEffect(() => {
+    // Close menus when clicking outside (production behavior).
+    const onPointerDown = (event) => {
+      const dropdownNode = resourcesDropdownRef.current;
+      if (dropdownNode && !dropdownNode.contains(event.target)) {
+        setResourcesOpen(false);
+      }
+    };
+
+    document.addEventListener('pointerdown', onPointerDown);
+    return () => document.removeEventListener('pointerdown', onPointerDown);
+  }, []);
+
   return (
     <div className="home">
-      <header className="home-header">
+      <header className={`home-header ${headerScrolled ? 'is-scrolled' : ''}`}>
         <Link className="home-brand home-brand-link" to="/">
           <div className="home-logo" aria-hidden>
             <Building2 size={22} />
@@ -467,18 +496,29 @@ export default function HomePage() {
               className={`home-nav-dropdown ${resourcesOpen ? 'open' : ''}`}
               onMouseEnter={() => setResourcesOpen(true)}
               onMouseLeave={() => setResourcesOpen(false)}
+              ref={resourcesDropdownRef}
             >
               <button
                 className="home-nav-link home-nav-dropdown-btn"
                 type="button"
                 onClick={() => setResourcesOpen((open) => !open)}
                 aria-expanded={resourcesOpen}
+                aria-haspopup="menu"
               >
                 Resources <ChevronDown size={14} />
               </button>
               <div className="home-nav-menu">
                 {resourceLinks.map((link) => (
-                  <AppLink key={link.label} link={link} className="home-nav-menu-link" />
+                  <AppLink
+                    key={link.label}
+                    link={link}
+                    className="home-nav-menu-link"
+                    onClick={() => setResourcesOpen(false)}
+                  >
+                    {link.icon ? React.createElement(link.icon, { size: 16 }) : null}
+                    <span>{link.label}</span>
+                    <ChevronRight size={14} className="home-nav-menu-arrow" />
+                  </AppLink>
                 ))}
               </div>
             </div>

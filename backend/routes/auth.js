@@ -6,6 +6,8 @@ const multer = require('multer');
 const path = require('path');
 const { User, Doctor } = require('../models');
 const { protect } = require('../middleware/auth');
+// Redis-backed rate limiting for auth endpoints (login/register/OTP verification).
+const { authRateLimiter } = require('../middleware/rateLimiter');
 const { sendEmail } = require('../utils/email');
 const logger = require('../utils/logger');
 
@@ -79,6 +81,7 @@ const buildPasswordResetEmail = (name, otp) => `
 // Register
 router.post(
   '/register',
+  authRateLimiter,
   [
     body('name').notEmpty().withMessage('Name required'),
     body('email')
@@ -249,82 +252,97 @@ router.post(
 );
 
 // Verify Email OTP
-router.post(
-  '/verify-email',
-  [
-    body('email').isEmail().withMessage('Valid email required'),
-    body('otp').isLength({ min: 6, max: 6 }).withMessage('6-digit OTP required'),
-  ],
-  async (req, res) => {
-    const errors = validationResult(req);
+const verifyEmailOtpHandler = async (req, res) => {
+  const errors = validationResult(req);
 
-    if (!errors.isEmpty()) {
-      return res.status(400).json({
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      success: false,
+      errors: errors.array(),
+    });
+  }
+
+  try {
+    const { email, otp } = req.body;
+    const normalizedEmail = String(email || '').trim().toLowerCase();
+    const user = await User.findOne({ where: { email: normalizedEmail } });
+
+    if (!user) {
+      return res.status(404).json({
         success: false,
-        errors: errors.array(),
+        message: 'User not found',
       });
     }
 
-    try {
-      const { email, otp } = req.body;
-      const normalizedEmail = String(email || '').trim().toLowerCase();
-      const user = await User.findOne({ where: { email: normalizedEmail } });
-
-      if (!user) {
-        return res.status(404).json({
-          success: false,
-          message: 'User not found',
-        });
-      }
-
-      if (user.isVerified) {
-        return res.json({
-          success: true,
-          token: generateToken(user.id),
-          user: sanitizeUser(user),
-        });
-      }
-
-      if (!user.emailVerificationOtp || !user.emailVerificationOtpExpire) {
-        return res.status(400).json({
-          success: false,
-          message: 'OTP not found. Please request a new OTP.',
-        });
-      }
-
-      if (new Date(user.emailVerificationOtpExpire) < new Date()) {
-        return res.status(400).json({
-          success: false,
-          message: 'OTP expired. Please request a new OTP.',
-        });
-      }
-
-      if (String(user.emailVerificationOtp) !== String(otp)) {
-        return res.status(400).json({
-          success: false,
-          message: 'Invalid OTP',
-        });
-      }
-
-      user.isVerified = true;
-      user.emailVerificationOtp = null;
-      user.emailVerificationOtpExpire = null;
-      await user.save();
-
+    if (user.isVerified) {
       return res.json({
         success: true,
         token: generateToken(user.id),
         user: sanitizeUser(user),
-        message: 'Email verified successfully',
-      });
-    } catch (err) {
-      logger.error('Verify OTP error', err.message);
-      return res.status(500).json({
-        success: false,
-        message: err.message,
       });
     }
+
+    if (!user.emailVerificationOtp || !user.emailVerificationOtpExpire) {
+      return res.status(400).json({
+        success: false,
+        message: 'OTP not found. Please request a new OTP.',
+      });
+    }
+
+    if (new Date(user.emailVerificationOtpExpire) < new Date()) {
+      return res.status(400).json({
+        success: false,
+        message: 'OTP expired. Please request a new OTP.',
+      });
+    }
+
+    if (String(user.emailVerificationOtp) !== String(otp)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid OTP',
+      });
+    }
+
+    user.isVerified = true;
+    user.emailVerificationOtp = null;
+    user.emailVerificationOtpExpire = null;
+    await user.save();
+
+    return res.json({
+      success: true,
+      token: generateToken(user.id),
+      user: sanitizeUser(user),
+      message: 'Email verified successfully',
+    });
+  } catch (err) {
+    logger.error('Verify OTP error', err.message);
+    return res.status(500).json({
+      success: false,
+      message: err.message,
+    });
   }
+};
+
+router.post(
+  '/verify-email',
+  authRateLimiter,
+  [
+    body('email').isEmail().withMessage('Valid email required'),
+    body('otp').isLength({ min: 6, max: 6 }).withMessage('6-digit OTP required'),
+  ],
+  verifyEmailOtpHandler
+);
+
+// Alias route to match your requirement `/api/auth/verify-otp`.
+// This behaves identically to `/verify-email` in the current backend.
+router.post(
+  '/verify-otp',
+  authRateLimiter,
+  [
+    body('email').isEmail().withMessage('Valid email required'),
+    body('otp').isLength({ min: 6, max: 6 }).withMessage('6-digit OTP required'),
+  ],
+  verifyEmailOtpHandler
 );
 
 // Resend OTP
@@ -562,7 +580,7 @@ router.post(
 );
 
 // Login
-router.post('/login', async (req, res) => {
+router.post('/login', authRateLimiter, async (req, res) => {
   try {
     const { email, password } = req.body;
     const normalizedEmail = String(email || '').trim().toLowerCase();
