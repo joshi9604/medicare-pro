@@ -14,14 +14,13 @@
   position: relative;
   overflow-x: hidden;
   overflow-y: auto;
-  display: grid;
-  place-items: center;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 12%;
   color: var(--auth-ink);
   font-family: "Inter", system-ui, sans-serif;
-  background:
-    radial-gradient(620px 420px at 98% 82%, rgba(31, 115, 241, 0.12), transparent 70%),
-    radial-gradient(620px 420px at 2% 18%, rgba(31, 115, 241, 0.09), transparent 70%),
-    linear-gradient(180deg, #edf6ff 0%, #f7fbff 58%, #eaf4ff 100%);
+  background: url('../../assets/login.png') center/cover no-repeat fixed;
 }
 
 .auth-page *,
@@ -86,11 +85,11 @@
 }
 
 .auth-shell-login {
-  width: min(480px, 100%);
+  width: min(432px, 100%);
 }
 
 .auth-shell-register {
-  width: min(520px, 100%);
+  width: min(468px, 100%);
 }
 
 .auth-card,
@@ -688,7 +687,7 @@
 }
 
 .auth-verify-card {
-  width: min(477px, 100%);
+  width: min(430px, 100%);
   position: relative;
   z-index: 1;
 }
@@ -717,10 +716,27 @@
   }
 }
 
+.auth-left-animation {
+  position: absolute;
+  left: 10%;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  filter: sepia(100%) hue-rotate(190deg) saturate(500%) brightness(1.1);
+  opacity: 0.8;
+}
+
+@media (max-width: 900px) {
+  .auth-left-animation {
+    display: none;
+  }
+}
+
 @media (max-width: 640px) {
   .auth-page {
     padding: 34px 14px;
-    place-items: start center;
+    justify-content: center;
+    align-items: flex-start;
   }
 
   .auth-card,

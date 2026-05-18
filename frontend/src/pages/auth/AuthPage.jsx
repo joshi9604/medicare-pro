@@ -15,6 +15,7 @@ import {
   UserPlus,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { Player } from '@lottiefiles/react-lottie-player';
 import './AuthPage.css';
 
 const ROLES = [
@@ -362,6 +363,15 @@ export default function AuthPage() {
       <div className="auth-bg-dot auth-bg-dot-right" />
       <div className="auth-wave auth-wave-left" />
       <div className="auth-wave auth-wave-right" />
+
+      <div className="auth-left-animation">
+        <Player
+          autoplay
+          loop
+          src="https://assets3.lottiefiles.com/packages/lf20_t24tpvcu.json"
+          style={{ height: '400px', width: '400px' }}
+        />
+      </div>
 
       <div className={`auth-shell auth-shell-${activeMode}`}>
         {activeMode === 'login' && (

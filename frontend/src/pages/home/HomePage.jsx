@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import Navbar from '../../components/layout/Navbar';
+import Footer from '../../components/layout/Footer';
 import {
   Activity,
   Bell,
@@ -34,11 +36,6 @@ import {
 } from 'lucide-react';
 import './HomePage.css';
 
-const brand = {
-  name: 'MediCare Pro',
-  subtitle: 'Hospital Management + Telemedicine',
-};
-
 const fallbackStats = {
   totalAppointments: 0,
   totalVideoConsults: 0,
@@ -56,38 +53,21 @@ const formatStat = (value) => {
   return number.toLocaleString('en-IN');
 };
 
-const navLinks = [
-  { label: 'Home', href: '#home' },
-  { label: 'Features', href: '#features' },
-  { label: 'Roles', href: '#roles' },
-  { label: 'Workflow', href: '#workflow' },
-  { label: 'FAQ', href: '#faq' },
-];
-
-const resourceLinks = [
-  { label: 'BMI Calculator', to: '/bmi', icon: Calculator },
-  { label: 'BMR Calculator', to: '/bmr', icon: Calculator },
-  { label: 'Water Intake Calculator', to: '/water-intake', icon: Droplets },
-  { label: 'Blood Pressure Guide', to: '/blood-pressure-guide', icon: HeartPulse },
-  { label: 'Sugar Level Guide', to: '/sugar-level-guide', icon: Activity },
-];
-
-const authLinks = [
-  { label: 'Login', to: '/auth?mode=login', className: 'home-btn home-btn-ghost' },
-  { label: 'Get Started', to: '/auth?mode=register', className: 'home-btn home-btn-primary' },
-];
-
 const heroContent = {
   badge: 'Secure care operations in one place',
-  title: 'A smarter way to manage healthcare — fast, connected, and effortless.',
+  titles: [
+    'A smarter way to manage healthcare — fast, connected, and effortless.',
+    'Your complete clinic on the cloud — simple, secure, and reliable.',
+    'Empowering doctors and patients with modern telemedicine.',
+  ],
   lead: 'All your healthcare operations, streamlined in one platform.',
   cta: { label: 'Get Started Free', to: '/auth?mode=register' },
   secondaryCta: { label: 'Explore Features', href: '#features' },
 };
 
 const heroStats = [
-  { label: 'Patients', key: 'totalPatients', to: '/stats/patients', icon: Users },
-  { label: 'Doctors', key: 'totalDoctors', to: '/stats/doctors', icon: Stethoscope },
+  { label: 'Patients', key: 'totalPatients', icon: Users },
+  { label: 'Doctors', key: 'totalDoctors', icon: Stethoscope },
   // { label: 'Secure uptime', value: 99, suffix: '%', icon: ShieldCheck },
 ];
 
@@ -246,45 +226,6 @@ const faqs = [
   },
 ];
 
-const footerColumns = [
-  {
-    title: 'Product',
-    links: [
-      { label: 'Features', href: '#features' },
-      { label: 'Roles', href: '#roles' },
-      { label: 'Workflow', href: '#workflow' },
-      { label: 'FAQ', href: '#faq' },
-    ],
-  },
-  // {
-  //   title: 'Company',
-  //   links: [
-  //     { label: 'About', href: '#home' },
-  //     { label: 'Reviews', href: '#testimonials' },
-  //     { label: 'Contact', to: '/auth?mode=login' },
-  //     { label: 'Security', href: '#features' },
-  //   ],
-  // },
-  {
-    title: 'Resources',
-    links: [
-      { label: 'BMI Calculator', to: '/bmi' },
-      { label: 'BMR Calculator', to: '/bmr' },
-      { label: 'Water Intake', to: '/water-intake' },
-      { label: 'Health Guides', to: '/blood-pressure-guide' },
-    ],
-  },
-  // {
-  //   title: 'Legal',
-  //   links: [
-  //     { label: 'Privacy Policy', href: '#home' },
-  //     { label: 'Terms of Service', href: '#home' },
-  //     { label: 'Compliance', href: '#home' },
-  //     { label: 'Status', href: '#home' },
-  //   ],
-  // },
-];
-
 const AppLink = ({ link, className, children, onClick }) => {
   if (link.to) {
     return (
@@ -402,15 +343,63 @@ const buildChartPaths = (data) => {
   return { linePath, fillPath };
 };
 
+const TypewriterText = ({ texts, delay = 50, pauseDuration = 2000, startDelay = 0 }) => {
+  const [displayedText, setDisplayedText] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [started, setStarted] = useState(false);
+
+  useEffect(() => {
+    const startTimeout = setTimeout(() => {
+      setStarted(true);
+    }, startDelay);
+    return () => clearTimeout(startTimeout);
+  }, [startDelay]);
+
+  useEffect(() => {
+    if (!started) return;
+
+    const currentText = texts[currentIndex];
+    
+    let timer;
+    if (isDeleting) {
+      // Deleting text
+      timer = setTimeout(() => {
+        setDisplayedText((prev) => prev.slice(0, -1));
+        if (displayedText.length === 0) {
+          setIsDeleting(false);
+          setCurrentIndex((prev) => (prev + 1) % texts.length);
+        }
+      }, delay / 2); // Delete twice as fast as typing
+    } else {
+      // Typing text
+      if (displayedText.length < currentText.length) {
+        timer = setTimeout(() => {
+          setDisplayedText(currentText.slice(0, displayedText.length + 1));
+        }, delay);
+      } else {
+        // Pause when string is fully typed before deleting
+        timer = setTimeout(() => {
+          setIsDeleting(true);
+        }, pauseDuration);
+      }
+    }
+
+    return () => clearTimeout(timer);
+  }, [displayedText, isDeleting, currentIndex, texts, delay, pauseDuration, started]);
+
+  return (
+    <span>
+      <span className="gradient-text">{displayedText}</span>
+      <span style={{ animation: 'home-blink 1s step-end infinite', fontWeight: 300, color: '#2474f4' }}>|</span>
+    </span>
+  );
+};
+
 export default function HomePage() {
   const [stats, setStats] = useState(fallbackStats);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [resourcesOpen, setResourcesOpen] = useState(false);
-  const [headerScrolled, setHeaderScrolled] = useState(false);
   const [activeFaq, setActiveFaq] = useState(0);
-  const closeMobileMenu = () => setMobileMenuOpen(false);
   const chartPaths = useMemo(() => buildChartPaths(chartData), []);
-  const resourcesDropdownRef = useRef(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -433,125 +422,9 @@ export default function HomePage() {
     };
   }, []);
 
-  useEffect(() => {
-    // Sticky blur effect on scroll (premium glass feel).
-    const onScroll = () => {
-      setHeaderScrolled(window.scrollY > 10);
-    };
-
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.key === 'Escape') {
-        setMobileMenuOpen(false);
-        setResourcesOpen(false);
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
-
-  useEffect(() => {
-    // Close menus when clicking outside (production behavior).
-    const onPointerDown = (event) => {
-      const dropdownNode = resourcesDropdownRef.current;
-      if (dropdownNode && !dropdownNode.contains(event.target)) {
-        setResourcesOpen(false);
-      }
-    };
-
-    document.addEventListener('pointerdown', onPointerDown);
-    return () => document.removeEventListener('pointerdown', onPointerDown);
-  }, []);
-
   return (
     <div className="home">
-      <header className={`home-header ${headerScrolled ? 'is-scrolled' : ''}`}>
-        <Link className="home-brand home-brand-link" to="/">
-          <div className="home-logo" aria-hidden>
-            <Building2 size={22} />
-          </div>
-          <div className="home-brand-text">
-            <div className="home-title">{brand.name}</div>
-            <div className="home-subtitle">{brand.subtitle}</div>
-          </div>
-        </Link>
-
-        <div className="home-header-right">
-          <nav className="home-nav" aria-label="Primary">
-            {navLinks.map((link) => (
-              <AppLink
-                key={link.label}
-                link={link}
-                className={`home-nav-link ${link.label === 'Home' ? 'active' : ''}`}
-              />
-            ))}
-
-            <div
-              className={`home-nav-dropdown ${resourcesOpen ? 'open' : ''}`}
-              onMouseEnter={() => setResourcesOpen(true)}
-              onMouseLeave={() => setResourcesOpen(false)}
-              ref={resourcesDropdownRef}
-            >
-              <button
-                className="home-nav-link home-nav-dropdown-btn"
-                type="button"
-                onClick={() => setResourcesOpen((open) => !open)}
-                aria-expanded={resourcesOpen}
-                aria-haspopup="menu"
-              >
-                Resources <ChevronDown size={14} />
-              </button>
-              <div className="home-nav-menu">
-                {resourceLinks.map((link) => (
-                  <AppLink
-                    key={link.label}
-                    link={link}
-                    className="home-nav-menu-link"
-                    onClick={() => setResourcesOpen(false)}
-                  >
-                    {link.icon ? React.createElement(link.icon, { size: 16 }) : null}
-                    <span>{link.label}</span>
-                    <ChevronRight size={14} className="home-nav-menu-arrow" />
-                  </AppLink>
-                ))}
-              </div>
-            </div>
-          </nav>
-
-          <nav className="home-actions" aria-label="Authentication">
-            {authLinks.map((link) => (
-              <AppLink key={link.label} link={link} className={link.className} />
-            ))}
-          </nav>
-
-          <button
-            className="home-mobile-menu-btn"
-            type="button"
-            onClick={() => setMobileMenuOpen((open) => !open)}
-            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={mobileMenuOpen}
-          >
-            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
-        </div>
-
-        <nav className={`home-mobile-nav ${mobileMenuOpen ? 'open' : ''}`} aria-label="Mobile primary">
-          {[...navLinks, ...resourceLinks, ...authLinks].map((link) => (
-            <AppLink
-              key={link.label}
-              link={link}
-              className={`home-mobile-nav-link ${link.label === 'Get Started' ? 'strong' : ''}`}
-              onClick={closeMobileMenu}
-            />
-          ))}
-        </nav>
-      </header>
+      <Navbar />
 
       <main className="home-main">
         <section id="home" className="home-hero" aria-label="Hero">
@@ -561,7 +434,9 @@ export default function HomePage() {
               <span>{heroContent.badge}</span>
             </div>
 
-            <h1 className="home-h1">{heroContent.title}</h1>
+            <h1 className="home-h1" style={{ minHeight: '130px' }}>
+              <TypewriterText texts={heroContent.titles} delay={75} pauseDuration={2500} startDelay={250} />
+            </h1>
 
             <p className="home-lead">{heroContent.lead}</p>
 
@@ -868,36 +743,7 @@ export default function HomePage() {
         </section>
       </main>
 
-      <footer className="footer">
-        <div className="footer-container">
-          <div className="footer-brand">
-            <div className="footer-logo-wrap">
-              <div className="footer-logo" aria-hidden><Building2 size={20} /></div>
-              <div>
-                <div className="footer-title">{brand.name}</div>
-                <div className="footer-sub">{brand.subtitle}</div>
-              </div>
-            </div>
-            <p className="footer-desc">
-              A modern medical management and telemedicine platform for patients, doctors, and admins.
-            </p>
-          </div>
-
-          {footerColumns.map((column) => (
-            <div className="footer-col" key={column.title}>
-              <h4>{column.title}</h4>
-              {column.links.map((link) => (
-                <AppLink key={link.label} link={link} />
-              ))}
-            </div>
-          ))}
-        </div>
-
-        <div className="footer-bottom">
-          <span>Copyright {new Date().getFullYear()} {brand.name}. All rights reserved.</span>
-          <span><ShieldCheck size={14} /> Secure healthcare workflows</span>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
